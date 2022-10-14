@@ -1,0 +1,79 @@
+on:
+  workflow_call:
+    inputs:
+      publish:
+        required: false
+        type: boolean
+        default: false
+      projectName:
+        required: true
+        type: string
+      tagName:
+        required: false
+        type: string
+    secrets:
+      nugetCertificate:
+        required: false
+      nugetCertificatePassword:
+        required: false
+      nugetApiKey:
+        required: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/${{ inputs.projectName }}
+    outputs:
+      nupkgFilename: ${{ steps.nupkg.outputs.filename }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: |
+          6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: FormatCheck
+      run: dotnet format --verify-no-changes
+    - name: Build
+      run: dotnet build -c Release --no-restore
+    - name: Test
+      run: dotnet test -c Release --no-build --verbosity normal
+    - name: Pack
+      run: dotnet pack -v normal -c Release --no-build --include-symbols --include-source -o package
+    - name: Verify package name & version
+      id: nupkg
+      if: inputs.publish
+      run: |
+        TAG_NAME=${{ inputs.tagName }}
+        VERSION=${TAG_NAME##*_}
+        NUPKG="${{ inputs.projectName }}.${VERSION}.nupkg"
+        echo "::set-output name=filename::$NUPKG"
+        if [ ! -f package/$NUPKG ]; then
+          echo "File '$NUPKG' does not exist";
+          exit 1;
+        fi
+    - uses: actions/upload-artifact@v3
+      if: inputs.publish
+      with:
+        name: package
+        path: src/${{ inputs.projectName }}/package
+  publish:
+    runs-on: ubuntu-latest
+    if: inputs.publish
+    needs: [build]
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: package
+        path: unsigned
+    - name: Save & verify certificate
+      run: |
+        echo ${{ secrets.nugetCertificate }} | base64 -d > cert.p12
+        openssl pkcs12 -in cert.p12 -nodes -passin pass:"${{ secrets.nugetCertificatePassword }}" | openssl x509 -noout -subject || "Certificate validation failed"
+    - name: Sign package
+      run: dotnet nuget sign unsigned/*.nupkg --certificate-path cert.p12 --certificate-password ${{ secrets.nugetCertificatePassword }} --timestamper http://timestamp.digicert.com --output signed
+    - name: Push package
+      run: dotnet nuget push signed/${{needs.build.outputs.nupkgFilename}} --api-key ${{ secrets.nugetApiKey }} --source https://api.nuget.org/v3/index.json

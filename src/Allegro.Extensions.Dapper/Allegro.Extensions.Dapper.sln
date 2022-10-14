@@ -1,0 +1,29 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A5C6678-1714-4D2A-A0B5-DF08B4796E92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Dapper", "Allegro.Extensions.Dapper\Allegro.Extensions.Dapper.csproj", "{2E3FAF13-980B-40D2-9FFC-8D9CDB06F641}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Dapper.Postgres", "Allegro.Extensions.Dapper.Postgres\Allegro.Extensions.Dapper.Postgres.csproj", "{C4EBC25F-22C8-4F15-AA21-53567F3269BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Dapper.Postgres.Tests.Integration", "Allegro.Extensions.Dapper.Postgres.Tests.Integration\Allegro.Extensions.Dapper.Postgres.Tests.Integration.csproj", "{B1B1FADB-D3DF-4FD6-A2A2-EE3821C6ED79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E3FAF13-980B-40D2-9FFC-8D9CDB06F641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E3FAF13-980B-40D2-9FFC-8D9CDB06F641}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E3FAF13-980B-40D2-9FFC-8D9CDB06F641}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E3FAF13-980B-40D2-9FFC-8D9CDB06F641}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4EBC25F-22C8-4F15-AA21-53567F3269BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4EBC25F-22C8-4F15-AA21-53567F3269BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4EBC25F-22C8-4F15-AA21-53567F3269BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4EBC25F-22C8-4F15-AA21-53567F3269BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1B1FADB-D3DF-4FD6-A2A2-EE3821C6ED79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1B1FADB-D3DF-4FD6-A2A2-EE3821C6ED79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1B1FADB-D3DF-4FD6-A2A2-EE3821C6ED79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1B1FADB-D3DF-4FD6-A2A2-EE3821C6ED79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

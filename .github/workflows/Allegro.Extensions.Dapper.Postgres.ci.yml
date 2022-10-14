@@ -1,0 +1,21 @@
+name: Build Allegro.Extensions.Dapper.Postgres
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.Dapper/*'
+      - 'src/Allegro.Extensions.Dapper/Allegro.Extensions.Dapper.Postgres/**'
+      - 'src/*'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.Dapper/*'
+      - 'src/Allegro.Extensions.Dapper/Allegro.Extensions.Dapper.Postgres/**'
+      - 'src/*'
+
+jobs:
+  ci:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.Dapper

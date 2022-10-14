@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Serialization", "Allegro.Extensions.Serialization\Allegro.Extensions.Serialization.csproj", "{67F2FA4E-EA48-4C88-A5D9-0186741456A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Serialization.Tests.Unit", "Allegro.Extensions.Serialization.Tests.Unit\Allegro.Extensions.Serialization.Tests.Unit.csproj", "{80E83F63-43D4-406F-BDC5-AFD49213E8C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{67F2FA4E-EA48-4C88-A5D9-0186741456A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67F2FA4E-EA48-4C88-A5D9-0186741456A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67F2FA4E-EA48-4C88-A5D9-0186741456A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67F2FA4E-EA48-4C88-A5D9-0186741456A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80E83F63-43D4-406F-BDC5-AFD49213E8C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80E83F63-43D4-406F-BDC5-AFD49213E8C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80E83F63-43D4-406F-BDC5-AFD49213E8C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80E83F63-43D4-406F-BDC5-AFD49213E8C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

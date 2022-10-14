@@ -1,0 +1,22 @@
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Authors>Allegro</Authors>
+    <Company>Allegro</Company>
+    <Copyright>Copyright © Allegro Group</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/allegro/dotnet-utils</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)$(SolutionName)\README.md" Pack="true" PackagePath="\"/>
+    <None Include="$(MSBuildThisFileDirectory)$(SolutionName)\CHANGELOG.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)$(SolutionName)\version.xml" />
+</Project>

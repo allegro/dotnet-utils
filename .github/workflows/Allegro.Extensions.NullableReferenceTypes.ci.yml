@@ -1,0 +1,19 @@
+name: Build Allegro.Extensions.NullableReferenceTypes
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.NullableReferenceTypes/**'
+      - 'src/*'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.NullableReferenceTypes/**'
+      - 'src/*'
+
+jobs:
+  ci:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.NullableReferenceTypes

@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Financials", "Allegro.Extensions.Financials\Allegro.Extensions.Financials.csproj", "{E1C61F6A-FEAA-4252-87DF-C0EBD17AEDF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Financials.Tests.Unit", "Allegro.Extensions.Financials.Tests.Unit\Allegro.Extensions.Financials.Tests.Unit.csproj", "{272A2598-7520-402B-A07D-22C4FE518B82}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1C61F6A-FEAA-4252-87DF-C0EBD17AEDF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1C61F6A-FEAA-4252-87DF-C0EBD17AEDF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1C61F6A-FEAA-4252-87DF-C0EBD17AEDF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C61F6A-FEAA-4252-87DF-C0EBD17AEDF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{272A2598-7520-402B-A07D-22C4FE518B82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272A2598-7520-402B-A07D-22C4FE518B82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272A2598-7520-402B-A07D-22C4FE518B82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272A2598-7520-402B-A07D-22C4FE518B82}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

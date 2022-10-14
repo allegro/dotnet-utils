@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A5C6678-1714-4D2A-A0B5-DF08B4796E92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.AspNetCore", "Allegro.Extensions.AspNetCore\Allegro.Extensions.AspNetCore.csproj", "{2E3FAF13-980B-40D2-9FFC-8D9CDB06F641}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.AspNetCore.Demo", "Allegro.Extensions.AspNetCore.Demo\Allegro.Extensions.AspNetCore.Demo.csproj", "{B1903BE3-CB8E-44C6-9E68-5D7DFC1C3EE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.AspNetCore.Tests.Unit", "Allegro.Extensions.AspNetCore.Tests.Unit\Allegro.Extensions.AspNetCore.Tests.Unit.csproj", "{BBB95FD3-301B-47E9-9F21-4818E55DFFAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E3FAF13-980B-40D2-9FFC-8D9CDB06F641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E3FAF13-980B-40D2-9FFC-8D9CDB06F641}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E3FAF13-980B-40D2-9FFC-8D9CDB06F641}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E3FAF13-980B-40D2-9FFC-8D9CDB06F641}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1903BE3-CB8E-44C6-9E68-5D7DFC1C3EE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1903BE3-CB8E-44C6-9E68-5D7DFC1C3EE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1903BE3-CB8E-44C6-9E68-5D7DFC1C3EE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1903BE3-CB8E-44C6-9E68-5D7DFC1C3EE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBB95FD3-301B-47E9-9F21-4818E55DFFAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBB95FD3-301B-47E9-9F21-4818E55DFFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBB95FD3-301B-47E9-9F21-4818E55DFFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBB95FD3-301B-47E9-9F21-4818E55DFFAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

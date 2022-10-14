@@ -1,0 +1,21 @@
+name: Build Allegro.Extensions.Dapper
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.Dapper/*'
+      - 'src/Allegro.Extensions.Dapper/Allegro.Extensions.Dapper/**'
+      - 'src/*'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.Dapper/*'
+      - 'src/Allegro.Extensions.Dapper/Allegro.Extensions.Dapper/**'
+      - 'src/*'
+
+jobs:
+  ci:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.Dapper
