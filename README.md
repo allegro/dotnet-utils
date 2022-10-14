@@ -1,4 +1,5 @@
 # Allegro.Extensions
+
 This repo contains utility packages that can be shared between Allegro services, but are not required. Everyone can be an author of such package - the goal of this repository is to make it easier and quicker to share useful code snippets, helpers, extensions etc, with as little effort as possible.  
 
 # Contribution
