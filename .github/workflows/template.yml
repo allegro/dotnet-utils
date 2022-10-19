@@ -62,7 +62,7 @@ jobs:
       if: inputs.publish
       with:
         name: package
-        path: src/${{ inputs.projectName }}/package
+        path: src/${{ inputs.solutionName }}/package
   publish:
     runs-on: ubuntu-latest
     if: inputs.publish
