@@ -97,7 +97,7 @@ services
         )
 ```
 
-To check possible approaches please refer to examples in Demo app in [ErrorHandlingController](https://dev.azure.com/AllegroTechies/VAbank/_git/AllegroExtensions?path=/src/Allegro.Extensions.AspNetCore/Allegro.Extensions.AspNetCore.Demo/Controllers/ErrorHandlingController.cs).
+To check possible approaches please refer to examples in Demo app in [ErrorHandlingController](https://github.com/allegro/dotnet-utils/blob/main/src/Allegro.Extensions.AspNetCore/Allegro.Extensions.AspNetCore.Demo/Controllers/ErrorHandlingController.cs).
 
 #### Additional instrumentation with ErrorHandlingConfigurationBuilder
 
@@ -111,7 +111,7 @@ services
         builder => builder.WithAdditionalInstrumentation(...)...
         )
 ```
-To check possible approaches please refer to examples in Demo app in [ErrorHandlingController](https://dev.azure.com/AllegroTechies/VAbank/_git/AllegroExtensions?path=/src/Allegro.Extensions.AspNetCore/Allegro.Extensions.AspNetCore.Demo/Controllers/ErrorHandlingController.cs).
+To check possible approaches please refer to examples in Demo app in [ErrorHandlingController](https://github.com/allegro/dotnet-utils/blob/main/src/Allegro.Extensions.AspNetCore/Allegro.Extensions.AspNetCore.Demo/Controllers/ErrorHandlingController.cs).
 
 ### Handling model state error response 
 
@@ -160,4 +160,4 @@ services
     .AddAllegroModelStateValidationHandling(builder => builder.WithCustomModelStateValidationErrorHandler(...));
 ```
 
-To check possible approaches please refer to examples in Demo app in [ErrorHandlingController](https://dev.azure.com/AllegroTechies/VAbank/_git/AllegroExtensions?path=/src/Allegro.Extensions.AspNetCore/Allegro.Extensions.AspNetCore.Demo/Controllers/ErrorHandlingController.cs).
+To check possible approaches please refer to examples in Demo app in [ErrorHandlingController](https://github.com/allegro/dotnet-utils/blob/main/src/Allegro.Extensions.AspNetCore/Allegro.Extensions.AspNetCore.Demo/Controllers/ErrorHandlingController.cs).
