@@ -10,6 +10,7 @@ jobs:
     uses: ./.github/workflows/template.yml
     with:
       projectName: Allegro.Extensions.RateLimiting
+      solutionName: Allegro.Extensions.RateLimiting
       publish: true
       tagName: ${{ github.ref_name }}
     secrets:

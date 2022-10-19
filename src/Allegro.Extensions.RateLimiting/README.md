@@ -65,4 +65,4 @@ we can use a simple estimation. For most use cases it can be based on the assump
 specific type (for example Upsert document in specific collection) has the same or similar cost.
 
 See the CosmosDB implementation for details:  
-https://dev.azure.com/AllegroTechies/VAbank/_git/CosmosDb?path=/src/Vabank.CosmosDb.BatchUtilities/BatchRequestHandler.cs&version=GBmain&line=42&lineEnd=46&lineStartColumn=1&lineEndColumn=1&lineStyle=plain&_a=contents
+https://github.com/allegro/cosmosdb-utils/blob/main/src/Allegro.CosmosDb.BatchUtilities/Allegro.CosmosDb.BatchUtilities/BatchRequestHandler.cs#L38

@@ -10,6 +10,7 @@ jobs:
     uses: ./.github/workflows/template.yml
     with:
       projectName: Allegro.Extensions.Validators
+      solutionName: Allegro.Extensions.Validators
       publish: true
       tagName: ${{ github.ref_name }}
     secrets:

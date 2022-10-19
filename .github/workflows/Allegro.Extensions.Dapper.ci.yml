@@ -19,3 +19,4 @@ jobs:
     uses: ./.github/workflows/template.yml
     with:
       projectName: Allegro.Extensions.Dapper
+      solutionName: Allegro.Extensions.Dapper

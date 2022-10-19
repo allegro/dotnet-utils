@@ -8,6 +8,9 @@ on:
       projectName:
         required: true
         type: string
+      solutionName:
+        required: true
+        type: string
       tagName:
         required: false
         type: string
@@ -23,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: src/${{ inputs.projectName }}
+        working-directory: src/${{ inputs.solutionName }}
     outputs:
       nupkgFilename: ${{ steps.nupkg.outputs.filename }}
     steps:

@@ -10,6 +10,7 @@ jobs:
     uses: ./.github/workflows/template.yml
     with:
       projectName: Allegro.Extensions.NullableReferenceTypes
+      solutionName: Allegro.Extensions.NullableReferenceTypes
       publish: true
       tagName: ${{ github.ref_name }}
     secrets:
