@@ -10,6 +10,7 @@ jobs:
     uses: ./.github/workflows/template.yml
     with:
       projectName: Allegro.Extensions.Globalization
+      solutionName: Allegro.Extensions.Globalization
       publish: true
       tagName: ${{ github.ref_name }}
     secrets:

@@ -17,3 +17,4 @@ jobs:
     uses: ./.github/workflows/template.yml
     with:
       projectName: Allegro.Extensions.Financials
+      solutionName: Allegro.Extensions.Financials

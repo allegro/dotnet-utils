@@ -17,3 +17,4 @@ jobs:
     uses: ./.github/workflows/template.yml
     with:
       projectName: Allegro.Extensions.AspNetCore
+      solutionName: Allegro.Extensions.AspNetCore

@@ -18,4 +18,5 @@ jobs:
   ci:
     uses: ./.github/workflows/template.yml
     with:
-      projectName: Allegro.Extensions.Dapper
+      projectName: Allegro.Extensions.Dapper.Postgres
+      solutionName: Allegro.Extensions.Dapper
