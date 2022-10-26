@@ -65,6 +65,7 @@ internal class DapperPostgresBinaryCopyClient : IDapperPostgresBinaryCopyClient
             DbType.Text => NpgsqlDbType.Text,
             DbType.Date => NpgsqlDbType.Date,
             DbType.Decimal => NpgsqlDbType.Numeric,
+            DbType.Guid => NpgsqlDbType.Uuid,
             _ => throw new ArgumentOutOfRangeException(nameof(dbType), dbType, "Unknown type")
         };
     }
