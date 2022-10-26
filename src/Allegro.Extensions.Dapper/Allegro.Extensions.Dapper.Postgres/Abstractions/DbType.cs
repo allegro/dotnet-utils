@@ -9,5 +9,6 @@ public enum DbType
     BigInt,
     Text,
     Date,
-    Decimal
+    Decimal,
+    Guid,
 }
