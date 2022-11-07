@@ -6,7 +6,13 @@ namespace Allegro.Extensions.Identifiers.Abstractions;
 /// </summary>
 public interface IStronglyTypedId<out T>
 {
+    /// <summary>
+    /// Value of identifier
+    /// </summary>
     public T Value { get; }
 
+    /// <summary>
+    /// String value of identifier
+    /// </summary>
     public string ValueAsString { get; }
 }

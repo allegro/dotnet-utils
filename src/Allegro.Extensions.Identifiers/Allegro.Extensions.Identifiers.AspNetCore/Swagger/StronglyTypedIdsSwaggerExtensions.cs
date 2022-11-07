@@ -8,10 +8,16 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Allegro.Extensions.Identifiers.AspNetCore.Swagger;
 
+/// <summary>
+/// Asp extensions related to strongly typed identifiers
+/// </summary>
 public static class StronglyTypedIdsSwaggerExtensions
 {
     private const string IdentifiersAssemblyNameSuffix = "Identifiers";
 
+    /// <summary>
+    /// Add swagger support for strongly typed identifiers
+    /// </summary>
     public static IServiceCollection AddStronglyTypedIds(this IServiceCollection services)
     {
         services.Configure<SwaggerGenOptions>(options =>
