@@ -1,4 +1,4 @@
-﻿// Copyright (c) PlaceholderCompany. All rights reserved.
+// Copyright (c) PlaceholderCompany. All rights reserved.
 
 using System;
 using Allegro.Extensions.Identifiers.Abstractions;
