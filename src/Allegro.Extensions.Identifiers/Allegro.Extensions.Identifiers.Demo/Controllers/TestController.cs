@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Allegro.Extensions.Identifiers.Demo.Controllers
 {
     [ApiController]
-    [Route("srtrongly-typed")]
+    [Route("strongly-typed")]
     public class StronglyTypedExamples : ControllerBase
     {
         [HttpGet]
@@ -15,9 +15,23 @@ namespace Allegro.Extensions.Identifiers.Demo.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(UserId userId, PaymentId paymentId, OrderId orderId)
+        public IActionResult Post([FromQuery] UserId userId, [FromQuery] PaymentId paymentId, [FromQuery] OrderId orderId)
         {
             return Ok(new { UserId = userId, PaymentId = paymentId, OrderId = orderId });
         }
+
+        [HttpGet("{userId}")]
+        public IActionResult Post([FromRoute] UserId userId)
+        {
+            return Ok(new { UserId = userId });
+        }
+
+        [HttpPost("body")]
+        public IActionResult Post([FromBody] Dto dto)
+        {
+            return Ok(dto);
+        }
+
+        public record Dto(UserId UserId, PaymentId PaymentId, OrderId OrderId);
     }
 }
