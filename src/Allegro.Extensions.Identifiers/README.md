@@ -46,18 +46,18 @@ public interface IStronglyTypedId<out T>
 
 To be able to use them in api or store in db without additional data structure we want still to use string in api but use strongly typed in code base:
 
-`http://serviceName/123123123/payemnt/13af7673-593c-4b7f-9d99-7c45faadb1e1`
+`http://serviceName/123123123/order/13af7673-593c-4b7f-9d99-7c45faadb1e1`
 
 ```c#
-[Get("{userId}/payemnt/{paymentId}")]
-public Task Action([FromRoute] UserId userId,[FromRoute] PaymentId paymentId) { ... }
+[Get("{userId}/payemnt/{orderId}")]
+public Task Action([FromRoute] UserId userId,[FromRoute] OrderId orderId) { ... }
 ```
 
 To achieve that we use code generation framework delivered by package [Meziantou.Framework.StronglyTypedId](https://github.com/meziantou/Meziantou.Framework/tree/main/src/Meziantou.Framework.StronglyTypedId#readme) with usage:
 
 ```c#
 [StronglyTypedId(typeof(Guid))]
-public partial class PaymentId : IStronglyTypedId<Guid>
+public partial class OrderId : IStronglyTypedId<Guid>
 {
 }
 ```
