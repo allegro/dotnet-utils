@@ -1,0 +1,19 @@
+name: Publish Allegro.Extensions.Identifiers.AspNetCore
+
+on:
+  push:
+    tags:
+      - 'Allegro.Extensions.Identifiers.AspNetCore_*'
+
+jobs:
+  publish:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.Identifiers.AspNetCore
+      solutionName: Allegro.Extensions.Identifiers
+      publish: true
+      tagName: ${{ github.ref_name }}
+    secrets:
+      nugetCertificate: ${{ secrets.NUGET_PRIVATE_KEY_P12 }}
+      nugetCertificatePassword: ${{ secrets.GPG_PRIVATE_KEY_PASSWORD }}
+      nugetApiKey: ${{ secrets.NUGET_API_KEY }}
