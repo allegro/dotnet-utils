@@ -1,0 +1,22 @@
+name: Build Allegro.Extensions.Identifiers.Abstractions
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.Identifiers/*'
+      - 'src/Allegro.Extensions.Identifiers/Allegro.Extensions.Identifiers.Abstractions/**'
+      - 'src/*'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.Identifiers/*'
+      - 'src/Allegro.Extensions.Identifiers/Allegro.Extensions.Identifiers.Abstractions/**'
+      - 'src/*'
+
+jobs:
+  ci:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.Identifiers.Abstractions
+      solutionName: Allegro.Extensions.Identifiers
