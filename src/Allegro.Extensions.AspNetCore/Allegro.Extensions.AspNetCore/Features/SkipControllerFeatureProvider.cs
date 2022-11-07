@@ -18,11 +18,20 @@ namespace Allegro.Extensions.AspNetCore.Features
         private readonly string[] _testEnvironments = { "dev", "uat" };
         private readonly bool _isTestEnv;
 
+        /// <summary>
+        /// Ctor to set test env with custom code
+        /// </summary>
+        /// <param name="isTestEnv"></param>
         public SkipControllerFeatureProvider(bool isTestEnv)
         {
             _isTestEnv = isTestEnv;
         }
 
+        /// <summary>
+        /// Ctor with default support of environment type based on environment variable convention
+        /// </summary>
+        /// <param name="aspNetEnvironment"></param>
+        /// <param name="overrideTestEnvironments"></param>
         public SkipControllerFeatureProvider(
             IHostEnvironment aspNetEnvironment,
             string[]? overrideTestEnvironments = null)
@@ -35,6 +44,9 @@ namespace Allegro.Extensions.AspNetCore.Features
             _isTestEnv = _isTestEnv || aspNetEnvironment.IsDevelopment();
         }
 
+        /// <summary>
+        /// Implementation of IApplicationFeatureProvider interface
+        /// </summary>
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
             if (_isTestEnv)

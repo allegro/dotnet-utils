@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Allegro.Extensions.AspNetCore.ErrorHandling;
 
+/// <summary>
+/// Error Handling Configuration Builder
+/// </summary>
 public class ErrorHandlingConfigurationBuilder
 {
     internal IDictionary<Type, Func<Exception, Error>> CustomErrorHandlerMap { get; }
@@ -17,15 +20,26 @@ public class ErrorHandlingConfigurationBuilder
         AdditionalInstrumentation = new List<Func<HttpContext, IDisposable>>();
     }
 
+    /// <summary>
+    /// Enables to setup custom handling of TException type
+    /// </summary>
+    /// <param name="handler">Defines how TException should be handled by middleware</param>
     public ErrorHandlingConfigurationBuilder WithCustomHandler<TException>(
         Func<TException, Error> handler)
         where TException : Exception
         => AddHandler(handler);
 
+    /// <summary>
+    /// Add support to configure additional instrumentation - for example extend logs with some custom attributes - for each occur of error
+    /// </summary>
     public ErrorHandlingConfigurationBuilder WithAdditionalInstrumentation(
         Func<HttpContext, IDisposable> additionalInstrumentation)
         => AddAdditionalInstrumentation(additionalInstrumentation);
 
+    /// <summary>
+    /// Enables to setup custom handling of api endpoint binding issue (BadRequests)
+    /// </summary>
+    /// <param name="handler">Defines how custom validation error should be handled</param>
     public ErrorHandlingConfigurationBuilder WithCustomModelStateValidationErrorHandler(
         Func<ActionContext, Error?> handler)
     {

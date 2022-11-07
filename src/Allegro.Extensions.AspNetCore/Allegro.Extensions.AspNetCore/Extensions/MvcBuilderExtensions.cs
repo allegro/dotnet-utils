@@ -5,6 +5,9 @@ using Microsoft.Extensions.Hosting;
 
 namespace Allegro.Extensions.AspNetCore.Extensions
 {
+    /// <summary>
+    /// Asp Mvc Builder Extensions
+    /// </summary>
     public static class MvcBuilderExtensions
     {
         /// <summary>
