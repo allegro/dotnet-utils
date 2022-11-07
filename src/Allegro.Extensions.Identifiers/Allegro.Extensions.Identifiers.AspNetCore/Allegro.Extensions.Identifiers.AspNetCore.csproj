@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>Allegro.Extensions.Identifiers.AspNetCore</PackageId>
     <PackageDescription>Contains strongly typed identifiers extensions for swagger.</PackageDescription>
-    <NoWarn>CS1574</NoWarn>
+    <NoWarn>CS1574</NoWarn><!-- Caused by Meziantou generator and some cref issues related to partial classes -->
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
   <ItemGroup>
