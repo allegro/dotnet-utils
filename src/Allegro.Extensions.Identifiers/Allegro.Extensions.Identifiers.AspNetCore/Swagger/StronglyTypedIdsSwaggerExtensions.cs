@@ -30,11 +30,29 @@ public static class StronglyTypedIdsSwaggerExtensions
 
             foreach (var type in types)
             {
-                options.MapType(type, () => new OpenApiSchema
+                var valueType = type.GetProperty(nameof(IStronglyTypedId<string>.Value))!.PropertyType;
+
+                var openApiSchema = valueType.Name switch
                 {
-                    Type = "string",
-                    Example = new OpenApiString(string.Empty)
-                });
+                    nameof(Int32) => new OpenApiSchema
+                    {
+                        Type = "integer",
+                        Example = new OpenApiString(string.Empty)
+                    },
+                    nameof(Guid) => new OpenApiSchema
+                    {
+                        Type = "string",
+                        Format = "uuid",
+                        Example = new OpenApiString(string.Empty)
+                    },
+                    _ => new OpenApiSchema
+                    {
+                        Type = "string",
+                        Example = new OpenApiString(string.Empty)
+                    },
+                };
+
+                options.MapType(type, () => openApiSchema);
             }
         });
 
