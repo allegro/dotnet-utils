@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Allegro.Extensions.Dapper.Extensions;
 
+/// <summary>
+/// Service Collection Extensions
+/// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>

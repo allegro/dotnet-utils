@@ -1,3 +1,4 @@
+#pragma warning disable CS1591
 namespace Allegro.Extensions.Dapper.Postgres.Abstractions;
 
 /// <summary>
