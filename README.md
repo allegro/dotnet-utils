@@ -12,6 +12,8 @@ Please refer to [Contributing guideline](CONTRIBUTING.md) for details.
 
 - [Allegro.Extensions.AspNetCore](src/Allegro.Extensions.AspNetCore)  
   This library contains useful extensions and utilities for ASP.NET Core based projects.
+- [Allegro.Extensions.Cqrs](src/Allegro.Extensions.Cqrs)  
+  Contains implementation of common tools to support Cqrs pattern based on Handlers approach.
 - [Allegro.Extensions.Dapper](src/Allegro.Extensions.Dapper)  
   This library contains useful utilities for simpler usage of Dapper library.
 - [Allegro.Extensions.Dapper.Postgres](src/Allegro.Extensions.Dapper)  
