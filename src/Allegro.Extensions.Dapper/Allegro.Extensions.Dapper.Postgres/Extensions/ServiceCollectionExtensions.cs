@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Allegro.Extensions.Dapper.Postgres.Extensions;
 
+/// <summary>
+/// Service Collection Extensions to register dapper postgress services
+/// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>

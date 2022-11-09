@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <Platforms>AnyCPU;x64</Platforms>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.Globalization\Allegro.Extensions.Globalization.csproj" />

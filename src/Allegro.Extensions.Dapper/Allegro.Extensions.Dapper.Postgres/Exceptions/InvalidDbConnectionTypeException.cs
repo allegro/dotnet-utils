@@ -1,4 +1,5 @@
 using System;
+#pragma warning disable CS1591
 
 namespace Allegro.Extensions.Dapper.Postgres.Exceptions;
 

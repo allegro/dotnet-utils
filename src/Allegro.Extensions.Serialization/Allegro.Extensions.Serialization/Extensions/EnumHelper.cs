@@ -7,10 +7,17 @@ using System.Runtime.Serialization;
 
 namespace Allegro.Extensions.Serialization.Extensions;
 
+/// <summary>
+/// Enum serialization helpers with performance improvements
+/// </summary>
 public static class EnumHelper
 {
     private static readonly ConcurrentDictionary<string, Dictionary<string, (Enum, bool)>> Map = new();
 
+    /// <summary>
+    /// Allows to parse enum value to TEnum type
+    /// </summary>
+    /// <exception cref="ArgumentException">Thrown when parsing is not possible</exception>
     public static TEnum Parse<TEnum>(string enumValue)
         where TEnum : struct, Enum
     {
@@ -23,6 +30,9 @@ public static class EnumHelper
         return result.Value;
     }
 
+    /// <summary>
+    /// Tires to parse enum value  to TEnum type
+    /// </summary>
     public static bool TryParse<TEnum>(string enumValue, out TEnum? result)
         where TEnum : struct, Enum
     {
@@ -73,6 +83,9 @@ public static class EnumHelper
         return Map[typeof(TEnum).FullName!];
     }
 
+    /// <summary>
+    /// Returns EnumMember attribute Value property of enum value
+    /// </summary>
     public static string EnumMemberValue<TEnum>(this TEnum enumValue)
         where TEnum : struct, Enum
     {
@@ -80,6 +93,9 @@ public static class EnumHelper
         return map.Single(x => ((TEnum)x.Value.EnumValue).Equals(enumValue) && x.Value.IsEnumMember).Key;
     }
 
+    /// <summary>
+    /// Extension method that allows to parse string value to enum of TEnum type
+    /// </summary>
     public static TEnum ToEnum<TEnum>(this string enumValue)
         where TEnum : struct, Enum
     {

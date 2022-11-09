@@ -275,7 +275,7 @@ csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
 
 # CS1591: Missing XML comment for publicly visible type or member
-dotnet_diagnostic.CS1591.severity = none
+dotnet_diagnostic.CS1591.severity = warning
 
 # SA0001: All diagnostics of XML documentation comments has been disabled due to the current project configuration.
 dotnet_diagnostic.SA0001.severity = none
