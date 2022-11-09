@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>Allegro.Extensions.Identifiers.Abstractions</PackageId>
     <PackageDescription>Contains strongly typed identifiers abstractions.</PackageDescription>
-    <NoWarn>CS1574</NoWarn>
+    <NoWarn>CS1574</NoWarn><!-- Caused by Meziantou generator and some cref issues related to partial classes -->
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
   <ItemGroup>
