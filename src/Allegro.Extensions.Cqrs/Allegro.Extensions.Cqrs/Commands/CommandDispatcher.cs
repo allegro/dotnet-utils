@@ -20,8 +20,20 @@ internal sealed class CommandDispatcher : ICommandDispatcher
         }
 
         using var scope = _serviceProvider.CreateScope();
-        var handler = scope.ServiceProvider.GetRequiredService<ICommandHandler<TCommand>>();
+        var handler = scope.ServiceProvider.GetService<ICommandHandler<TCommand>>();
+
+        if (handler is null)
+        {
+            throw new MissingCommandHandlerException(command);
+        }
 
         await handler.Handle(command);
+    }
+}
+
+internal class MissingCommandHandlerException : Exception
+{
+    public MissingCommandHandlerException(ICommand command) : base($"Missing handler for command {command.GetType().FullName}")
+    {
     }
 }

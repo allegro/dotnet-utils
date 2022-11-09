@@ -17,7 +17,12 @@ internal sealed class QueryDispatcher : IQueryDispatcher
     {
         using var scope = _serviceProvider.CreateScope();
         var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
-        var handler = scope.ServiceProvider.GetRequiredService(handlerType);
+        var handler = scope.ServiceProvider.GetService(handlerType);
+
+        if (handler is null)
+        {
+            throw new MissingQueryHandlerException<TResult>(query);
+        }
 
         var handleMethodInfo = handlerType
             .GetMethod(nameof(IQueryHandler<IQuery<TResult>, TResult>.Handle));
@@ -30,5 +35,19 @@ internal sealed class QueryDispatcher : IQueryDispatcher
         }
 
         return await (Task<TResult?>)invoke;
+    }
+}
+
+internal class MissingQueryHandlerException<T> : MissingQueryHandlerException
+{
+    public MissingQueryHandlerException(IQuery<T> query) : base($"Missing handler for query {query.GetType().FullName}")
+    {
+    }
+}
+
+internal class MissingQueryHandlerException : Exception
+{
+    public MissingQueryHandlerException(string message) : base(message)
+    {
     }
 }
