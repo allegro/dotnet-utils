@@ -1,4 +1,4 @@
-﻿using Allegro.Extensions.Cqrs.Commands;
+using Allegro.Extensions.Cqrs.Commands;
 using Allegro.Extensions.Cqrs.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

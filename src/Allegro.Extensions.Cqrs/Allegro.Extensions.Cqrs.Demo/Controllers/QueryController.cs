@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using Allegro.Extensions.Cqrs.Abstractions.Queries;
 using Microsoft.AspNetCore.Mvc;
