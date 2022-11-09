@@ -8,14 +8,29 @@ using System.Reflection;
 namespace Allegro.Extensions.NullableReferenceTypes.Validators;
 
 // TODO: Code to check the circular dependency, cache objects paths
+
+/// <summary>
+/// Contains extensions and helper methods to ensure that object that not supports NRT is still valid in terms of it
+/// </summary>
 public static class ObjectValidator
 {
+    /// <summary>
+    /// Validates if instance of object is is not braking NRT rules for objects that not enables it.
+    /// </summary>
+    /// <exception cref="NullReferenceException">Throws if instance is not valid from NRT rules</exception>
     public static T EnsureIsValidObject<T>(this T instance)
     {
         Validate(typeof(T), instance, typeof(T).Name);
         return instance;
     }
 
+    /// <summary>
+    /// Validates if property is not null
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="instance"></param>
+    /// <param name="propertyPath"></param>
+    /// <exception cref="NullReferenceException">Throws if property defined by path is null</exception>
     public static void Validate(Type type, object? instance, string propertyPath)
     {
         if (instance == null)
