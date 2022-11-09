@@ -1,0 +1,2 @@
+# Allegro.Extensions.Cqrs
+
