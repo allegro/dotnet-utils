@@ -20,6 +20,8 @@ Please refer to [Contributing guideline](CONTRIBUTING.md) for details.
   Contains money value object and currency.
 - [Allegro.Extensions.Globalization](src/Allegro.Extensions.Globalization)  
   Contains classes that define culture-related information, including language, country/region, calendars in use, format patterns for dates, currency, and numbers etc.
+- [Allegro.Extensions.Identifiers](src/Allegro.Extensions.Identifiers)  
+  Contains markers and generators to support strongly typed identifiers (primitive obsession code smell fix)
 - [Allegro.Extensions.NullableReferenceTypes](src/Allegro.Extensions.NullableReferenceTypes)  
   Contains useful classes and extensions for projects which use NRT.
 - [Allegro.Extensions.RateLimiting](src/Allegro.Extensions.RateLimiting)  
