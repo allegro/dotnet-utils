@@ -74,6 +74,18 @@ public class CommandsSpec
             return act.Should().ThrowAsync<ValidationException>();
         }
 
+        [Fact]
+        public async Task Command_validator_executed_before_command_action()
+        {
+            var fixture = new Fixture().Build();
+            var commandDispatcher = fixture.CommandDispatcher;
+            var act = () => commandDispatcher.Send(new NotValidTestCommand());
+
+            await act.Should().ThrowAsync<ValidationException>();
+
+            fixture.VerifyCommandActionsWereNotExecuted();
+        }
+
         private record NotValidTestCommand : ICommand
         {
             public string Id { get; } = Guid.NewGuid().ToString();
@@ -91,6 +103,28 @@ public class CommandsSpec
         {
             public Task Handle(NotValidTestCommand command)
             {
+                return Task.CompletedTask;
+            }
+        }
+
+        private class NotValidTestCommandAction : ICommandExecutionActions<NotValidTestCommand>
+        {
+            private readonly CommandLog _commandLog;
+
+            public NotValidTestCommandAction(CommandLog commandLog)
+            {
+                _commandLog = commandLog;
+            }
+
+            public Task Before(NotValidTestCommand command)
+            {
+                _commandLog.ExecutedCommandsLog.Add($"Before {command.ToString()}");
+                return Task.CompletedTask;
+            }
+
+            public Task After(NotValidTestCommand command)
+            {
+                _commandLog.ExecutedCommandsLog.Add($"After {command.ToString()}");
                 return Task.CompletedTask;
             }
         }
@@ -190,6 +224,12 @@ public class CommandsSpec
 
             var storage = _provider!.GetRequiredService<CommandLog>();
             storage.ExecutedCommandsLog.Should().BeEquivalentTo(expectedLogs);
+        }
+
+        public void VerifyCommandActionsWereNotExecuted()
+        {
+            var storage = _provider!.GetRequiredService<CommandLog>();
+            storage.ExecutedCommandsLog.Should().BeEmpty();
         }
     }
 
