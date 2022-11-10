@@ -16,7 +16,7 @@ public class QueriesSpec
     public class QueryHandlers
     {
         [Fact]
-        public async Task Able_to_register_custom_command_with_handler()
+        public async Task Able_to_handle_query()
         {
             var fixture = new Fixture().Build();
             var queryDispatcher = fixture.QueryDispatcher;

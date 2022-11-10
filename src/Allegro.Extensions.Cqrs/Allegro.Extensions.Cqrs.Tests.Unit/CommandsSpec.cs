@@ -17,7 +17,7 @@ public class CommandsSpec
     public class CommandHandlers
     {
         [Fact]
-        public async Task Able_to_register_custom_command_with_handler()
+        public async Task Able_to_handle_command()
         {
             var fixture = new Fixture().Build();
             var commandDispatcher = fixture.CommandDispatcher;

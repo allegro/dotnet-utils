@@ -57,7 +57,7 @@ To be able to use decorator pattern we introduced `DecoratorAttribute`. Each han
 Example:
 ```c#
 [Decorator]
-internal class CommandHandlerDecorator<T> : ICommandHandler<T> where T : class, ICommand
+internal class CommandHandlerDecorator<T> : ICommandHandler<T> where T : ICommand
 {
 ...
 }

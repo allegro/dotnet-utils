@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 namespace Allegro.Extensions.Cqrs.Abstractions.Commands;
 
 /// <summary>
-/// Marker interface to be able to add additional action before/after dispatching command. Actions are not ordered so if multiple actions for one command is implemented they will be executed in random order.
+/// Marker interface - adds possibility to inject additional action before/after dispatching command.
+/// Be aware that multiple actions defined for same command will be executed in random order.
 /// </summary>
 /// <typeparam name="T">Command for which action should be executed</typeparam>
-public interface ICommandExecutionActions<T> where T : class, ICommand
+public interface ICommandExecutionActions<T> where T : ICommand
 {
     /// <summary>
     /// Action executed before command execution

@@ -12,18 +12,15 @@ internal sealed class CommandDispatcher : ICommandDispatcher
     public CommandDispatcher(IServiceProvider serviceProvider)
         => _serviceProvider = serviceProvider;
 
-    public async Task Send<TCommand>(TCommand? command) where TCommand : class, ICommand
+    public async Task Send<TCommand>(TCommand command) where TCommand : ICommand
     {
-        if (command is null)
-        {
-            return;
-        }
-
+        // TODO: maybe some configuration to reuse outer scope instead of creating new one
         using var scope = _serviceProvider.CreateScope();
         var handler = scope.ServiceProvider.GetService<ICommandHandler<TCommand>>();
 
         if (handler is null)
         {
+            // TODO: throw this on startup
             throw new MissingCommandHandlerException(command);
         }
 

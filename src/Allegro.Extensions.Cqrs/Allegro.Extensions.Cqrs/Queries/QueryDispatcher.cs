@@ -15,12 +15,16 @@ internal sealed class QueryDispatcher : IQueryDispatcher
 
     public async Task<TResult?> Query<TResult>(IQuery<TResult> query, CancellationToken cancellationToken)
     {
+        // TODO: maybe some configuration to reuse outer scope instead of creating new one
         using var scope = _serviceProvider.CreateScope();
+
+        // TODO: micro-optimization possibility - cache those types
         var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
         var handler = scope.ServiceProvider.GetService(handlerType);
 
         if (handler is null)
         {
+            // TODO: throw this on startup
             throw new MissingQueryHandlerException<TResult>(query);
         }
 

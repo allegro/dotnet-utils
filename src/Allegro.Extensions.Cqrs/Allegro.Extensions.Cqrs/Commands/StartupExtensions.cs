@@ -20,23 +20,27 @@ public static class StartupExtensions
     {
         services
             .AddSingleton<ICommandDispatcher, CommandDispatcher>();
-        services.Scan(s => s.FromAssemblies(assemblies) // TODO: should we remove Scrutor in future?
-            .AddClasses(c => c.AssignableTo(typeof(ICommandHandler<>))
-                .WithoutAttribute<DecoratorAttribute>())
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
+        services
+            .Scan(s => s.FromAssemblies(assemblies) // TODO: should we remove Scrutor in future?
+                .AddClasses(c => c.AssignableTo(typeof(ICommandHandler<>))
+                    .WithoutAttribute<DecoratorAttribute>())
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
 
-        services.TryDecorate(typeof(ICommandHandler<>), typeof(CommandHandlerExecutionActionsDecorator<>));
+        services
+            .TryDecorate(typeof(ICommandHandler<>), typeof(CommandHandlerExecutionActionsDecorator<>));
 
-        services.Scan(s => s.FromAssemblies(assemblies)
-            .AddClasses(c => c.AssignableTo(typeof(ICommandExecutionActions<>)))
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
+        services
+            .Scan(s => s.FromAssemblies(assemblies)
+                .AddClasses(c => c.AssignableTo(typeof(ICommandExecutionActions<>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
 
-        services.Scan(s => s.FromAssemblies(assemblies)
-            .AddClasses(c => c.AssignableTo(typeof(ICommandValidator<>)))
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
+        services
+            .Scan(s => s.FromAssemblies(assemblies)
+                .AddClasses(c => c.AssignableTo(typeof(ICommandValidator<>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
         return services;
     }
 }

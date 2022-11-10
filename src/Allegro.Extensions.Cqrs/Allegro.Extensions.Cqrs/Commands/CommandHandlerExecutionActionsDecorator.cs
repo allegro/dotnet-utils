@@ -9,7 +9,7 @@ using Allegro.Extensions.Cqrs.Abstractions.Commands;
 namespace Allegro.Extensions.Cqrs.Commands;
 // TODO: should we have similar things decorator for queries?
 [Decorator]
-internal class CommandHandlerExecutionActionsDecorator<T> : ICommandHandler<T> where T : class, ICommand
+internal class CommandHandlerExecutionActionsDecorator<T> : ICommandHandler<T> where T : ICommand
 {
     private readonly ICommandHandler<T> _handler;
     private readonly IServiceProvider _serviceProvider;
