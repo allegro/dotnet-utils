@@ -8,7 +8,7 @@ public static class FluentValidationOptionsExtensions
 {
     public static OptionsBuilder<TOptions> AddWithFluentValidation<TOptions, TValidator>(
         this IServiceCollection services,
-        string configurationSection)
+        string? configurationSection)
         where TOptions : class
         where TValidator : class, IValidator<TOptions>
     {
