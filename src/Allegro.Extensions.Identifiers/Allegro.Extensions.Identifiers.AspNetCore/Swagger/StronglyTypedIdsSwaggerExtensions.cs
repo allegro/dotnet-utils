@@ -13,8 +13,6 @@ namespace Allegro.Extensions.Identifiers.AspNetCore.Swagger;
 /// </summary>
 public static class StronglyTypedIdsSwaggerExtensions
 {
-    private const string IdentifiersAssemblyNameSuffix = "Identifiers";
-
     /// <summary>
     /// Add swagger support for strongly typed identifiers
     /// </summary>
@@ -23,7 +21,7 @@ public static class StronglyTypedIdsSwaggerExtensions
         services.Configure<SwaggerGenOptions>(options =>
         {
             var types = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => x.FullName != null && x.FullName.Contains(IdentifiersAssemblyNameSuffix))
+                .Where(x => x.FullName != null)
                 .SelectMany(x => x.GetTypes())
                 .Where(x => IsAssignableToGenericType(x, typeof(IStronglyTypedId<>)) && !x.IsInterface && !x.IsAbstract)
                 .ToList();
