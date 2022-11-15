@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Allegro.Extensions.Cqrs.Commands;
 
+// TODO: can we extract common logic for command and query? Should we?
 internal sealed class CommandDispatcher : ICommandDispatcher
 {
     private readonly IServiceProvider _serviceProvider;
