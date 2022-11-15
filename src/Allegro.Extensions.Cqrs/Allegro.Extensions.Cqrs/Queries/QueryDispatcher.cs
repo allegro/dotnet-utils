@@ -32,25 +32,19 @@ internal sealed class QueryDispatcher : IQueryDispatcher
         }
 
         // https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/7.0/reflection-invoke-exceptions
-        try
-        {
-            await Task.WhenAll(queryValidators.Select(p =>
-            {
-                // this is not a constructor, we can skip null
-                var invoke = validateMethodInfo.Invoke(p, new object?[] { query, cancellationToken })!;
 
-                return (Task)invoke;
-            }));
-        }
-        catch (TargetInvocationException e)
+        await Task.WhenAll(queryValidators.Select(p =>
         {
-            if (e.InnerException != null)
-            {
-                throw e.InnerException;
-            }
+            // this is not a constructor, we can skip null
+            var invoke = validateMethodInfo.Invoke(
+                p,
+                BindingFlags.DoNotWrapExceptions,
+                null,
+                new object?[] { query, cancellationToken },
+                null)!;
 
-            throw;
-        }
+            return (Task)invoke;
+        }));
 
         // TODO: micro-optimization possibility - cache those types
         var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
@@ -71,21 +65,14 @@ internal sealed class QueryDispatcher : IQueryDispatcher
         }
 
         // this is not a constructor, we can skip null
-        var invoke = handleMethodInfo.Invoke(handler, new object?[] { query, cancellationToken })!;
+        var invoke = handleMethodInfo.Invoke(
+            handler,
+            BindingFlags.DoNotWrapExceptions,
+            null,
+            new object?[] { query, cancellationToken },
+            null)!;
 
-        try
-        {
-            return await (Task<TResult>)invoke;
-        }
-        catch (TargetInvocationException e)
-        {
-            if (e.InnerException != null)
-            {
-                throw e.InnerException;
-            }
-
-            throw;
-        }
+        return await (Task<TResult>)invoke;
     }
 }
 
