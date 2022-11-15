@@ -11,9 +11,7 @@ public interface IQueryDispatcher
     /// <summary>
     /// Sends query to dispatcher
     /// </summary>
-    /// <typeparam name="TQuery">Type of query</typeparam>
     /// <typeparam name="TResult">Type of data returned by query</typeparam>
     /// <returns>Query data</returns>
-    Task<TResult> Query<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
-        where TQuery : IQuery<TResult>;
+    Task<TResult> Query<TResult>(IQuery<TResult> query, CancellationToken cancellationToken);
 }

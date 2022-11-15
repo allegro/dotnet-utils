@@ -14,15 +14,33 @@ internal sealed class QueryDispatcher : IQueryDispatcher
     public QueryDispatcher(IServiceProvider serviceProvider)
         => _serviceProvider = serviceProvider;
 
-    public async Task<TResult> Query<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
-        where TQuery : IQuery<TResult>
+    public async Task<TResult> Query<TResult>(IQuery<TResult> query, CancellationToken cancellationToken)
     {
         // TODO: maybe some configuration to reuse outer scope instead of creating new one
         using var scope = _serviceProvider.CreateScope();
 
-        var queryValidators = scope.ServiceProvider.GetServices<IQueryValidator<TQuery>>();
+        var validatorType = typeof(IQueryValidator<>).MakeGenericType(query.GetType());
+        var queryValidators = scope.ServiceProvider.GetServices(validatorType);
 
-        await Task.WhenAll(queryValidators.Select(p => p.Validate(query, cancellationToken)));
+        var validateMethodInfo = validatorType
+            .GetMethod(nameof(IQueryValidator<IQuery<TResult>>.Validate));
+
+        if (validateMethodInfo is null)
+        {
+            throw new Exception($"Missing method Validate in validator for query {query.GetType().FullName}");
+        }
+
+        await Task.WhenAll(queryValidators.Select(p =>
+        {
+            var invoke = validateMethodInfo.Invoke(p, new object?[] { query, cancellationToken });
+
+            if (invoke is null)
+            {
+                throw new Exception($"Invoke failed for Validate in validator for query {query.GetType().FullName}");
+            }
+
+            return (Task)invoke;
+        }));
 
         // TODO: micro-optimization possibility - cache those types
         var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));

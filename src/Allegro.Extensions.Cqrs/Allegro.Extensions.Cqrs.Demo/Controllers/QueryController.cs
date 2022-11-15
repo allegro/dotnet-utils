@@ -20,7 +20,7 @@ public class QueryController : ControllerBase
     [HttpGet("bar")]
     public async Task<IActionResult> Bar([FromQuery] string? id, CancellationToken cancellationToken)
     {
-        var result = await _queryDispatcher.Query<BarQuery, BarData>(new BarQuery(id), cancellationToken);
+        var result = await _queryDispatcher.Query(new BarQuery(id), cancellationToken);
         return Ok(result);
     }
 }

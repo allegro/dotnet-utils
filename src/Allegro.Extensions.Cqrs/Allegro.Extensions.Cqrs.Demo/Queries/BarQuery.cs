@@ -37,7 +37,7 @@ internal class BarQueryHandler : IQueryHandler<BarQuery, BarData>
     public Task<BarData> Handle(BarQuery query, CancellationToken cancellationToken)
     {
         // should take data directly from read model on dedicates sql query to view of some data
-        return Task.FromResult<BarData>(new BarData("Some data 1"));
+        return Task.FromResult(new BarData("Some data 1"));
     }
 }
 
