@@ -10,76 +10,121 @@ In this package our custom implementation of tools and markers are delivered.
 
 Contains common CQRS set of markers and abstractions like `ICommand`, `IQuery<>`, `ICommandDispatcher`, `IQueryDispatcher`, `ICommandHandler`, `IQueryHandler`.
 
-Additionally we introduce some additonaly things like [ICommandValidator](#icommandvalidator), [ICommandExecutionActions](#icommandexecutionactions) and [Decorator](#decoratorattribute).
+Additionally we introduce some additonaly things like [Command and Query Validators](#icommandexecutionactions-and-iqueryexecutionactions), [Command and Query Execution Actions](#icommandexecutionactions-and-iqueryexecutionactions) or [Fluent Validations](#fluent-validations).
 
-### ICommandValidator
+### ICommandValidator and IQueryValidator
 
-In more sophisticated validation cases, that simple DataAnnotations are not enough we introduce `ICommandValidator<ICommand>` to enables adding some validation logic before command execution.
+In more sophisticated validation cases, that simple DataAnnotations are not enough we introduce `ICommandValidator<ICommand>` and `IQueryValidator<IQuery>` to enables adding some validation logic before command or query execution.
 
 ```c#
-internal class SampleCommandValidator : ICommandValidator<SampleCommand>
+internal class BarCommandValidator : ICommandValidator<BarCommand>
 {
-    public Task Validate(SampleCommand command)
+    public Task Validate(BarCommand command)
     {
        // validation logic
     }
 }
 ```
 
-[Sample](./Allegro.Extensions.Cqrs.Demo/Controllers/CommandController.cs) 
-
-### ICommandExecutionActions
-
-To be able to run some additional actions before and after command execution (like unit of work, collect metrics, diagnostics etc.) without messing business logic code in handler we introduce `ICommandExecutionActions<>` interface.
-We can easily split business logic from some technical noise.
-
 ```c#
-internal class SampleCommandActions : ICommandExecutionActions<SampleCommand>
+internal class BarQueryValidator : IQueryValidator<BarQuery>
 {
-    public Task Before(SampleCommand command)
+    public Task Validate(BarQuery command)
     {
-       ...
-    }
-
-    public Task After(SampleCommand command)
-    {
-       ...
+       // validation logic
     }
 }
 ```
 
-[Sample](./Allegro.Extensions.Cqrs.Demo/Controllers/CommandController.cs)
+[Sample](./Allegro.Extensions.Cqrs.Demo/Commands/BarCommand.cs) 
+
+### Fluent validations
+You can use `AddCqrsFluentValidations` from package `Allegro.Extensions.Cqrs.FluentValidations` to use [Fluent Validations](https://docs.fluentvalidation.net/en/latest/) instead proposed interfaces.
+
+`services.AddCqrsFluentValidations(cqrsAssemblies)`
+
+```c#
+internal class FooCommandFluentValidator : AbstractValidator<FooCommand>
+{
+    public FooCommandFluentValidator()
+    {
+        RuleFor(_ => _.Name).NotEmpty();
+    }
+}
+```
+
+[Sample](./Allegro.Extensions.Cqrs.Demo/Commands/BarCommand.cs)
 
 ### Decorators
 
-To be able to use decorator pattern we introduced `DecoratorAttribute`. Each handler marked with it wont be registered automatically in services by our extensions and give opportunity to Decorate handlers with any custom code.
+This give opportunity to Decorate handlers with any custom code.
+Remember to add `Decorator` attribute to your decorator. Thanks to it, it will be excluded from auto-registration
 
-Example:
 ```c#
 [Decorator]
-internal class CommandHandlerDecorator<T> : ICommandHandler<T> where T : ICommand
+internal class BarCommandHandlerDecorator : ICommandHandler<BarCommand>
 {
-...
+    private readonly ICommandHandler<BarCommand> _decorated;
+    private readonly ILogger<BarCommand> _logger;
+
+    public BarCommandHandlerDecorator(ICommandHandler<BarCommand> decorated, ILogger<BarCommand> logger)
+    {
+        _decorated = decorated;
+        _logger = logger;
+    }
+
+    public async Task Handle(BarCommand command)
+    {
+        _logger.LogInformation("Before handle");
+        await _decorated.Handle(command);
+        _logger.LogInformation("After handle");
+    }
 }
 ```
+```c#
+[Decorator]
+internal class BarQueryHandlerDecorator : IQueryHandler<BarQuery, BarData>
+{
+    private readonly IQueryHandler<BarQuery, BarData> _decorated;
+    private readonly ILogger<BarCommand> _logger;
 
+    public BarQueryHandlerDecorator(IQueryHandler<BarQuery, BarData> decorated, ILogger<BarCommand> logger)
+    {
+        _decorated = decorated;
+        _logger = logger;
+    }
+
+    public async Task<BarData> Handle(BarQuery query, CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Before handle");
+        var result = await _decorated.Handle(query, cancellationToken);
+        _logger.LogInformation("After handle");
+        return result;
+    }
+}
+```
 Registration with [Scrutor](https://github.com/khellang/Scrutor):
 ```c#
-    services.TryDecorate(typeof(ICommandHandler<>), typeof(CommandHandlerDecorator<>));
+    services.TryDecorate<ICommandHandler<BarCommand>, BarCommandHandlerDecorator>();
 ```
-
+```c#
+    services.TryDecorate<IQueryHandler<BarQuery, BarData>, BarQueryHandlerDecorator>();
+```
 Remember to first register all commands handlers and than register custom decorator.
+
+Any custom decorator registered by you will execute first, then `ICommandExecutionActions` or `IQueryExecutionActions`.
+Execution order is reversed from registration order. 
 
 ### Samples
 
 Some sample usage could be found:
-- [commands](./Allegro.Extensions.Cqrs.Demo/Controllers/CommandController.cs)
-- [queries](./Allegro.Extensions.Cqrs.Demo/Controllers/QueryController.cs)
+- [commands](./Allegro.Extensions.Cqrs.Demo/Commands)
+- [queries](./Allegro.Extensions.Cqrs.Demo/Queries)
 
 ### Allegro.Extensions.Cqrs
 
 This package contains:
 - default implementation of `ICommandDispatcher` and `IQueryDispatcher`
-- automatic registrations of all `ICommandHandler`, `IQueryHandler`, `ICommandValidator`, `ICommandExecutionActions`
+- automatic registrations of all `ICommandHandler`, `IQueryHandler`, `ICommandValidator`, `ICommandExecutionActions` `IQueryExecutionActions`
 
-For registrations [Scrutor](https://github.com/khellang/Scrutor) packages is uses as a tool.
+For registrations [Scrutor](https://github.com/khellang/Scrutor) packages is used as a tool.

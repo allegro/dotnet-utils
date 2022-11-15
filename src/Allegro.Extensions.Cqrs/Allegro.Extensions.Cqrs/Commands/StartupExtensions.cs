@@ -28,15 +28,6 @@ public static class StartupExtensions
                 .WithScopedLifetime());
 
         services
-            .TryDecorate(typeof(ICommandHandler<>), typeof(CommandHandlerExecutionActionsDecorator<>));
-
-        services
-            .Scan(s => s.FromAssemblies(assemblies)
-                .AddClasses(c => c.AssignableTo(typeof(ICommandExecutionActions<>)))
-                .AsImplementedInterfaces()
-                .WithScopedLifetime());
-
-        services
             .Scan(s => s.FromAssemblies(assemblies)
                 .AddClasses(c => c.AssignableTo(typeof(ICommandValidator<>)))
                 .AsImplementedInterfaces()

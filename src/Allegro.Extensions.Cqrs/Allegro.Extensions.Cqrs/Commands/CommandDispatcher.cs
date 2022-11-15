@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Allegro.Extensions.Cqrs.Abstractions.Commands;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,11 @@ internal sealed class CommandDispatcher : ICommandDispatcher
     {
         // TODO: maybe some configuration to reuse outer scope instead of creating new one
         using var scope = _serviceProvider.CreateScope();
+
+        var commandValidators = scope.ServiceProvider.GetServices<ICommandValidator<TCommand>>();
+
+        await Task.WhenAll(commandValidators.Select(p => p.Validate(command)));
+
         var handler = scope.ServiceProvider.GetService<ICommandHandler<TCommand>>();
 
         if (handler is null)

@@ -13,5 +13,5 @@ public interface IQueryHandler<in TQuery, TResult> where TQuery : IQuery<TResult
     /// <summary>
     /// Handles query execution. In most cases reading data from read-model directly.
     /// </summary>
-    Task<TResult?> Handle(TQuery query, CancellationToken cancellationToken);
+    Task<TResult> Handle(TQuery query, CancellationToken cancellationToken);
 }
