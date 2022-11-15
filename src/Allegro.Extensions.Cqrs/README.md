@@ -10,7 +10,7 @@ In this package our custom implementation of tools and markers are delivered.
 
 Contains common CQRS set of markers and abstractions like `ICommand`, `IQuery<>`, `ICommandDispatcher`, `IQueryDispatcher`, `ICommandHandler`, `IQueryHandler`.
 
-Additionally we introduce some additonaly things like [Command and Query Validators](#icommandexecutionactions-and-iqueryexecutionactions), [Command and Query Execution Actions](#icommandexecutionactions-and-iqueryexecutionactions) or [Fluent Validations](#fluent-validations).
+Additionally we introduce some additional things like [Command and Query Validators](#icommandvalidator-and-iqueryvalidator), or [Fluent Validations](#fluent-validations).
 
 ### ICommandValidator and IQueryValidator
 
@@ -29,7 +29,7 @@ internal class BarCommandValidator : ICommandValidator<BarCommand>
 ```c#
 internal class BarQueryValidator : IQueryValidator<BarQuery>
 {
-    public Task Validate(BarQuery command)
+    public Task Validate(BarQuery query, CancellationToken cancellationToken)
     {
        // validation logic
     }
@@ -58,7 +58,8 @@ internal class FooCommandFluentValidator : AbstractValidator<FooCommand>
 ### Decorators
 
 This give opportunity to Decorate handlers with any custom code.
-Remember to add `Decorator` attribute to your decorator. Thanks to it, it will be excluded from auto-registration
+Remember to add `Decorator` attribute to your decorator.  
+Thanks to it, it will be excluded from auto-registration of handlers and does not loop ;)
 
 ```c#
 [Decorator]
@@ -111,9 +112,8 @@ Registration with [Scrutor](https://github.com/khellang/Scrutor):
     services.TryDecorate<IQueryHandler<BarQuery, BarData>, BarQueryHandlerDecorator>();
 ```
 Remember to first register all commands handlers and than register custom decorator.
-
-Any custom decorator registered by you will execute first, then `ICommandExecutionActions` or `IQueryExecutionActions`.
-Execution order is reversed from registration order. 
+Execution order is reversed from registration order.
+(First registered will execute last, last registered - first)
 
 ### Samples
 
@@ -125,6 +125,13 @@ Some sample usage could be found:
 
 This package contains:
 - default implementation of `ICommandDispatcher` and `IQueryDispatcher`
-- automatic registrations of all `ICommandHandler`, `IQueryHandler`, `ICommandValidator`, `ICommandExecutionActions` `IQueryExecutionActions`
+- automatic registrations of all `ICommandHandler`, `IQueryHandler`, `ICommandValidator`
 
 For registrations [Scrutor](https://github.com/khellang/Scrutor) packages is used as a tool.
+
+### Why not MediatR?
+
+- for learning purposes
+- it is simple code, MediatR is still too much
+- better separation of queries and commands for decorators (IPipelineBehavior doesn't allow for this)
+- ICommand without return type

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Allegro.Extensions.Cqrs.Abstractions;
 using Allegro.Extensions.Cqrs.Abstractions.Commands;
 using Allegro.Extensions.Cqrs.Commands;
 using FluentAssertions;
@@ -77,7 +78,8 @@ public class CommandsSpec
         [Fact]
         public async Task Command_validator_executed_before_command_action()
         {
-            var fixture = new Fixture().Build();
+            var fixture = new Fixture().AddDecorator<ICommandHandler<NotValidTestCommand>, TestCommandHandlerDecorator>()
+                .Build();
             var commandDispatcher = fixture.CommandDispatcher;
             var act = () => commandDispatcher.Send(new NotValidTestCommand());
 
@@ -107,35 +109,34 @@ public class CommandsSpec
             }
         }
 
-        private class NotValidTestCommandAction : ICommandExecutionActions<NotValidTestCommand>
+        [Decorator]
+        private class TestCommandHandlerDecorator : ICommandHandler<NotValidTestCommand>
         {
+            private readonly ICommandHandler<NotValidTestCommand> _handler;
             private readonly CommandLog _commandLog;
 
-            public NotValidTestCommandAction(CommandLog commandLog)
+            public TestCommandHandlerDecorator(ICommandHandler<NotValidTestCommand> handler, CommandLog commandLog)
             {
+                _handler = handler;
                 _commandLog = commandLog;
             }
 
-            public Task Before(NotValidTestCommand command)
+            public async Task Handle(NotValidTestCommand command)
             {
                 _commandLog.ExecutedCommandsLog.Add($"Before {command.ToString()}");
-                return Task.CompletedTask;
-            }
-
-            public Task After(NotValidTestCommand command)
-            {
+                await _handler.Handle(command);
                 _commandLog.ExecutedCommandsLog.Add($"After {command.ToString()}");
-                return Task.CompletedTask;
             }
         }
     }
 
-    public class CommandActions
+    public class CommandDecorators
     {
         [Fact]
         public async Task Able_to_execute_command_actions()
         {
-            var fixture = new Fixture().Build();
+            var fixture = new Fixture().AddDecorator<ICommandHandler<TestCommand>, TestCommandHandlerDecorator>()
+                .Build();
             var commandDispatcher = fixture.CommandDispatcher;
             var command = new TestCommand();
             await commandDispatcher.Send(command);
@@ -163,25 +164,23 @@ public class CommandsSpec
             }
         }
 
-        private class TestCommandHandlerActions : ICommandExecutionActions<TestCommand>
+        [Decorator]
+        private class TestCommandHandlerDecorator : ICommandHandler<TestCommand>
         {
+            private readonly ICommandHandler<TestCommand> _handler;
             private readonly CommandLog _commandLog;
 
-            public TestCommandHandlerActions(CommandLog commandLog)
+            public TestCommandHandlerDecorator(ICommandHandler<TestCommand> handler, CommandLog commandLog)
             {
+                _handler = handler;
                 _commandLog = commandLog;
             }
 
-            public Task Before(TestCommand command)
+            public async Task Handle(TestCommand command)
             {
                 _commandLog.ExecutedCommandsLog.Add($"Before {command.ToString()}");
-                return Task.CompletedTask;
-            }
-
-            public Task After(TestCommand command)
-            {
+                await _handler.Handle(command);
                 _commandLog.ExecutedCommandsLog.Add($"After {command.ToString()}");
-                return Task.CompletedTask;
             }
         }
     }
@@ -207,6 +206,13 @@ public class CommandsSpec
         }
 
         public ICommandDispatcher CommandDispatcher => _provider!.GetRequiredService<ICommandDispatcher>();
+
+        public Fixture AddDecorator<TType, TDecorator>()
+            where TDecorator : TType
+        {
+            _serviceCollection.TryDecorate<TType, TDecorator>();
+            return this;
+        }
 
         public void VerifyCommandWasHandled(ICommand testCommand)
         {

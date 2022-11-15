@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Allegro.Extensions.Cqrs.Abstractions.Queries;
@@ -30,17 +31,26 @@ internal sealed class QueryDispatcher : IQueryDispatcher
             throw new Exception($"Missing method Validate in validator for query {query.GetType().FullName}");
         }
 
-        await Task.WhenAll(queryValidators.Select(p =>
+        // https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/7.0/reflection-invoke-exceptions
+        try
         {
-            var invoke = validateMethodInfo.Invoke(p, new object?[] { query, cancellationToken });
-
-            if (invoke is null)
+            await Task.WhenAll(queryValidators.Select(p =>
             {
-                throw new Exception($"Invoke failed for Validate in validator for query {query.GetType().FullName}");
+                // this is not a constructor, we can skip null
+                var invoke = validateMethodInfo.Invoke(p, new object?[] { query, cancellationToken })!;
+
+                return (Task)invoke;
+            }));
+        }
+        catch (TargetInvocationException e)
+        {
+            if (e.InnerException != null)
+            {
+                throw e.InnerException;
             }
 
-            return (Task)invoke;
-        }));
+            throw;
+        }
 
         // TODO: micro-optimization possibility - cache those types
         var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
@@ -60,14 +70,22 @@ internal sealed class QueryDispatcher : IQueryDispatcher
             throw new Exception($"Missing method Handle in handler for query {query.GetType().FullName}");
         }
 
-        var invoke = handleMethodInfo.Invoke(handler, new object?[] { query, cancellationToken });
+        // this is not a constructor, we can skip null
+        var invoke = handleMethodInfo.Invoke(handler, new object?[] { query, cancellationToken })!;
 
-        if (invoke is null)
+        try
         {
-            throw new Exception($"Invoke failed for Handle in handler for query {query.GetType().FullName}");
+            return await (Task<TResult>)invoke;
         }
+        catch (TargetInvocationException e)
+        {
+            if (e.InnerException != null)
+            {
+                throw e.InnerException;
+            }
 
-        return await (Task<TResult>)invoke;
+            throw;
+        }
     }
 }
 

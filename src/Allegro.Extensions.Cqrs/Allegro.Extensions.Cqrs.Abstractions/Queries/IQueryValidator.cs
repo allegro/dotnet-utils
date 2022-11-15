@@ -7,7 +7,7 @@ namespace Allegro.Extensions.Cqrs.Abstractions.Queries;
 /// Marker interface that allows to execute more complicated validations before action execution.
 /// </summary>
 /// <typeparam name="T">Supported query type</typeparam>
-public interface IQueryValidator<T> where T : IQuery
+public interface IQueryValidator<in T> where T : IQuery
 {
     /// <summary>
     /// Validates query before execution. Should throw ValidationException or other exception.
