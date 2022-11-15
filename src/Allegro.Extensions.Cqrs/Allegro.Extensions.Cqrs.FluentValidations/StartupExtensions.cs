@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Allegro.Extensions.Cqrs.Abstractions.Commands;
 using Allegro.Extensions.Cqrs.Abstractions.Queries;
 using FluentValidation;
