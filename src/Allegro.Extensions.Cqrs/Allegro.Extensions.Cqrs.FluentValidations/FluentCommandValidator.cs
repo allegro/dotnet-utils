@@ -26,9 +26,9 @@ internal class FluentCommandValidator<T> : ICommandValidator<T>
            .Where(f => f != null)
            .ToList();
 
-       if (failures.Any())
-       {
-           throw new ValidationException(failures);
-       }
+        if (failures.Any())
+        {
+            throw new ValidationException(failures);
+        }
     }
 }

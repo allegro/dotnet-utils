@@ -18,7 +18,7 @@ internal class FluentQueryValidator<T> : IQueryValidator<T>
     {
         //TODO: multiple validators
         var requestValidators = _serviceProvider.GetServices<IValidator<T>>();
-        
+
         var failures = (await Task.WhenAll(requestValidators.Select(v => v.ValidateAsync(command, cancellationToken))))
             .SelectMany(result => result.Errors)
             .Where(f => f != null)

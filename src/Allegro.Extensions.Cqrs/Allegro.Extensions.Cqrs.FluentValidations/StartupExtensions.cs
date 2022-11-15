@@ -23,13 +23,13 @@ public static class StartupExtensions
             .AddClasses(c => c.AssignableTo(typeof(IValidator<>)))
             .AsImplementedInterfaces()
             .WithScopedLifetime());
-        
+
         services
             .Scan(s => s.FromCallingAssembly()
                 .AddClasses(c => c.AssignableToAny(typeof(ICommandValidator<>), typeof(IQueryValidator<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
-        
+
         return services;
     }
 }
