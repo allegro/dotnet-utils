@@ -135,3 +135,4 @@ For registrations [Scrutor](https://github.com/khellang/Scrutor) packages is use
 - it is simple code, MediatR is still too much
 - better separation of queries and commands for decorators (IPipelineBehavior doesn't allow for this)
 - ICommand without return type
+- Good article why not: https://cezarypiatek.github.io/post/why-i-dont-use-mediatr-for-cqrs/
