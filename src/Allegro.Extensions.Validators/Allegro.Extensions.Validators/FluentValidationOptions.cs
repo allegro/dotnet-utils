@@ -6,11 +6,14 @@ using Microsoft.Extensions.Options;
 
 namespace Allegro.Extensions.Validators;
 
-public class FluentValidationOptions<TOptions>
-    : IValidateOptions<TOptions> where TOptions : class
+public class FluentValidationOptions<TOptions> : IValidateOptions<TOptions>
+    where TOptions : class
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly string? _name;
+
+    /// <param name="name">Option name</param>
+    /// <param name="serviceProvider">Service provider for scoped option handling</param>
     public FluentValidationOptions(string? name, IServiceProvider serviceProvider)
     {
         // we need the service provider to create a scope later
@@ -18,6 +21,9 @@ public class FluentValidationOptions<TOptions>
         _name = name; // Handle named options
     }
 
+    /// <summary>
+    /// Validate TOptions using a registered IValidator&lt;TOptions&gt;
+    /// </summary>
     public ValidateOptionsResult Validate(string? name, TOptions options)
     {
         // Null name is used to configure all named options.
