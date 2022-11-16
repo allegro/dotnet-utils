@@ -5,6 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace Allegro.Extensions.Validators;
 
+/// <summary>
+/// Validators for user input.
+/// </summary>
 public static class InputValidator
 {
     /// <summary>

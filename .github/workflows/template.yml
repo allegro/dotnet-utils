@@ -36,8 +36,6 @@ jobs:
       with:
         dotnet-version: |
           6.0.x
-    - name: Check editorconfigs existence
-      run: ls ../ -la
     - name: Restore dependencies
       run: dotnet restore
     - name: FormatCheck

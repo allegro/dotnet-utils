@@ -3,6 +3,9 @@ using Microsoft.Extensions.Options;
 
 namespace Allegro.Extensions.Validators;
 
+/// <summary>
+/// Fluent validation extensions for options builder
+/// </summary>
 public static class OptionsBuilderFluentValidationExtensions
 {
     /// <summary>
