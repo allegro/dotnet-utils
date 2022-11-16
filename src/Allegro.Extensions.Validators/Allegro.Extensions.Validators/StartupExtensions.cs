@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Reflection;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -5,13 +7,16 @@ namespace Allegro.Extensions.Validators;
 
 public static class StartupExtensions
 {
-    public static IServiceCollection RegisterFluentValidatorForConfig<TOptions, TValidator>(
+    /// <summary>
+    /// Register all IValidator&lt;T&gt; fluent validators in the assembly
+    /// </summary>
+    public static IServiceCollection RegisterFluentValidators(
         this IServiceCollection services,
-        string? sectionName = null)
-        where TOptions : class
-        where TValidator : class, IValidator<TOptions>
+        IEnumerable<Assembly> assemblies)
     {
-        services.ConfigureOptions<TOptions>().AddWithFluentValidation<TOptions, TValidator>(sectionName);
-        return services;
+        return services.Scan(s => s.FromAssemblies(assemblies)
+            .AddClasses(c => c.AssignableTo(typeof(IValidator<>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
     }
 }

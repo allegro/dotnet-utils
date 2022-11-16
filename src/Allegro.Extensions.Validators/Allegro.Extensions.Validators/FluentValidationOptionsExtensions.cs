@@ -13,7 +13,7 @@ public static class FluentValidationOptionsExtensions
         where TValidator : class, IValidator<TOptions>
     {
         // Add the validator
-        services.AddScoped<IValidator<TOptions>, TValidator>();
+        services.AddSingleton<IValidator<TOptions>, TValidator>();
 
         return services.AddOptions<TOptions>()
             .BindConfiguration(configurationSection)
