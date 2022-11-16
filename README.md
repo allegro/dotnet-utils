@@ -12,6 +12,8 @@ Please refer to [Contributing guideline](CONTRIBUTING.md) for details.
 
 - [Allegro.Extensions.AspNetCore](src/Allegro.Extensions.AspNetCore)  
   This library contains useful extensions and utilities for ASP.NET Core based projects.
+- [Allegro.Extensions.Cqrs](src/Allegro.Extensions.Cqrs)  
+  Contains implementation of common tools to support Cqrs pattern based on Handlers approach.
 - [Allegro.Extensions.Dapper](src/Allegro.Extensions.Dapper)  
   This library contains useful utilities for simpler usage of Dapper library.
 - [Allegro.Extensions.Dapper.Postgres](src/Allegro.Extensions.Dapper)  
@@ -20,6 +22,8 @@ Please refer to [Contributing guideline](CONTRIBUTING.md) for details.
   Contains money value object and currency.
 - [Allegro.Extensions.Globalization](src/Allegro.Extensions.Globalization)  
   Contains classes that define culture-related information, including language, country/region, calendars in use, format patterns for dates, currency, and numbers etc.
+- [Allegro.Extensions.Identifiers](src/Allegro.Extensions.Identifiers)  
+  Contains markers and generators to support strongly typed identifiers (primitive obsession code smell fix)
 - [Allegro.Extensions.NullableReferenceTypes](src/Allegro.Extensions.NullableReferenceTypes)  
   Contains useful classes and extensions for projects which use NRT.
 - [Allegro.Extensions.RateLimiting](src/Allegro.Extensions.RateLimiting)  

@@ -5,8 +5,14 @@ using Allegro.Extensions.Financials.ValueObjects;
 
 namespace Allegro.Extensions.Financials.Extensions;
 
+/// <summary>
+/// Money related extensions
+/// </summary>
 public static class MoneyExtensions
 {
+    /// <summary>
+    /// Sum money in collection of objects that contains money
+    /// </summary>
     public static Money Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, Money> selector)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -16,6 +22,9 @@ public static class MoneyExtensions
         return source.Aggregate(sum, (current, item) => current + selector(item));
     }
 
+    /// <summary>
+    /// Sum money in collection of money objects
+    /// </summary>
     public static Money Sum(this IEnumerable<Money> source)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -24,6 +33,9 @@ public static class MoneyExtensions
         return source.Aggregate(sum, (current, item) => current + item);
     }
 
+    /// <summary>
+    /// Allows to round money value with Math.Round api
+    /// </summary>
     public static Money? Round(this Money? money, int decimals, MidpointRounding midpointRounding)
     {
         if (money == null)

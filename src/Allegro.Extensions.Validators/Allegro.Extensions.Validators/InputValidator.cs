@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace Allegro.Extensions.Validators;
 
 /// <summary>
-/// Validators for user input.
+/// Contains helper methods to validate string inputs that contains data
 /// </summary>
 public static class InputValidator
 {

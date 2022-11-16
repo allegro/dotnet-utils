@@ -5,6 +5,7 @@
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <Nullable>enable</Nullable>
     <NoWarn>${NoWarn},CS8618</NoWarn>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.Validators\Allegro.Extensions.Validators.csproj" />

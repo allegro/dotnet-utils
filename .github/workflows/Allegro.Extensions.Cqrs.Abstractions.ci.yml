@@ -1,0 +1,22 @@
+name: Build Allegro.Extensions.Cqrs.Abstractions
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.Cqrs/*'
+      - 'src/Allegro.Extensions.Cqrs/Allegro.Extensions.Cqrs.Abstractions/**'
+      - 'src/*'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.Cqrs/*'
+      - 'src/Allegro.Extensions.Cqrs/Allegro.Extensions.Cqrs.Abstractions/**'
+      - 'src/*'
+
+jobs:
+  ci:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.Cqrs.Abstractions
+      solutionName: Allegro.Extensions.Cqrs

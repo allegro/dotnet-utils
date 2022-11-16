@@ -1,6 +1,10 @@
 using System;
 
 namespace Allegro.Extensions.Globalization.Extensions;
+
+/// <summary>
+/// Polish Pluralizer Extensions
+/// </summary>
 public static class PolishPluralizer
 {
     /// <summary>
