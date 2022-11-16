@@ -12,7 +12,7 @@ namespace Allegro.Extensions.Validators;
 public static class StartupExtensions
 {
     /// <summary>
-    /// Register all IValidator&lt;T&gt; fluent validators in the assembly
+    /// Register all IValidator&lt;T&gt; fluent validators in specified assemblies
     /// </summary>
     public static IServiceCollection RegisterFluentValidators(
         this IServiceCollection services,
