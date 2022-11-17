@@ -24,6 +24,12 @@ public static class StartupExtensions
                 .WithoutAttribute<DecoratorAttribute>())
             .AsImplementedInterfaces()
             .WithScopedLifetime());
+
+        services
+            .Scan(s => s.FromAssemblies(assemblies)
+                .AddClasses(c => c.AssignableTo(typeof(IQueryValidator<>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
         return services;
     }
 }

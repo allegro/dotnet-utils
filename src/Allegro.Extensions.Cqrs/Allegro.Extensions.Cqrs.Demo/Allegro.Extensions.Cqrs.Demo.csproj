@@ -12,6 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="FluentValidation" Version="11.3.0" />
     <PackageReference Include="Meziantou.Analyzer" Version="1.0.746">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,6 +28,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Allegro.Extensions.Cqrs.FluentValidations\Allegro.Extensions.Cqrs.FluentValidations.csproj" />
     <ProjectReference Include="..\Allegro.Extensions.Cqrs\Allegro.Extensions.Cqrs.csproj" />
   </ItemGroup>
 </Project>

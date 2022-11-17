@@ -4,6 +4,13 @@ namespace Allegro.Extensions.Cqrs.Abstractions.Queries;
 /// Cqrs query marker interface
 /// </summary>
 /// <typeparam name="T">Type of data returned by query</typeparam>
-public interface IQuery<T>
+public interface IQuery<T> : IQuery
+{
+}
+
+/// <summary>
+/// Cqrs query marker interface
+/// </summary>
+public interface IQuery
 {
 }

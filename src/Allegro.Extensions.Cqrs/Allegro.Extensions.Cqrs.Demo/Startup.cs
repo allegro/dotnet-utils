@@ -1,4 +1,9 @@
+using Allegro.Extensions.Cqrs.Abstractions.Commands;
+using Allegro.Extensions.Cqrs.Abstractions.Queries;
 using Allegro.Extensions.Cqrs.Commands;
+using Allegro.Extensions.Cqrs.Demo.Commands;
+using Allegro.Extensions.Cqrs.Demo.Queries;
+using Allegro.Extensions.Cqrs.FluentValidations;
 using Allegro.Extensions.Cqrs.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,8 +35,10 @@ public class Startup
         services
             .AddCommands(cqrsAssemblies)
             .AddQueries(cqrsAssemblies)
+            .AddCqrsFluentValidations(cqrsAssemblies)
             .AddControllers();
-
+        services.TryDecorate<ICommandHandler<BarCommand>, BarCommandHandlerDecorator>();
+        services.TryDecorate<IQueryHandler<BarQuery, BarData>, BarQueryHandlerDecorator>();
         services.AddSwaggerGen();
     }
 }
