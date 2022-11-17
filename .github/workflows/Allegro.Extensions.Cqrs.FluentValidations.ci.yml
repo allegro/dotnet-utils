@@ -1,0 +1,22 @@
+name: Build Allegro.Extensions.Cqrs
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.Cqrs/*'
+      - 'src/Allegro.Extensions.Cqrs/Allegro.Extensions.Cqrs.FluentValidations/**'
+      - 'src/*'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.Cqrs/*'
+      - 'src/Allegro.Extensions.Cqrs/Allegro.Extensions.Cqrs.FluentValidations/**'
+      - 'src/*'
+
+jobs:
+  ci:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.Cqrs.FluentValidations
+      solutionName: Allegro.Extensions.Cqrs
