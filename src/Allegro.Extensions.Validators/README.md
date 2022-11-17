@@ -25,3 +25,14 @@ public void ConfigureServices(IServiceCollection services)
     services.AddWithFluentValidation<TOptions, TValidator>("configuration section name");
 }
 ```
+
+Add a fluent validator to IOptionsBuilder<t>
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddOptions<TOptions>()
+            .BindConfiguration(configurationSection)
+            .ValidateFluentValidation();
+}
+```

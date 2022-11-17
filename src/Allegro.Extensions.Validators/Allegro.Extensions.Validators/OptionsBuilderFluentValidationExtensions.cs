@@ -9,7 +9,7 @@ namespace Allegro.Extensions.Validators;
 public static class OptionsBuilderFluentValidationExtensions
 {
     /// <summary>
-    /// Adds a scoped IValidateOptions&lt;TOptions&gt; service with fluent validation.
+    /// Adds a IValidateOptions&lt;TOptions&gt; service with fluent validation.
     /// </summary>
     public static OptionsBuilder<TOptions> ValidateFluentValidation<TOptions>(
         this OptionsBuilder<TOptions> optionsBuilder) where TOptions : class

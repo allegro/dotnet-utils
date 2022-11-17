@@ -34,7 +34,7 @@ public static class StartupExtensions
         where TValidator : class, IValidator<TOptions>
     {
         // Add the validator
-        services.AddSingleton<IValidator<TOptions>, TValidator>();
+        services.AddScoped<IValidator<TOptions>, TValidator>();
 
         return services.AddOptions<TOptions>()
             .BindConfiguration(configurationSection)
