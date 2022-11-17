@@ -28,7 +28,7 @@ internal sealed class QueryDispatcher : IQueryDispatcher
 
         if (validateMethodInfo is null)
         {
-            throw new Exception($"Missing method Validate in validator for query {query.GetType().FullName}");
+            throw new MissingMethodException($"Missing method Validate in validator for query {query.GetType().FullName}");
         }
 
         // https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/7.0/reflection-invoke-exceptions
@@ -61,7 +61,7 @@ internal sealed class QueryDispatcher : IQueryDispatcher
 
         if (handleMethodInfo is null)
         {
-            throw new Exception($"Missing method Handle in handler for query {query.GetType().FullName}");
+            throw new MissingMethodException($"Missing method Handle in handler for query {query.GetType().FullName}");
         }
 
         // this is not a constructor, we can skip null

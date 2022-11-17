@@ -45,7 +45,6 @@ internal class BarCommandHandler : ICommandHandler<BarCommand>
     public Task Handle(BarCommand command)
     {
         _logger.LogInformation("Handle Bar");
-        // do some work, change state, send side effects, threat as unit of work
         return Task.CompletedTask;
     }
 }

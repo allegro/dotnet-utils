@@ -112,8 +112,7 @@ Registration with [Scrutor](https://github.com/khellang/Scrutor):
     services.TryDecorate<IQueryHandler<BarQuery, BarData>, BarQueryHandlerDecorator>();
 ```
 Remember to first register all commands handlers and than register custom decorator.
-Execution order is reversed from registration order.
-(First registered will execute last, last registered - first)
+Execution order is LIFO to registration order.
 
 ### Samples
 
