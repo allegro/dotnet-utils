@@ -4,7 +4,7 @@
     <PackageId>Allegro.Extensions.Validators</PackageId>
     <PackageDescription>Contains useful classes and extensions validators.</PackageDescription>
     <Nullable>enable</Nullable>
-    <NoWarn>${NoWarn},CS8618</NoWarn>
+    <NoWarn>${NoWarn},CS8618,SA1636</NoWarn>
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
   
