@@ -22,7 +22,7 @@ Create IOptions<T> with fluent validation enabled
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddWithFluentValidation<TOptions, TValidator>("configuration section name");
+    services.AddOptionsWithFluentValidation<TOptions, TValidator>("configuration section name");
 }
 ```
 
