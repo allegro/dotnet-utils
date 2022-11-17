@@ -36,7 +36,7 @@ internal class BarQueryValidator : IQueryValidator<BarQuery>
 }
 ```
 
-[Sample](./Allegro.Extensions.Cqrs.Demo/Commands/BarCommand.cs) 
+[Sample](https://github.com/allegro/dotnet-utils/blob/main/src/Allegro.Extensions.Cqrs/Allegro.Extensions.Cqrs.Demo/Commands/BarCommand.cs) 
 
 ### Fluent validations
 You can use `AddCqrsFluentValidations` from package `Allegro.Extensions.Cqrs.FluentValidations` to use [Fluent Validations](https://docs.fluentvalidation.net/en/latest/) instead proposed interfaces.
@@ -53,7 +53,7 @@ internal class FooCommandFluentValidator : AbstractValidator<FooCommand>
 }
 ```
 
-[Sample](./Allegro.Extensions.Cqrs.Demo/Commands/BarCommand.cs)
+[Sample](https://github.com/allegro/dotnet-utils/blob/main/src/Allegro.Extensions.Cqrs/Allegro.Extensions.Cqrs.Demo/Commands/BarCommand.cs)
 
 ### Decorators
 
@@ -118,8 +118,8 @@ Execution order is reversed from registration order.
 ### Samples
 
 Some sample usage could be found:
-- [commands](./Allegro.Extensions.Cqrs.Demo/Commands)
-- [queries](./Allegro.Extensions.Cqrs.Demo/Queries)
+- [commands](https://github.com/allegro/dotnet-utils/blob/main/src/Allegro.Extensions.Cqrs/Allegro.Extensions.Cqrs.Demo/Commands)
+- [queries](https://github.com/allegro/dotnet-utils/blob/main/src/Allegro.Extensions.Cqrs/Allegro.Extensions.Cqrs.Demo/Queries)
 
 ### Allegro.Extensions.Cqrs
 
