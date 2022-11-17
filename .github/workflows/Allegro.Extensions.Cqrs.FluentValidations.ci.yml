@@ -1,4 +1,4 @@
-name: Build Allegro.Extensions.Cqrs
+name: Build Allegro.Extensions.Cqrs.FluentValidations
 
 on:
   push:
