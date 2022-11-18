@@ -7,16 +7,15 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Allegro.Extensions.Cqrs.FluentValidations;
 
 /// <summary>
-/// 
+/// Startup Extensions - expose registration of Fluent Validations for CQRS in application.
 /// </summary>
 public static class StartupExtensions
 {
     /// <summary>
-    /// 
+    /// Add fluent validations for CQRS and register all IValidator from given assemblies
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="assemblies"></param>
-    /// <returns></returns>
+    /// <param name="assemblies">Assembly collection in which IValidators should be looked for.</param>
     public static IServiceCollection AddCqrsFluentValidations(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         services.Scan(s => s.FromAssemblies(assemblies)
