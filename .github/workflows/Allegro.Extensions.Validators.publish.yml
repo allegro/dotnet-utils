@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - 'Allegro.Extensions.Validators_*'
-    branches-ignore:
-      - 'feature/*'
 
 jobs:
   publish:
