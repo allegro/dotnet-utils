@@ -65,7 +65,7 @@ jobs:
         path: src/${{ inputs.solutionName }}/package
   publish:
     runs-on: ubuntu-latest
-    if: ${{ inputs.publish && github.ref == 'refs/heads/main' }}
+    if: inputs.publish
     needs: [build]
     steps:
     - uses: actions/download-artifact@v3
