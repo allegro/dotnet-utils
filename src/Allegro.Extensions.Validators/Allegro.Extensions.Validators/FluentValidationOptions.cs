@@ -59,7 +59,12 @@ public class FluentValidationOptions<TOptions> : IValidateOptions<TOptions>
         ArgumentNullException.ThrowIfNull(options);
 
         using var scope = _serviceProvider.CreateScope();
-        var validator = scope.ServiceProvider.GetRequiredService<IValidator<TOptions>>();
+        var validator = scope.ServiceProvider.GetService<IValidator<TOptions>>();
+
+        if (validator == null)
+        {
+            return ValidateOptionsResult.Skip;
+        }
 
         var results = validator.Validate(options);
         if (results.IsValid)
