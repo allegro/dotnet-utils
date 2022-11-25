@@ -19,8 +19,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
-using System.Collections.Generic;
-using System.Reflection;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -33,16 +31,18 @@ namespace Allegro.Extensions.Validators;
 public static class StartupExtensions
 {
     /// <summary>
-    /// Register all IValidator&lt;T&gt; fluent validators in specified assemblies
+    /// Register fluent validator for TOptions;
     /// </summary>
-    public static IServiceCollection RegisterFluentValidators(
+    public static IServiceCollection RegisterFluentValidator<TOptions>(
         this IServiceCollection services,
-        IEnumerable<Assembly> assemblies)
+        string name = "")
+        where TOptions : class
     {
-        return services.Scan(s => s.FromAssemblies(assemblies)
-            .AddClasses(c => c.AssignableTo(typeof(IValidator<>)))
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
+        services.AddSingleton<IValidateOptions<TOptions>>(
+            provider => new FluentValidationOptions<TOptions>(
+                name, provider));
+
+        return services;
     }
 
     /// <summary>
