@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="1.5.1">
