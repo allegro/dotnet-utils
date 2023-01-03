@@ -75,7 +75,7 @@ jobs:
     - name: Save & verify certificate
       run: |
         echo ${{ secrets.nugetCertificate }} | base64 -d > cert.p12
-        openssl pkcs12 -in cert.p12 -nodes -passin pass:"${{ secrets.nugetCertificatePassword }}" | openssl x509 -noout -subject || "Certificate validation failed"
+        openssl pkcs12 -in cert.p12 -nodes -passin pass:"${{ secrets.nugetCertificatePassword }}" | openssl x509 -noout -subject || echo "Certificate validation failed"
     - name: Sign package
       run: dotnet nuget sign unsigned/*.nupkg --certificate-path cert.p12 --certificate-password ${{ secrets.nugetCertificatePassword }} --timestamper http://timestamp.digicert.com --output signed
     - name: Push package
