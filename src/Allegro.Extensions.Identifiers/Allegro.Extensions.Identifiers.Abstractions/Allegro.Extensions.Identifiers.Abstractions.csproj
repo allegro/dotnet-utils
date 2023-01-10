@@ -27,7 +27,5 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Meziantou.Framework.StronglyTypedId" Version="[1.0.28]" />
-    <PackageReference Include="Microsoft.CodeAnalysis" Version="[4.3.1]"/>
   </ItemGroup>
 </Project>
