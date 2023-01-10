@@ -1,19 +1,11 @@
 using Allegro.Extensions.Identifiers.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Allegro.Extensions.Identifiers.Demo
 {
     public class Startup
     {
-        private readonly IWebHostEnvironment _env;
-
-        public Startup(IWebHostEnvironment env)
-        {
-            _env = env;
-        }
-
         public void Configure(IApplicationBuilder app)
         {
             app

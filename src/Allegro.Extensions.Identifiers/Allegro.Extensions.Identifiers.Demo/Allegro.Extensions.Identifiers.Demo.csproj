@@ -26,6 +26,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Meziantou.Framework.StronglyTypedId" Version="[1.0.28]" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.Identifiers.Abstractions\Allegro.Extensions.Identifiers.Abstractions.csproj" />
