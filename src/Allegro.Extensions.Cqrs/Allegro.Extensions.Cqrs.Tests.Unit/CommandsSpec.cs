@@ -9,6 +9,7 @@ using Allegro.Extensions.Cqrs.Commands;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+
 // ReSharper disable UnusedType.Local
 
 namespace Allegro.Extensions.Cqrs.Tests.Unit;
@@ -37,10 +38,7 @@ public class CommandsSpec
             return act.Should().ThrowAsync<MissingCommandHandlerException>();
         }
 
-        private record TestCommand : ICommand
-        {
-            public string Id { get; } = Guid.NewGuid().ToString();
-        }
+        private record TestCommand : ICommand;
 
         private class TestCommandHandler : ICommandHandler<TestCommand>
         {
@@ -58,10 +56,7 @@ public class CommandsSpec
             }
         }
 
-        private record TestCommandNoHandler : ICommand
-        {
-            public string Id { get; } = Guid.NewGuid().ToString();
-        }
+        private record TestCommandNoHandler : ICommand;
     }
 
     public class CommandValidator
@@ -88,10 +83,7 @@ public class CommandsSpec
             fixture.VerifyCommandActionsWereNotExecuted();
         }
 
-        private record NotValidTestCommand : ICommand
-        {
-            public string Id { get; } = Guid.NewGuid().ToString();
-        }
+        private record NotValidTestCommand : ICommand;
 
         private class TestCommandValidator : ICommandValidator<NotValidTestCommand>
         {
@@ -143,10 +135,7 @@ public class CommandsSpec
             fixture.VerifyCommandWithActionsWasHandled(command);
         }
 
-        private record TestCommand : ICommand
-        {
-            public string Id { get; } = Guid.NewGuid().ToString();
-        }
+        private record TestCommand : ICommand;
 
         private class TestCommandHandler : ICommandHandler<TestCommand>
         {

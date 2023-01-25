@@ -76,10 +76,7 @@ public class QueriesSpec
             fixture.VerifyQueryDecoratorsWereNotExecuted();
         }
 
-        private record NotValidTestQuery : IQuery<int>
-        {
-            public string Id { get; } = Guid.NewGuid().ToString();
-        }
+        private record NotValidTestQuery : IQuery<int>;
 
         private class TestQueryValidator : IQueryValidator<NotValidTestQuery>
         {
@@ -132,10 +129,7 @@ public class QueriesSpec
             fixture.VerifyQueryWithDecoratorWasHandled(query);
         }
 
-        private record TestQuery : IQuery<int>
-        {
-            public string Id { get; } = Guid.NewGuid().ToString();
-        }
+        private record TestQuery : IQuery<int>;
 
         private class TestQueryHandler : IQueryHandler<TestQuery, int>
         {
