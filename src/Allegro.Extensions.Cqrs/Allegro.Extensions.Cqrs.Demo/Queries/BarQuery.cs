@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace Allegro.Extensions.Cqrs.Demo.Queries;
 
 public record BarData(string SomeData);
-internal record BarQuery(string? SomeId) : IQuery<BarData>;
+internal record BarQuery(string? SomeId) : Query<BarData>;
 
 internal class BarQueryFluentValidator : AbstractValidator<BarQuery>
 {

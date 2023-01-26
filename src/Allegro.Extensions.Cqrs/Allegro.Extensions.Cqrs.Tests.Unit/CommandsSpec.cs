@@ -38,7 +38,7 @@ public class CommandsSpec
             return act.Should().ThrowAsync<MissingCommandHandlerException>();
         }
 
-        private record TestCommand : ICommand;
+        private record TestCommand : Command;
 
         private class TestCommandHandler : ICommandHandler<TestCommand>
         {
@@ -56,7 +56,7 @@ public class CommandsSpec
             }
         }
 
-        private record TestCommandNoHandler : ICommand;
+        private record TestCommandNoHandler : Command;
     }
 
     public class CommandValidator
@@ -83,7 +83,7 @@ public class CommandsSpec
             fixture.VerifyCommandActionsWereNotExecuted();
         }
 
-        private record NotValidTestCommand : ICommand;
+        private record NotValidTestCommand : Command;
 
         private class TestCommandValidator : ICommandValidator<NotValidTestCommand>
         {
@@ -135,7 +135,7 @@ public class CommandsSpec
             fixture.VerifyCommandWithActionsWasHandled(command);
         }
 
-        private record TestCommand : ICommand;
+        private record TestCommand : Command;
 
         private class TestCommandHandler : ICommandHandler<TestCommand>
         {
@@ -194,7 +194,7 @@ public class CommandsSpec
             return this;
         }
 
-        public ICommandDispatcher CommandDispatcher => _provider!.GetRequiredService<ICommandDispatcher>();
+        public CommandDispatcher CommandDispatcher => _provider!.GetRequiredService<CommandDispatcher>();
 
         public Fixture AddDecorator<TType, TDecorator>()
             where TDecorator : TType
@@ -203,14 +203,14 @@ public class CommandsSpec
             return this;
         }
 
-        public void VerifyCommandWasHandled(ICommand testCommand)
+        public void VerifyCommandWasHandled(Command testCommand)
         {
             var storage = _provider!.GetRequiredService<CommandLog>();
 
             storage.ExecutedCommandsLog.Single().Should().Be(testCommand.ToString());
         }
 
-        public void VerifyCommandWithActionsWasHandled(ICommand testCommand)
+        public void VerifyCommandWithActionsWasHandled(Command testCommand)
         {
             var expectedLogs = new List<string>()
             {

@@ -9,7 +9,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Allegro.Extensions.Cqrs.Abstractions
 
-* Remove Id from ICommand - not used
+* Replace ICommand and IQuery with Command and Query (based on the approach from (
+  CQRS.Mediatr.Lite)[https://github.com/microsoft/CQRS.Mediatr.Lite/blob/a6f63cf62a5e2b1b48a55b7917ba036c8ae6f3b9/src/sdk/Command/Command.cs])
 
 ## [1.1.0] - 2022-11-17
 

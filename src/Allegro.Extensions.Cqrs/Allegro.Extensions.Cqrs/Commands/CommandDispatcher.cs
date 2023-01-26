@@ -14,7 +14,7 @@ internal sealed class CommandDispatcher : ICommandDispatcher
     public CommandDispatcher(IServiceProvider serviceProvider)
         => _serviceProvider = serviceProvider;
 
-    public async Task Send<TCommand>(TCommand command) where TCommand : ICommand
+    public async Task Send<TCommand>(TCommand command) where TCommand : Command
     {
         // TODO: maybe some configuration to reuse outer scope instead of creating new one
         using var scope = _serviceProvider.CreateScope();
@@ -37,7 +37,7 @@ internal sealed class CommandDispatcher : ICommandDispatcher
 
 internal class MissingCommandHandlerException : Exception
 {
-    public MissingCommandHandlerException(ICommand command) : base($"Missing handler for command {command.GetType().FullName}")
+    public MissingCommandHandlerException(Command command) : base($"Missing handler for command {command.GetType().FullName}")
     {
     }
 }

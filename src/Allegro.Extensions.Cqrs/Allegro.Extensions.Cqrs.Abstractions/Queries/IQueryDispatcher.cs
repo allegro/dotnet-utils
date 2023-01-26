@@ -13,5 +13,5 @@ public interface IQueryDispatcher
     /// </summary>
     /// <typeparam name="TResult">Type of data returned by query</typeparam>
     /// <returns>Query data</returns>
-    Task<TResult> Query<TResult>(IQuery<TResult> query, CancellationToken cancellationToken);
+    Task<TResult> Query<TResult>(Query<TResult> query, CancellationToken cancellationToken);
 }

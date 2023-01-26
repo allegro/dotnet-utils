@@ -5,7 +5,7 @@ namespace Allegro.Extensions.Cqrs.Abstractions.Commands;
 /// <summary>
 /// Marker interface to add handler for command. In most cases changes state.
 /// </summary>
-public interface ICommandHandler<in TCommand> where TCommand : ICommand
+public interface ICommandHandler<in TCommand> where TCommand : Command
 {
     /// <summary>
     /// Handles command request

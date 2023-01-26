@@ -15,7 +15,7 @@ internal sealed class QueryDispatcher : IQueryDispatcher
     public QueryDispatcher(IServiceProvider serviceProvider)
         => _serviceProvider = serviceProvider;
 
-    public async Task<TResult> Query<TResult>(IQuery<TResult> query, CancellationToken cancellationToken)
+    public async Task<TResult> Query<TResult>(Query<TResult> query, CancellationToken cancellationToken)
     {
         // TODO: maybe some configuration to reuse outer scope instead of creating new one
         using var scope = _serviceProvider.CreateScope();
@@ -24,7 +24,7 @@ internal sealed class QueryDispatcher : IQueryDispatcher
         var queryValidators = scope.ServiceProvider.GetServices(validatorType);
 
         var validateMethodInfo = validatorType
-            .GetMethod(nameof(IQueryValidator<IQuery<TResult>>.Validate));
+            .GetMethod(nameof(IQueryValidator<Query<TResult>>.Validate));
 
         if (validateMethodInfo is null)
         {
@@ -57,7 +57,7 @@ internal sealed class QueryDispatcher : IQueryDispatcher
         }
 
         var handleMethodInfo = handlerType
-            .GetMethod(nameof(IQueryHandler<IQuery<TResult>, TResult>.Handle));
+            .GetMethod(nameof(IQueryHandler<Query<TResult>, TResult>.Handle));
 
         if (handleMethodInfo is null)
         {
@@ -78,7 +78,7 @@ internal sealed class QueryDispatcher : IQueryDispatcher
 
 internal class MissingQueryHandlerException<T> : MissingQueryHandlerException
 {
-    public MissingQueryHandlerException(IQuery<T> query) : base($"Missing handler for query {query.GetType().FullName}")
+    public MissingQueryHandlerException(Query<T> query) : base($"Missing handler for query {query.GetType().FullName}")
     {
     }
 }
