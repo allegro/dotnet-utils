@@ -194,7 +194,7 @@ public class CommandsSpec
             return this;
         }
 
-        public CommandDispatcher CommandDispatcher => _provider!.GetRequiredService<CommandDispatcher>();
+        public ICommandDispatcher CommandDispatcher => _provider!.GetRequiredService<ICommandDispatcher>();
 
         public Fixture AddDecorator<TType, TDecorator>()
             where TDecorator : TType

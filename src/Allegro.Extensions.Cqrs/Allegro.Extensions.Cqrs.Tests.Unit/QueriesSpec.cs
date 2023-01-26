@@ -195,7 +195,7 @@ public class QueriesSpec
             return this;
         }
 
-        public QueryDispatcher QueryDispatcher => _provider!.GetRequiredService<QueryDispatcher>();
+        public IQueryDispatcher QueryDispatcher => _provider!.GetRequiredService<IQueryDispatcher>();
 
         public void VerifyQueryWithDecoratorWasHandled(Query testQuery)
         {
