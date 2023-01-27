@@ -10,5 +10,5 @@ public interface ICommandDispatcher
     /// <summary>
     /// Sends command to dispatcher
     /// </summary>
-    Task Send<TCommand>(TCommand command) where TCommand : ICommand;
+    Task Send<TCommand>(TCommand command) where TCommand : Command;
 }

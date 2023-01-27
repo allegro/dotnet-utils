@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Allegro.Extensions.Cqrs.FluentValidations;
 
 internal class FluentCommandValidator<T> : ICommandValidator<T>
-    where T : ICommand
+    where T : Command
 {
     private readonly IServiceProvider _serviceProvider;
 

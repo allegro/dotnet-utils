@@ -8,7 +8,7 @@ In this package our custom implementation of tools and markers are delivered.
 
 ## Allegro.Extensions.Cqrs.Abstractions
 
-Contains common CQRS set of markers and abstractions like `ICommand`, `IQuery<>`, `ICommandDispatcher`, `IQueryDispatcher`, `ICommandHandler`, `IQueryHandler`.
+Contains common CQRS set of markers and abstractions like `Command`, `Query<>`, `ICommandDispatcher`, `IQueryDispatcher`, `ICommandHandler`, `IQueryHandler`.
 
 Additionally we introduce some additional things like [Command and Query Validators](#icommandvalidator-and-iqueryvalidator), or [Fluent Validations](#fluent-validations).
 
@@ -133,5 +133,5 @@ For registrations [Scrutor](https://github.com/khellang/Scrutor) packages is use
 - for learning purposes
 - it is simple code, MediatR is still too much
 - better separation of queries and commands for decorators (IPipelineBehavior doesn't allow for this)
-- ICommand without return type
+- Command without return type
 - Good article why not: https://cezarypiatek.github.io/post/why-i-dont-use-mediatr-for-cqrs/

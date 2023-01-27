@@ -24,7 +24,7 @@ public class QueriesSpec
             var fixture = new Fixture().Build();
             var queryDispatcher = fixture.QueryDispatcher;
 
-            var result = await queryDispatcher.Query(new TestQuery(Guid.NewGuid().ToString()), CancellationToken.None);
+            var result = await queryDispatcher.Query(new TestQuery(), CancellationToken.None);
             result.Should().Be(new TestData("TestData"));
         }
 
@@ -32,12 +32,12 @@ public class QueriesSpec
         public Task When_handler_is_missing_exception_will_be_thrown()
         {
             var queryDispatcher = new Fixture().Build().QueryDispatcher;
-            var act = () => queryDispatcher.Query(new TestQueryNoHandler(Guid.NewGuid().ToString()), CancellationToken.None);
+            var act = () => queryDispatcher.Query(new TestQueryNoHandler(), CancellationToken.None);
 
             return act.Should().ThrowAsync<MissingQueryHandlerException>();
         }
 
-        private record TestQuery(string Id) : IQuery<TestData>;
+        private record TestQuery : Query<TestData>;
 
         private record TestData(string Name);
 
@@ -49,7 +49,7 @@ public class QueriesSpec
             }
         }
 
-        private record TestQueryNoHandler(string Id) : IQuery<TestData>;
+        private record TestQueryNoHandler : Query<TestData>;
     }
 
     public class QueryValidator
@@ -76,10 +76,7 @@ public class QueriesSpec
             fixture.VerifyQueryDecoratorsWereNotExecuted();
         }
 
-        private record NotValidTestQuery : IQuery<int>
-        {
-            public string Id { get; } = Guid.NewGuid().ToString();
-        }
+        private record NotValidTestQuery : Query<int>;
 
         private class TestQueryValidator : IQueryValidator<NotValidTestQuery>
         {
@@ -132,10 +129,7 @@ public class QueriesSpec
             fixture.VerifyQueryWithDecoratorWasHandled(query);
         }
 
-        private record TestQuery : IQuery<int>
-        {
-            public string Id { get; } = Guid.NewGuid().ToString();
-        }
+        private record TestQuery : Query<int>;
 
         private class TestQueryHandler : IQueryHandler<TestQuery, int>
         {
@@ -203,7 +197,7 @@ public class QueriesSpec
 
         public IQueryDispatcher QueryDispatcher => _provider!.GetRequiredService<IQueryDispatcher>();
 
-        public void VerifyQueryWithDecoratorWasHandled(IQuery testQuery)
+        public void VerifyQueryWithDecoratorWasHandled(Query testQuery)
         {
             var expectedLogs = new List<string>()
             {

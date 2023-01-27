@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Allegro.Extensions.Cqrs.Abstractions;
 using Allegro.Extensions.Cqrs.Abstractions.Commands;
@@ -7,10 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Allegro.Extensions.Cqrs.Demo.Commands;
 
-public record BarCommand(string Name) : ICommand
-{
-    public string Id { get; } = Guid.NewGuid().ToString();
-}
+public record BarCommand(string Name) : Command;
 
 internal class BarCommandFluentValidator : AbstractValidator<BarCommand>
 {
