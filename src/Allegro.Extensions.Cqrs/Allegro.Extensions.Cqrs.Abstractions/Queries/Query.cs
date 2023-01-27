@@ -16,4 +16,5 @@ public abstract record Query
 /// <summary>
 /// Cqrs base representation of query.
 /// </summary>
+/// <typeparam name="T">Type of data returned by query</typeparam>
 public abstract record Query<T> : Query;
