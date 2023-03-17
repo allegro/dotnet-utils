@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 
 namespace Allegro.Extensions.Cqrs.Abstractions.Queries;
 
@@ -10,6 +11,7 @@ public abstract record Query
     /// <summary>
     /// Query identifier
     /// </summary>
+    [JsonIgnore]
     public string Id { get; } = Guid.NewGuid().ToString();
 }
 
