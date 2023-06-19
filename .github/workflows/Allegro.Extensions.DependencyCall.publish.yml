@@ -1,0 +1,19 @@
+name: Publish Allegro.Extensions.DependencyCall
+
+on:
+  push:
+    tags:
+      - 'Allegro.Extensions.DependencyCall_*'
+
+jobs:
+  publish:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.DependencyCall
+      solutionName: Allegro.Extensions.DependencyCall
+      publish: true
+      tagName: ${{ github.ref_name }}
+    secrets:
+      nugetCertificate: ${{ secrets.NUGET_PRIVATE_KEY_P12 }}
+      nugetCertificatePassword: ${{ secrets.GPG_PRIVATE_KEY_PASSWORD }}
+      nugetApiKey: ${{ secrets.NUGET_API_KEY }}
