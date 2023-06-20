@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Reflection;
 using Allegro.Extensions.Cqrs.Abstractions;
 using Allegro.Extensions.Cqrs.Abstractions.Queries;

@@ -1,11 +1,11 @@
-using System;
-
 namespace Allegro.Extensions.RateLimiting.Events
 {
     /// <summary>
     /// Event handler delegate for the event of max rate of rate limiter being exceeded.
     /// </summary>
+#pragma warning disable CA1711
     public delegate void MaxRateExceededEventHandler(object sender, MaxRateExceededEventArgs e);
+#pragma warning restore CA1711
 
     /// <summary>
     /// Event arguments for the event of max rate of rate limiter being exceeded.

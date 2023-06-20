@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reflection;
 
 namespace Allegro.Extensions.NullableReferenceTypes.Validators;
@@ -57,8 +54,9 @@ public static class ObjectValidator
             if (!IsNullable(propertyInfo) && value == null)
             {
 #pragma warning disable MA0012
-                throw new NullReferenceException(
-                    $"Object reference ({name}) not set to an instance of an object.");
+#pragma warning disable CA2201
+                throw new NullReferenceException($"Object reference ({name}) not set to an instance of an object.");
+#pragma warning restore CA2201
 #pragma warning restore MA0012
             }
 

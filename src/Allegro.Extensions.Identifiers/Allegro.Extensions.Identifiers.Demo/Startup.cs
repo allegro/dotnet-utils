@@ -1,7 +1,4 @@
 using Allegro.Extensions.Identifiers.AspNetCore.Swagger;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Allegro.Extensions.Identifiers.Demo
 {

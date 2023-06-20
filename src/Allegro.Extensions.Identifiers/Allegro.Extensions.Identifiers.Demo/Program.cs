@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-
 namespace Allegro.Extensions.Identifiers.Demo
 {
     public static class Program

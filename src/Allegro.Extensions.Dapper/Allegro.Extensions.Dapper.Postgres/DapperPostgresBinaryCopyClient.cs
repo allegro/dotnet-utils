@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Allegro.Extensions.Dapper.Postgres.Abstractions;
 using Allegro.Extensions.Dapper.Postgres.Exceptions;
 using Allegro.Extensions.Dapper.Postgres.Factories;

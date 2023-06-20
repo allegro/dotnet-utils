@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Allegro.Extensions.Financials.Extensions;
 using Allegro.Extensions.Financials.ValueObjects;
 using FluentAssertions;

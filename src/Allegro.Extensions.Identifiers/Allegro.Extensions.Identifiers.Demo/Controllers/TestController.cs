@@ -1,4 +1,3 @@
-using System;
 using Allegro.Extensions.Identifiers.Demo.Identifiers;
 using Microsoft.AspNetCore.Mvc;
 

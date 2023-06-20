@@ -1,10 +1,6 @@
-using System;
 using Allegro.Extensions.AspNetCore.Demo.Controllers;
 using Allegro.Extensions.AspNetCore.ErrorHandling;
 using Allegro.Extensions.AspNetCore.Extensions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Allegro.Extensions.AspNetCore.Demo
 {

@@ -1,4 +1,3 @@
-using System;
 using Allegro.Extensions.Dapper.Abstractions;
 using Allegro.Extensions.Dapper.Configurations;
 using Allegro.Extensions.Dapper.Postgres.Abstractions;

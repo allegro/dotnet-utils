@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Allegro.Extensions.Cqrs.Abstractions;
 using Allegro.Extensions.Cqrs.Abstractions.Commands;
 using FluentValidation;
@@ -40,7 +39,9 @@ internal class BarCommandHandler : ICommandHandler<BarCommand>
 
     public Task Handle(BarCommand command)
     {
+#pragma warning disable CA1848
         _logger.LogInformation("Handle Bar");
+#pragma warning restore CA1848
         return Task.CompletedTask;
     }
 }
@@ -59,8 +60,10 @@ internal class BarCommandHandlerDecorator : ICommandHandler<BarCommand>
 
     public async Task Handle(BarCommand command)
     {
+#pragma warning disable CA1848
         _logger.LogInformation("Before handle");
         await _decorated.Handle(command);
         _logger.LogInformation("After handle");
+#pragma warning restore CA1848
     }
 }

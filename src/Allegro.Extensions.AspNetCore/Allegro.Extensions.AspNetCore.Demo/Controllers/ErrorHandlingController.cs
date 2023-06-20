@@ -1,8 +1,6 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Allegro.Extensions.AspNetCore.ErrorHandling;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Allegro.Extensions.AspNetCore.Demo.Controllers;
@@ -14,7 +12,9 @@ public class ErrorHandlingController : ControllerBase
     [HttpGet("default")]
     public IActionResult Default()
     {
+#pragma warning disable CA2201
         throw new Exception("Default error handling for not mapped exception");
+#pragma warning restore CA2201
     }
 
     [HttpGet("validationException")]

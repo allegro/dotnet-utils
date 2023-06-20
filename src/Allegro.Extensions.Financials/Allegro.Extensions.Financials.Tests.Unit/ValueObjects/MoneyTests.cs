@@ -1,10 +1,12 @@
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Allegro.Extensions.Financials.ValueObjects;
 using FluentAssertions;
 using Xunit;
 
 namespace Allegro.Extensions.Financials.Tests.Unit.ValueObjects;
 
+[SuppressMessage("Performance", "CA1825:Avoid zero-length array allocations", Justification = "Test class")]
+[SuppressMessage("Performance", "MA0005:Use Array.Empty<T>()", Justification = "Test class")]
 public class MoneyTests
 {
     public static IEnumerable<object?[]> DataValidAddMoney => new[]

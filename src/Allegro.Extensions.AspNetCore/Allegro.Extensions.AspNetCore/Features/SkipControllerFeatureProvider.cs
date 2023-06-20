@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Allegro.Extensions.AspNetCore.Attributes;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;

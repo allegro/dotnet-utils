@@ -1,4 +1,3 @@
-using System;
 using Allegro.Extensions.AspNetCore.ErrorHandling.Internals;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;

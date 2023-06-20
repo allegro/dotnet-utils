@@ -55,9 +55,11 @@ internal class BarQueryHandlerDecorator : IQueryHandler<BarQuery, BarData>
 
     public async Task<BarData> Handle(BarQuery query, CancellationToken cancellationToken)
     {
+#pragma warning disable CA1848
         _logger.LogInformation("Before handle");
         var result = await _decorated.Handle(query, cancellationToken);
         _logger.LogInformation("After handle");
+#pragma warning restore CA1848
         return result;
     }
 }

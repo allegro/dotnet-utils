@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Allegro.Extensions.AspNetCore.ErrorHandling;
 using Allegro.Extensions.AspNetCore.ErrorHandling.Internals;
 using FluentAssertions;
@@ -14,6 +9,7 @@ using Xunit;
 
 namespace Allegro.Extensions.AspNetCore.Tests.Unit.ErrorHandling;
 
+[SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Test purposes")]
 public class ErrorHandlingMiddlewareTests
 {
     [Fact]
