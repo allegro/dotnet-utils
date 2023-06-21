@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Dependen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.DependencyCall.Tests.Unit", "Allegro.Extensions.DependencyCall.Tests.Unit\Allegro.Extensions.DependencyCall.Tests.Unit.csproj", "{1150B88B-C4B7-4D11-B689-ADB0AD2AACD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.DependencyCall.Abstractions", "Allegro.Extensions.DependencyCall.Abstractions\Allegro.Extensions.DependencyCall.Abstractions.csproj", "{D04612EF-C500-488B-A8E6-8F334811C6E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.DependencyCall.Metrics.Prometheus", "Allegro.Extensions.DependencyCall.Metrics.Prometheus\Allegro.Extensions.DependencyCall.Metrics.Prometheus.csproj", "{17E119E6-6DA2-451B-84B5-890A36EE0221}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{1150B88B-C4B7-4D11-B689-ADB0AD2AACD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1150B88B-C4B7-4D11-B689-ADB0AD2AACD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1150B88B-C4B7-4D11-B689-ADB0AD2AACD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D04612EF-C500-488B-A8E6-8F334811C6E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D04612EF-C500-488B-A8E6-8F334811C6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D04612EF-C500-488B-A8E6-8F334811C6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D04612EF-C500-488B-A8E6-8F334811C6E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17E119E6-6DA2-451B-84B5-890A36EE0221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17E119E6-6DA2-451B-84B5-890A36EE0221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17E119E6-6DA2-451B-84B5-890A36EE0221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17E119E6-6DA2-451B-84B5-890A36EE0221}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,25 +1,5 @@
-/* The MIT License (MIT)
-
-Copyright (c) 2016 andrewlock
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE. */
-
+using System.Reflection;
+using Allegro.Extensions.DependencyCall.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Allegro.Extensions.DependencyCall;
@@ -32,10 +12,77 @@ public static class StartupExtensions
     /// <summary>
     /// Register dependency call abstractions and scan to register usages;
     /// </summary>
-    public static IServiceCollection AddDependencyCall<TOptions>(
-        this IServiceCollection services)
-        where TOptions : class
+    public static IServiceCollection AddDependencyCall(
+        this IServiceCollection services,
+        Action<DependencyCallBuilder>? configureDependencyCall = null,
+        IReadOnlyCollection<Assembly>? applicationAssemblies = null)
     {
-        return services;
+        var builder = new DependencyCallBuilder(services);
+        configureDependencyCall?.Invoke(builder);
+        builder.Build();
+
+        services.Scan(
+            s => s
+                .FromAssemblies(
+                    applicationAssemblies ??
+                    AppDomain.CurrentDomain.GetAssemblies()) // TODO: remove scrutor and register by own util
+                .AddClasses(c => c.AssignableTo(typeof(IDependencyCall<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
+        return services
+            .AddSingleton<IDependencyCallDispatcher, DefaultDependencyCallDispatcher>();
+    }
+}
+
+/// <summary>
+/// Builder class to compose DependencyCall pipeline
+/// </summary>
+public sealed class DependencyCallBuilder
+{
+    /// <summary>
+    /// Collection of services
+    /// </summary>
+    public IServiceCollection Services { get; }
+
+    private Type _dependencyCallMetricsType = typeof(NoOppDependencyCallMetrics);
+    private IDependencyCallMetrics? _dependencyCallMetricsInstance;
+
+    /// <summary>
+    /// Default ctor
+    /// </summary>
+    public DependencyCallBuilder(IServiceCollection services)
+    {
+        Services = services;
+    }
+
+    /// <summary>
+    /// Allows to register custom IDependencyCallMetrics type
+    /// </summary>
+    /// <typeparam name="T">IDependencyCallMetrics</typeparam>
+    public DependencyCallBuilder WithDependencyCallMetrics<T>() where T : IDependencyCallMetrics
+    {
+        _dependencyCallMetricsType = typeof(T);
+        return this;
+    }
+
+    /// <summary>
+    /// Allows to register custom IDependencyCallMetrics instance
+    /// </summary>
+    public DependencyCallBuilder WithDependencyCallMetrics(IDependencyCallMetrics dependencyCallMetrics)
+    {
+        _dependencyCallMetricsInstance = dependencyCallMetrics;
+        return this;
+    }
+
+    internal void Build()
+    {
+        if (_dependencyCallMetricsInstance is not null)
+        {
+            Services.AddSingleton<IDependencyCallMetrics>(sp => _dependencyCallMetricsInstance);
+        }
+        else
+        {
+            Services.AddSingleton(typeof(IDependencyCallMetrics), _dependencyCallMetricsType);
+        }
     }
 }
