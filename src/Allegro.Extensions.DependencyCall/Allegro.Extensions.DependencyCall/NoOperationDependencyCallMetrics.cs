@@ -2,7 +2,7 @@ using Allegro.Extensions.DependencyCall.Abstractions;
 
 namespace Allegro.Extensions.DependencyCall;
 
-internal class NoOppDependencyCallMetrics : IDependencyCallMetrics
+internal class NoOperationDependencyCallMetrics : IDependencyCallMetrics
 {
     private static readonly NoOpTimer NoOpTimerInstance = new NoOpTimer();
     public void Requested(IRequest request)

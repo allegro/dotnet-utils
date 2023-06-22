@@ -44,7 +44,7 @@ public sealed class DependencyCallBuilder
     /// </summary>
     public IServiceCollection Services { get; }
 
-    private Type _dependencyCallMetricsType = typeof(NoOppDependencyCallMetrics);
+    private Type _dependencyCallMetricsType = typeof(NoOperationDependencyCallMetrics);
     private IDependencyCallMetrics? _dependencyCallMetricsInstance;
 
     /// <summary>
