@@ -18,6 +18,8 @@ Please refer to [Contributing guideline](CONTRIBUTING.md) for details.
   This library contains useful utilities for simpler usage of Dapper library.
 - [Allegro.Extensions.Dapper.Postgres](src/Allegro.Extensions.Dapper)  
   This library contains useful utilities for simpler usage for Postgres database with Dapper library.
+- [Allegro.Extensions.DependencyCall](src/Allegro.Extensions.DependencyCall)  
+  The purpose of this package is to standardize a way of calling external dependencies and push developers to think about ways of dealing with some issues related to each external call.
 - [Allegro.Extensions.Financials](src/Allegro.Extensions.Financials)  
   Contains money value object and currency.
 - [Allegro.Extensions.Globalization](src/Allegro.Extensions.Globalization)  
