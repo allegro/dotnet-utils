@@ -1,10 +1,10 @@
-# Allegro.Extensions.DependencyCall 
+# Allegro.Extensions.DependencyCall
 
 ## Problem statement
 
-Purpose of this package is to standardize a way of calling external dependencies and push developers to think about way of dealing with some issues related to each external call.
+The purpose of this package is to standardize a way of calling external dependencies and push developers to think about ways of dealing with some issues related to each external call.
 
-In most cases developers creates something like:
+In most cases, developers create something like:
 
 ```c#
 public class ExternalService
@@ -35,36 +35,36 @@ public class ExternalService
 }
 ```
 
-Of course some of developers will additionally solve common network related issues (fallacies of distributed computing) like:
+Of course, some developers will additionally solve common network-related issues (fallacies of distributed computing) like:
 - handle exceptions on serialization/deserialization
 - add Polly to handle transient errors
 - add logging of kind
-- change default timeout to more user friendly
+- change default timeout to a more user friendly
 
-More experienced developers might even add:
-- some metrics to be able to observe dependency behaviour
+In advanced solutions we even might find:
+- some metrics to be able to observe dependency behavior
 - introduce business fallbacks if possible with monitoring
 
-Last issue related to this approach is assumption, that this service has single responsibility (purpose) to call external service.
-From technical point of view, probably we can say so. 
-However, from business/application logic perspective each call will have different behaviour for aspects like:
-- time to process 
-  - can wait longer for save than read data; 
-  - depending on business case different timeout might be applied;
+The last issue related to this approach is an assumption, that this service has single responsibility (purpose) to call external service.
+From a technical point of view, probably we can say so.
+However, from a business/application logic perspective, each call will have different behavior for aspects like:
+- time to process
+    - can wait longer for save than read data;
+    - depending on the business case different timeout might be applied;
 - error handling strategy
-  - do we support idempotency; 
-  - maybe we are able to wait longer and retry in some processes and can't in others;
-- fallback strategy 
-  - we can fallback GET more likely than POST; 
-  - in some cases we can fallback even missing data or outage of database; 
-  - depends on business case same api method might be fallback differently;
-- usage purpose 
-  - some api can expose multiple functionalities for different purposes and mixing them might be hard for user to learn which should be used in his scenario;
+    - do we support idempotency;
+    - maybe we can wait longer and retry in some processes and can't in others;
+- fallback strategy
+    - we can fallback GET more likely than POST;
+    - in some cases, we can fallback even if missing data or an outage of a database;
+    - depending on the business case same API method might be fallback differently;
+- usage purpose
+    - some APIs can expose multiple functionalities for different purposes and mixing them might be hard for the user to learn which should be used in his scenario;
 
 
 ## Basic usage
 
-Main part of this packages is `DependencyCall` abstraction. Basic usage is:
+The main part of this package is the `DependencyCall` abstraction. Basic usage is:
 
 ```c#
 public class SampleDependencyCall : DependencyCall<SampleRequestData, SampleResponseData>
@@ -87,10 +87,10 @@ public record SampleResponseData(string Data);
 
 We need to implement:
 
-- `Execute` - in most cases `httpClient` call to external dependency or any I/O related calls
-- `Fallback` - how we should handle errors when they occurs
+- `Execute` - in most cases `httpClient` call to external dependency or any I/O-related calls
+- `Fallback` - how we should handle errors when they occur
 
-To use it we need to execute use `IDependencyCallDispatcher.Dispatch` api. 
+To use it we need to execute `IDependencyCallDispatcher.Dispatch` API.
 
 ```c#
 public class ApplictionLogic
@@ -109,9 +109,10 @@ public class ApplictionLogic
 }
 ```
 
-We decided to use mediator pattern to be able to:
+We decided to use a mediator pattern to be able to:
 - automatically register all `DependencyCall` implementations and resolve dependencies with `ServiceProvider`
-- separate application logic layer (abstractions like `IDependencyCallDispatcher`, `IRequest` used ) from infrastructure (ex. httpClient, entity framework) 
+- separate application logic layer (abstractions like `IDependencyCallDispatcher`, and `IRequest` used ) from infrastructure (ex. httpClient, entity framework)
+- have a possibility to extend the pipeline in the future with some cross-cutting things like logging (log issues or enrich logs);
 
 To register tool you need to:
 
@@ -122,25 +123,25 @@ services
     )
 ```
 
-`assemblies` is optional collection of your application code, that will be scanned with `Scrutor` to register all `DependencyCall` instances.
+`assemblies` is an optional collection of your application code base, that will be scanned with `Scrutor` to register all `DependencyCall` instances.
 If not provided it will scan code from `AppDomain.CurrentDomain`.
 
 ### Advanced usage
 
-`DependencyCall` api delivers some additional concepts that should be considered by developers.
+`DependencyCall` API delivers some additional concepts that should be considered by developers.
 
 **Call timeout**
 
-We are using `CancellationToken` approach. It is possible to deliver external `CancellationToken` (ex. from api request):
+We are using the `CancellationToken` approach. It is possible to deliver external `CancellationToken` (ex. from API request):
 
 ```c#
 Task<TResponse> Dispatch<TResponse>(IRequest<TResponse> request, CancellationToken? cancellationToken = null);
 ```
 
-By default we assume that operations longer than **5 seconds** from user perspective are too long and call will be cancelled after this time.
-Of course this cancellation token is passed to `Execute` and `Fallback` method so it is developer decision at the end.
+By default, we assume that operations longer than **5 seconds** from the user perspective are too long and the call will be canceled after this time.
+The cancellation token is passed to the `Execute` and `Fallback` methods so it is the developer's decision in the end.
 
-To change default timeout value:
+To change the default timeout value:
 
 ```c#
 protected override TimeSpan CancelAfter { get; } = TimeSpan.FromSeconds(10);
@@ -148,9 +149,9 @@ protected override TimeSpan CancelAfter { get; } = TimeSpan.FromSeconds(10);
 
 **Retry policy**
 
-By default we assume that we are not able to deliver any kind of retry policy. It takes to many possibilities and decisions that are known only by developer.
+By default, we assume that we are not able to deliver any kind of retry policy. It takes too many possibilities and decisions that are known only by developers.
 
-To give possibility to set custom policy we decide to use `Polly` library and expose api in `DependencyCall`:
+To give the possibility to set custom policy we decide to use the `Polly` library and expose API in `DependencyCall`:
 
 ```c#
 protected override IAsyncPolicy<SampleResponseData> CustomPolicy(CancellationToken cancellationToken)
@@ -165,8 +166,8 @@ protected override IAsyncPolicy<SampleResponseData> CustomPolicy(CancellationTok
 
 ## Metrics
 
-Each `DependencyCall` should be threaten as possible risk of failure. That means that we should be able to monitor all issues or fallback usage increase.
-For that purpose we deliver `IDependencyCallMetrics` api:
+Each `DependencyCall` should be threatened as a possible risk of failure. That means that we should be able to monitor all issues or fallback usage increases.
+For that purpose, we deliver `IDependencyCallMetrics` API:
 
 ```c#
 public interface IDependencyCallMetrics
@@ -198,12 +199,12 @@ public interface IDependencyCallMetrics
 }
 ```
 
-By default we deliver `NoOppDependencyCallMetrics` that might be replaced with your own metrics solution with
-`DependencyCallBuilder.WithDependencyCallMetrics` api.
+By default, we deliver `NoOppDependencyCallMetrics` that might be replaced with your own metrics solution with
+`DependencyCallBuilder.WithDependencyCallMetrics` API.
 
 ### Allegro.Extensions.DependencyCall.Metrics.Prometheus
 
-Prometheus is the mostly used metrics tool in Allegro. For that reason we deliver extension package that will implement `IDependencyCallMetrics` with `prometheus-net` library.
+Prometheus is the most used metrics tool in Allegro. For that reason, we deliver an extension package that will implement `IDependencyCallMetrics` with the `prometheus-net` library.
 
 To use it you need only to register it via `DependencyCallBuilder`:
 
@@ -215,7 +216,7 @@ services
             builder => builder
                 .RegisterPrometheusDependencyCallMetrics(applicationName: "app1"))
 ```
-where `applicationName` will be prefix for conventional metrics name, ex:
+where `applicationName` will be a prefix for conventional metrics name, ex:
 - app1_dependency_call_duration_metrics_sum
 - app1_dependency_call_duration_metrics_count
 - app1_dependency_call_duration_metrics_bucket
