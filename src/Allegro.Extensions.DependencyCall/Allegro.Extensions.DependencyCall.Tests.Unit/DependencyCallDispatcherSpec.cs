@@ -65,7 +65,7 @@ public class DependencyCallDispatcherSpec
                         WaitingTimeInSeconds: 1,
                         DefaultTimeoutInMs: 100))
                 .Build();
-            var act = () => fixture.Dispatcher.Dispatch(new TestRequest("testRequest"));
+            var act = () => fixture.Dispatcher.Dispatch(new TestRequestTimeout("testRequest"));
 
             await act.Should().ThrowAsync<TimeoutRejectedException>();
         }
@@ -78,9 +78,7 @@ public class DependencyCallDispatcherSpec
                 .WithConfiguration(
                     new TestCallConfiguration(
                         testResponse,
-                        ShouldThrowOnError: true,
-                        WaitingTimeInSeconds: 1,
-                        DefaultTimeoutInMs: 100))
+                        ShouldThrowOnError: true))
                 .Build();
             var cancellationToken = new CancellationTokenSource(TimeSpan.Zero).Token;
 
@@ -107,7 +105,7 @@ public class DependencyCallDispatcherSpec
                                 return Task.FromResult(testResponse);
                             })))
                 .Build();
-            var response = await fixture.Dispatcher.Dispatch(new TestRequest("testRequest"));
+            var response = await fixture.Dispatcher.Dispatch(new TestRequestCustomPolicy("testRequest"));
 
             response.Should().Be(testResponse);
             customPolicyUsed.Should().BeTrue();
@@ -211,16 +209,16 @@ public class DependencyCallDispatcherSpec
         int? DefaultTimeoutInMs = null,
         Exception? FallbackException = null);
 
-    private class TestCall : DependencyCall<TestRequest, TestResponse>
+    private abstract class TestCallBase<TRequest> : DependencyCall<TRequest, TestResponse> where TRequest : IRequest<TestResponse>
     {
         private readonly TestCallConfiguration _configuration;
 
-        public TestCall(TestCallConfiguration configuration)
+        protected TestCallBase(TestCallConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        protected override async Task<TestResponse> Execute(TestRequest request, CancellationToken cancellationToken)
+        protected override async Task<TestResponse> Execute(TRequest request, CancellationToken cancellationToken)
         {
             if (_configuration.Exception is not null)
             {
@@ -232,7 +230,7 @@ public class DependencyCallDispatcherSpec
         }
 
         protected override Task<FallbackResult> Fallback(
-            TestRequest request,
+            TRequest request,
             Exception exception,
             CancellationToken cancellationToken)
         {
@@ -246,10 +244,37 @@ public class DependencyCallDispatcherSpec
                     ? FallbackResult.NotSupported
                     : FallbackResult.FromValue(_configuration.Response));
         }
+    }
+
+    private class TestCall : TestCallBase<TestRequest>
+    {
+        public TestCall(TestCallConfiguration configuration) : base(configuration)
+        {
+        }
+    }
+
+    private class TestCallTimeout : TestCallBase<TestRequestTimeout>
+    {
+        private readonly TestCallConfiguration _configuration;
+
+        public TestCallTimeout(TestCallConfiguration configuration) : base(configuration)
+        {
+            _configuration = configuration;
+        }
 
         protected override TimeSpan CancelAfter => _configuration.DefaultTimeoutInMs is null
             ? base.CancelAfter
             : TimeSpan.FromMilliseconds(_configuration.DefaultTimeoutInMs.Value);
+    }
+
+    private class TestCallCustomPolicy : TestCallBase<TestRequestCustomPolicy>
+    {
+        private readonly TestCallConfiguration _configuration;
+
+        public TestCallCustomPolicy(TestCallConfiguration configuration) : base(configuration)
+        {
+            _configuration = configuration;
+        }
 
         protected override IAsyncPolicy<TestResponse> CustomPolicy =>
             _configuration.CustomPolicy ?? base.CustomPolicy;
@@ -260,6 +285,8 @@ public class DependencyCallDispatcherSpec
     }
 
     private record TestRequest(string Data) : IRequest<TestResponse>;
+    private record TestRequestTimeout(string Data) : IRequest<TestResponse>;
+    private record TestRequestCustomPolicy(string Data) : IRequest<TestResponse>;
 
     private record TestResponse(string Data);
 }

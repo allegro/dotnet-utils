@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using Allegro.Extensions.DependencyCall.Abstractions;
 using Polly;
@@ -81,10 +82,15 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
         }
     }
 
+    private static readonly ConcurrentDictionary<string, IAsyncPolicy<TResponse>> Policies = new();
+
     private IAsyncPolicy<TResponse> BuildPolicy(IAsyncPolicy<TResponse> customPolicy)
     {
-        // TODO: for optimization think to store built policy in memory?
-        return Policy.TimeoutAsync<TResponse>(CancelAfter, TimeoutStrategy.Pessimistic).WrapAsync(customPolicy);
+        var dependencyCallPolicyKey = GetType().FullName!;
+
+        return Policies.GetOrAdd(
+            dependencyCallPolicyKey,
+            _ => Policy.TimeoutAsync<TResponse>(CancelAfter, TimeoutStrategy.Pessimistic).WrapAsync(customPolicy));
     }
 
     /// <summary>
@@ -107,25 +113,14 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
     private static readonly IAsyncPolicy<TResponse> NoOperation = Policy.NoOpAsync<TResponse>();
 
     /// <summary>
-    /// Allows to preset custom retry policy (based on Polly). The custom policy should not be build at each execution. As instance of dependency call is transient if possible try to make this static.
+    /// Allows to preset custom retry policy (based on Polly). The policy is build at first usage so should be static. Not able to reconfigure in runtime.
     /// </summary>
-    protected virtual IAsyncPolicy<TResponse> CustomPolicy { get; } = NoOperation;
+    protected virtual IAsyncPolicy<TResponse> CustomPolicy => NoOperation;
 
     /// <summary>
-    /// Allows to set own timeout for call.
+    /// Allows to set own timeout for call. The policy is build at first usage so timeout is set only once. Not able to reconfigure in runtime.
     /// </summary>
     protected virtual TimeSpan CancelAfter => TimeSpan.FromSeconds(DefaultCancelCallAfterSeconds);
-
-    /// <summary>
-    /// Expose possible actions when error occurs, by default fallback logic will be used
-    /// </summary>
-#pragma warning disable CS1591
-    protected enum ShouldThrowOnError
-    {
-        Yes = 1,
-        No = 2
-    }
-#pragma warning restore CS1591
 }
 
 /// <summary>
