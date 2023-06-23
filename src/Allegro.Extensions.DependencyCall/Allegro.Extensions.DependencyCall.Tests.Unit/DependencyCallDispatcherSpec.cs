@@ -54,7 +54,7 @@ public class DependencyCallDispatcherSpec
         }
 
         [Fact]
-        public async Task Default_timeout_should_be_set_for_cacnellation()
+        public async Task Able_to_set_timeout()
         {
             var testResponse = new TestResponse("testResponseFallback");
             var fixture = new Fixture()
