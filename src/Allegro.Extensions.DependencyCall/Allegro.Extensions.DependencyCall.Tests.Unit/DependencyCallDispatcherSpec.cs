@@ -3,6 +3,7 @@ using Allegro.Extensions.DependencyCall.Metrics.Prometheus;
 using FluentAssertions;
 using Moq;
 using Polly;
+using Polly.Timeout;
 using Xunit;
 
 namespace Allegro.Extensions.DependencyCall.Tests.Unit;
@@ -66,7 +67,26 @@ public class DependencyCallDispatcherSpec
                 .Build();
             var act = () => fixture.Dispatcher.Dispatch(new TestRequest("testRequest"));
 
-            await act.Should().ThrowAsync<TaskCanceledException>();
+            await act.Should().ThrowAsync<TimeoutRejectedException>();
+        }
+
+        [Fact]
+        public async Task Not_execute_if_cancellation_token_cancelled()
+        {
+            var testResponse = new TestResponse("testResponseFallback");
+            var fixture = new Fixture()
+                .WithConfiguration(
+                    new TestCallConfiguration(
+                        testResponse,
+                        ShouldThrowOnError: true,
+                        WaitingTimeInSeconds: 1,
+                        DefaultTimeoutInMs: 100))
+                .Build();
+            var cancellationToken = new CancellationTokenSource(TimeSpan.Zero).Token;
+
+            var act = () => fixture.Dispatcher.Dispatch(new TestRequest("testRequest"), cancellationToken);
+
+            await act.Should().ThrowAsync<OperationCanceledException>();
         }
 
         [Fact]

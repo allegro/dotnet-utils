@@ -9,7 +9,7 @@ internal interface IDependencyCall<in TRequest, TResponse> where TRequest : IReq
     Task<TResponse> Run(
         TRequest request,
         IDependencyCallMetrics dependencyCallMetrics,
-        CancellationToken? cancellationToken = null);
+        CancellationToken cancellationToken);
 }
 
 #pragma warning disable MA0049
@@ -27,25 +27,22 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
     async Task<TResponse> IDependencyCall<TRequest, TResponse>.Run(
         TRequest request,
         IDependencyCallMetrics dependencyCallMetrics,
-        CancellationToken? cancellationToken)
+        CancellationToken cancellationToken)
     {
-        using var cancellationTokenSource = new CancellationTokenSource();
-        cancellationTokenSource.CancelAfter(CancelAfter);
-        cancellationToken ??= cancellationTokenSource.Token;
-
-        var policy = CustomPolicy(cancellationToken.Value);
+        var policy = BuildPolicy(CustomPolicy(cancellationToken));
 
         var dependencyCallTimer = new Stopwatch();
         dependencyCallTimer.Start();
         try
         {
-            var response = await policy.ExecuteAsync(token => Execute(request, token), cancellationToken.Value);
+            cancellationToken.ThrowIfCancellationRequested();
+            var response = await policy.ExecuteAsync(token => Execute(request, token), cancellationToken);
             dependencyCallMetrics.Succeeded(request, dependencyCallTimer);
             return response;
         }
         catch (Exception exception)
         {
-            var fallbackValue = await Fallback(request, exception, cancellationToken.Value);
+            var fallbackValue = await Fallback(request, exception, cancellationToken);
             if (fallbackValue.ShouldThrowOnError == ShouldThrowOnError.Yes)
             {
                 dependencyCallMetrics.Failed(request, exception, dependencyCallTimer);
@@ -59,6 +56,11 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
         {
             dependencyCallTimer.Stop();
         }
+    }
+
+    private IAsyncPolicy<TResponse> BuildPolicy(IAsyncPolicy<TResponse> customPolicy)
+    {
+        return Policy.TimeoutAsync<TResponse>(CancelAfter).WrapAsync(customPolicy);
     }
 
     /// <summary>

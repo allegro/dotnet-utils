@@ -11,5 +11,5 @@ public interface IDependencyCallDispatcher
     /// <param name="request">Request data</param>
     /// <param name="cancellationToken">Optional cancellation token. If null default cancellation policy will be used</param>
     /// <typeparam name="TResponse">Type of response data</typeparam>
-    Task<TResponse> Dispatch<TResponse>(IRequest<TResponse> request, CancellationToken? cancellationToken = null);
+    Task<TResponse> Dispatch<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default);
 }

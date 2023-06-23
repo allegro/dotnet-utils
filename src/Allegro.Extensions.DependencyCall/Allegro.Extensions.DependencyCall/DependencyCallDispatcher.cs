@@ -10,7 +10,7 @@ internal class DefaultDependencyCallDispatcher : IDependencyCallDispatcher
 
     public DefaultDependencyCallDispatcher(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-    public async Task<TResponse> Dispatch<TResponse>(IRequest<TResponse> request, CancellationToken? cancellationToken = null)
+    public async Task<TResponse> Dispatch<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         using var scope = _serviceProvider.CreateScope();
 
