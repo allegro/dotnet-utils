@@ -17,4 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.DependencyCall.Abstractions\Allegro.Extensions.DependencyCall.Abstractions.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Allegro.Extensions.DependencyCall.Tests.Unit" />
+  </ItemGroup>
 </Project>

@@ -112,6 +112,23 @@ public class DependencyCallDispatcherSpec
             response.Should().Be(testResponse);
             customPolicyUsed.Should().BeTrue();
         }
+
+        [Fact]
+        public async Task On_fallback_error_wrapped_excpetion_should_be_thrown()
+        {
+            var testResponse = new TestResponse("testResponseFallback");
+            var fixture = new Fixture()
+                .WithConfiguration(
+                    new TestCallConfiguration(
+                        testResponse,
+                        ShouldThrowOnError: true,
+                        Exception: new TestException(),
+                        FallbackException: new TestException()))
+                .Build();
+            var act = () => fixture.Dispatcher.Dispatch(new TestRequest("testRequest"));
+
+            await act.Should().ThrowAsync<FallbackExecutionException>();
+        }
     }
 
     public class DependencyCallMetrics
@@ -191,7 +208,8 @@ public class DependencyCallDispatcherSpec
         Exception? Exception = null,
         IAsyncPolicy<TestResponse>? CustomPolicy = null,
         int WaitingTimeInSeconds = 0,
-        int? DefaultTimeoutInMs = null);
+        int? DefaultTimeoutInMs = null,
+        Exception? FallbackException = null);
 
     private class TestCall : DependencyCall<TestRequest, TestResponse>
     {
@@ -218,6 +236,11 @@ public class DependencyCallDispatcherSpec
             Exception exception,
             CancellationToken cancellationToken)
         {
+            if (_configuration.FallbackException is not null)
+            {
+                throw _configuration.FallbackException;
+            }
+
             return Task.FromResult(
                 (
                     ShouldThrowOnError: _configuration.ShouldThrowOnError

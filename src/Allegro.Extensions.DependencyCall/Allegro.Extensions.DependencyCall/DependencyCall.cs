@@ -42,19 +42,40 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
         }
         catch (Exception exception)
         {
-            var fallbackValue = await Fallback(request, exception, cancellationToken);
-            if (fallbackValue.ShouldThrowOnError == ShouldThrowOnError.Yes)
+            var fallbackResult = await TryFallback(request, exception, cancellationToken);
+
+            if (fallbackResult.ShouldThrowOnError == ShouldThrowOnError.Yes)
             {
                 dependencyCallMetrics.Failed(request, exception, dependencyCallTimer);
+
+                if (fallbackResult.FallbackException is not null)
+                {
+                    throw new FallbackExecutionException(request, exception);
+                }
+
                 throw;
             }
 
             dependencyCallMetrics.Fallback(request, dependencyCallTimer);
-            return fallbackValue.Response;
+            return fallbackResult.Response!;
         }
         finally
         {
             dependencyCallTimer.Stop();
+        }
+    }
+
+    private async Task<(ShouldThrowOnError ShouldThrowOnError, TResponse? Response, Exception? FallbackException)>
+        TryFallback(TRequest request, Exception exception, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var (shouldThrowOnError, response) = await Fallback(request, exception, cancellationToken);
+            return (shouldThrowOnError, response, null);
+        }
+        catch (Exception fallbackException)
+        {
+            return (ShouldThrowOnError.Yes, default, fallbackException);
         }
     }
 
@@ -101,4 +122,13 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
         No = 2
     }
 #pragma warning restore CS1591
+}
+
+internal class FallbackExecutionException : Exception
+{
+    public FallbackExecutionException(IRequest request, Exception dependencyCallException) : base(
+        $"Error while executing fallback logic for request {request.GetType().Name}",
+        dependencyCallException)
+    {
+    }
 }
