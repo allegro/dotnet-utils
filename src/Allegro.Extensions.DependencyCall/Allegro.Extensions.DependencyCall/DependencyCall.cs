@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Allegro.Extensions.DependencyCall.Abstractions;
 using Polly;
+using Polly.Timeout;
 
 namespace Allegro.Extensions.DependencyCall;
 
@@ -81,7 +82,7 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
 
     private IAsyncPolicy<TResponse> BuildPolicy(IAsyncPolicy<TResponse> customPolicy)
     {
-        return Policy.TimeoutAsync<TResponse>(CancelAfter).WrapAsync(customPolicy);
+        return Policy.TimeoutAsync<TResponse>(CancelAfter, TimeoutStrategy.Pessimistic).WrapAsync(customPolicy);
     }
 
     /// <summary>
