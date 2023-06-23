@@ -45,20 +45,21 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
         {
             var fallbackResult = await TryFallback(request, exception, cancellationToken);
 
-            if (fallbackResult.ShouldThrowOnError == ShouldThrowOnError.Yes)
+            switch (fallbackResult.Result)
             {
-                dependencyCallMetrics.Failed(request, exception, dependencyCallTimer);
+                case FallbackResult.ValueResult<TResponse> result:
+                    dependencyCallMetrics.Fallback(request, dependencyCallTimer);
+                    return result.Value;
 
-                if (fallbackResult.FallbackException is not null)
-                {
-                    throw new FallbackExecutionException(request, exception);
-                }
+                default:
+                    dependencyCallMetrics.Failed(request, exception, dependencyCallTimer);
+                    if (fallbackResult.FallbackException is not null)
+                    {
+                        throw new FallbackExecutionException(request, exception);
+                    }
 
-                throw;
+                    throw;
             }
-
-            dependencyCallMetrics.Fallback(request, dependencyCallTimer);
-            return fallbackResult.Response!;
         }
         finally
         {
@@ -66,17 +67,17 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
         }
     }
 
-    private async Task<(ShouldThrowOnError ShouldThrowOnError, TResponse? Response, Exception? FallbackException)>
+    private async Task<(FallbackResult Result, Exception? FallbackException)>
         TryFallback(TRequest request, Exception exception, CancellationToken cancellationToken)
     {
         try
         {
-            var (shouldThrowOnError, response) = await Fallback(request, exception, cancellationToken);
-            return (shouldThrowOnError, response, null);
+            var result = await Fallback(request, exception, cancellationToken);
+            return (result, null);
         }
         catch (Exception fallbackException)
         {
-            return (ShouldThrowOnError.Yes, default, fallbackException);
+            return (FallbackResult.NotSupported, fallbackException);
         }
     }
 
@@ -97,7 +98,7 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
     /// <param name="exception">Thrown exception from dependency</param>
     /// <param name="cancellationToken">Cancellation token, as fallback might try to use other dependency.</param>
     /// <returns>Value object that informs about info how to handle error and what to return as a fallback response</returns>
-    protected abstract Task<(ShouldThrowOnError ShouldThrowOnError, TResponse Response)> Fallback(
+    protected abstract Task<FallbackResult> Fallback(
         TRequest request,
         Exception exception,
         CancellationToken cancellationToken);
@@ -123,6 +124,33 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
         No = 2
     }
 #pragma warning restore CS1591
+}
+
+/// <summary>
+/// Fallback execution result
+/// </summary>
+public abstract record FallbackResult
+{
+    /// <summary>
+    /// Helper to get instance of NotSupported fallback result
+    /// </summary>
+    public static FallbackResult NotSupported => NotSupportedResult.Instance;
+
+    /// <summary>
+    /// Helper to get instance of result containing fallback value
+    /// </summary>
+    public static FallbackResult FromValue<TResponse>(TResponse response) => new ValueResult<TResponse>(response);
+
+    internal record NotSupportedResult : FallbackResult
+    {
+        internal static NotSupportedResult Instance { get; } = new();
+
+        private NotSupportedResult()
+        {
+        }
+    }
+
+    internal record ValueResult<TResponse>(TResponse Value) : FallbackResult;
 }
 
 internal class FallbackExecutionException : Exception

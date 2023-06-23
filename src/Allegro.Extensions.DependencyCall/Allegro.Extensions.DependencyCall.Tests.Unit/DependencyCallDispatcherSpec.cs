@@ -231,7 +231,7 @@ public class DependencyCallDispatcherSpec
             return _configuration.Response;
         }
 
-        protected override Task<(ShouldThrowOnError ShouldThrowOnError, TestResponse Response)> Fallback(
+        protected override Task<FallbackResult> Fallback(
             TestRequest request,
             Exception exception,
             CancellationToken cancellationToken)
@@ -241,13 +241,9 @@ public class DependencyCallDispatcherSpec
                 throw _configuration.FallbackException;
             }
 
-            return Task.FromResult(
-                (
-                    ShouldThrowOnError: _configuration.ShouldThrowOnError
-                        ? ShouldThrowOnError.Yes
-                        : ShouldThrowOnError.No,
-                    Response: _configuration.Response
-                ));
+            return Task.FromResult(_configuration.ShouldThrowOnError ?
+                FallbackResult.NotSupported :
+                FallbackResult.FromValue(_configuration.Response));
         }
 
         protected override TimeSpan CancelAfter => _configuration.DefaultTimeoutInMs is null
