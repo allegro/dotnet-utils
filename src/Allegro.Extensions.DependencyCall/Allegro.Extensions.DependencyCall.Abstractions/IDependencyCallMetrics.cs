@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace Allegro.Extensions.DependencyCall.Abstractions;
 
 /// <summary>
@@ -6,27 +8,17 @@ namespace Allegro.Extensions.DependencyCall.Abstractions;
 public interface IDependencyCallMetrics
 {
     /// <summary>
-    /// Triggered when new dependency call is requested
-    /// </summary>
-    public void Requested(IRequest request);
-
-    /// <summary>
     /// Triggered when new dependency call was executed successfully
     /// </summary>
-    public void Executed(IRequest request);
+    public void Succeeded(IRequest request, Stopwatch timer);
 
     /// <summary>
     /// Triggered when new dependency call failed with error
     /// </summary>
-    public void Failed(IRequest request, Exception exception);
+    public void Failed(IRequest request, Exception exception, Stopwatch timer);
 
     /// <summary>
     /// Triggered when new dependency call used fallback
     /// </summary>
-    public void Fallback(IRequest request);
-
-    /// <summary>
-    /// Used to start timer for histograms. Dispose will be called at the end of call execution
-    /// </summary>
-    public IDisposable StartTimer(IRequest request);
+    public void Fallback(IRequest request, Stopwatch timer);
 }

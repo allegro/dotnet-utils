@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 using Allegro.Extensions.DependencyCall.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,18 +61,6 @@ internal class Fixture
         return this;
     }
 
-    public Fixture VerifyCommonMetricsWereTriggered(Times times)
-    {
-        if (_metricsSpy is null)
-        {
-            throw new NotSupportedException("You need to build fixture with WithMetricsSpy option");
-        }
-
-        _metricsSpy.Verify(m => m.Requested(It.IsAny<IRequest>()), times);
-        _metricsSpy.Verify(m => m.StartTimer(It.IsAny<IRequest>()), times);
-        return this;
-    }
-
     public Fixture VerifyExecutedMetricsWereTriggered(Times times)
     {
         if (_metricsSpy is null)
@@ -79,7 +68,7 @@ internal class Fixture
             throw new NotSupportedException("You need to build fixture with WithMetricsSpy option");
         }
 
-        _metricsSpy.Verify(m => m.Executed(It.IsAny<IRequest>()), times);
+        _metricsSpy.Verify(m => m.Succeeded(It.IsAny<IRequest>(), It.IsAny<Stopwatch>()), times);
         return this;
     }
 
@@ -90,7 +79,7 @@ internal class Fixture
             throw new NotSupportedException("You need to build fixture with WithMetricsSpy option");
         }
 
-        _metricsSpy.Verify(m => m.Failed(It.IsAny<IRequest>(), It.IsAny<Exception>()), times);
+        _metricsSpy.Verify(m => m.Failed(It.IsAny<IRequest>(), It.IsAny<Exception>(), It.IsAny<Stopwatch>()), times);
         return this;
     }
 
@@ -101,7 +90,7 @@ internal class Fixture
             throw new NotSupportedException("You need to build fixture with WithMetricsSpy option");
         }
 
-        _metricsSpy.Verify(m => m.Fallback(It.IsAny<IRequest>()), times);
+        _metricsSpy.Verify(m => m.Fallback(It.IsAny<IRequest>(), It.IsAny<Stopwatch>()), times);
         return this;
     }
 

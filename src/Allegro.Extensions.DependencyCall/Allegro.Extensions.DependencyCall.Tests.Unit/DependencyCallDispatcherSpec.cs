@@ -107,7 +107,6 @@ public class DependencyCallDispatcherSpec
             await fixture.Dispatcher.Dispatch(new TestRequest("testRequest"));
 
             fixture
-                .VerifyCommonMetricsWereTriggered(Times.Once())
                 .VerifyExecutedMetricsWereTriggered(Times.Once())
                 .VerifyNoOtherMetricsWereTriggered();
         }
@@ -129,7 +128,6 @@ public class DependencyCallDispatcherSpec
             await act.Should().ThrowAsync<Exception>();
 
             fixture
-                .VerifyCommonMetricsWereTriggered(Times.Once())
                 .VerifyFailedMetricsWereTriggered(Times.Once())
                 .VerifyNoOtherMetricsWereTriggered();
         }
@@ -149,7 +147,6 @@ public class DependencyCallDispatcherSpec
             await fixture.Dispatcher.Dispatch(new TestRequest("testRequest"));
 
             fixture
-                .VerifyCommonMetricsWereTriggered(Times.Once())
                 .VerifyFallbackMetricsWereTriggered(Times.Once())
                 .VerifyNoOtherMetricsWereTriggered();
         }

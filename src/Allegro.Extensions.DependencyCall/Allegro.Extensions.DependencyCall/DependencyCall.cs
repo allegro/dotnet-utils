@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Allegro.Extensions.DependencyCall.Abstractions;
 using Polly;
 
@@ -34,12 +35,12 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
 
         var policy = CustomPolicy(cancellationToken.Value);
 
-        using var dependencyCallTimer = dependencyCallMetrics.StartTimer(request);
+        var dependencyCallTimer = new Stopwatch();
+        dependencyCallTimer.Start();
         try
         {
-            dependencyCallMetrics.Requested(request);
             var response = await policy.ExecuteAsync(token => Execute(request, token), cancellationToken.Value);
-            dependencyCallMetrics.Executed(request);
+            dependencyCallMetrics.Succeeded(request, dependencyCallTimer);
             return response;
         }
         catch (Exception exception)
@@ -47,12 +48,16 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
             var fallbackValue = await Fallback(request, exception, cancellationToken.Value);
             if (fallbackValue.ShouldThrowOnError == ShouldThrowOnError.Yes)
             {
-                dependencyCallMetrics.Failed(request, exception);
+                dependencyCallMetrics.Failed(request, exception, dependencyCallTimer);
                 throw;
             }
 
-            dependencyCallMetrics.Fallback(request);
+            dependencyCallMetrics.Fallback(request, dependencyCallTimer);
             return fallbackValue.Response;
+        }
+        finally
+        {
+            dependencyCallTimer.Stop();
         }
     }
 

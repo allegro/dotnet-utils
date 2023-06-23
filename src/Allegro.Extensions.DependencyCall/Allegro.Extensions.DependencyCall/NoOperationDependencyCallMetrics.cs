@@ -1,35 +1,25 @@
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Allegro.Extensions.DependencyCall.Abstractions;
 
 namespace Allegro.Extensions.DependencyCall;
 
+[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Interface implementation")]
 internal class NoOperationDependencyCallMetrics : IDependencyCallMetrics
 {
-    private static readonly NoOpTimer NoOpTimerInstance = new NoOpTimer();
-    public void Requested(IRequest request)
+    public void Total(IRequest request, Stopwatch timer)
     {
     }
 
-    public void Executed(IRequest request)
+    public void Succeeded(IRequest request, Stopwatch timer)
     {
     }
 
-    public void Failed(IRequest request, Exception exception)
+    public void Failed(IRequest request, Exception exception, Stopwatch timer)
     {
     }
 
-    public void Fallback(IRequest request)
+    public void Fallback(IRequest request, Stopwatch timer)
     {
-    }
-
-    public IDisposable StartTimer(IRequest request)
-    {
-        return NoOpTimerInstance;
-    }
-
-    private class NoOpTimer : IDisposable
-    {
-        public void Dispose()
-        {
-        }
     }
 }
