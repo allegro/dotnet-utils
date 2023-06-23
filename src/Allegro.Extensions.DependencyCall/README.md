@@ -132,20 +132,17 @@ If not provided it will scan code from `AppDomain.CurrentDomain`.
 
 **Call timeout**
 
-We are using the `CancellationToken` approach. It is possible to deliver external `CancellationToken` (ex. from API request):
-
-```c#
-Task<TResponse> Dispatch<TResponse>(IRequest<TResponse> request, CancellationToken? cancellationToken = null);
-```
+We are using the `Polly.TimeoutAsync` with `Pesymistic` strategy approach. 
 
 By default, we assume that operations longer than **5 seconds** from the user perspective are too long and the call will be canceled after this time.
-The cancellation token is passed to the `Execute` and `Fallback` methods so it is the developer's decision in the end.
 
 To change the default timeout value:
 
 ```c#
-protected override TimeSpan CancelAfter { get; } = TimeSpan.FromSeconds(10);
+protected override TimeSpan CancelAfter => TimeSpan.FromSeconds(10);
 ```
+
+This value can't be modified in runtime as policy is built only once at first usage.
 
 **Error handling policy**
 
@@ -174,7 +171,7 @@ private class MyClassDependency : DependencyCall<TestRequest, TestResponse>
     }
 ```
 
-Good practice should be to build policy only once and reuse it instance.
+Policy is cached so not able to change it in runtime.
 
 ## Metrics
 
