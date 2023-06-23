@@ -95,9 +95,8 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
 #pragma warning disable CS1591
     protected enum ShouldThrowOnError
     {
-        Undefined = 0,
-        Yes,
-        No
+        Yes = 1,
+        No = 2
     }
 #pragma warning restore CS1591
 }
