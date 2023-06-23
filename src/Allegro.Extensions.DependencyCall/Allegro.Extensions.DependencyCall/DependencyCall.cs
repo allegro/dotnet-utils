@@ -30,7 +30,7 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
         IDependencyCallMetrics dependencyCallMetrics,
         CancellationToken cancellationToken)
     {
-        var policy = BuildPolicy(CustomPolicy(cancellationToken));
+        var policy = BuildPolicy(CustomPolicy);
 
         var dependencyCallTimer = new Stopwatch();
         dependencyCallTimer.Start();
@@ -83,6 +83,7 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
 
     private IAsyncPolicy<TResponse> BuildPolicy(IAsyncPolicy<TResponse> customPolicy)
     {
+        // TODO: for optimization think to store built policy in memory?
         return Policy.TimeoutAsync<TResponse>(CancelAfter, TimeoutStrategy.Pessimistic).WrapAsync(customPolicy);
     }
 
@@ -92,7 +93,7 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
     protected abstract Task<TResponse> Execute(TRequest request, CancellationToken cancellationToken);
 
     /// <summary>
-    /// Fallback login on any error
+    /// Fallback logic on any error
     /// </summary>
     /// <param name="request">Data send to dependency</param>
     /// <param name="exception">Thrown exception from dependency</param>
@@ -103,11 +104,12 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
         Exception exception,
         CancellationToken cancellationToken);
 
+    private static readonly IAsyncPolicy<TResponse> NoOperation = Policy.NoOpAsync<TResponse>();
+
     /// <summary>
-    /// Allows to preset custom retry policy (based on Polly).
+    /// Allows to preset custom retry policy (based on Polly). The custom policy should not be build at each execution. As instance of dependency call is transient if possible try to make this static.
     /// </summary>
-    protected virtual IAsyncPolicy<TResponse> CustomPolicy(CancellationToken cancellationToken) =>
-        Policy.NoOpAsync<TResponse>();
+    protected virtual IAsyncPolicy<TResponse> CustomPolicy { get; } = NoOperation;
 
     /// <summary>
     /// Allows to set own timeout for call.

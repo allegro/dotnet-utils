@@ -28,7 +28,7 @@ public static class StartupExtensions
                     AppDomain.CurrentDomain.GetAssemblies()) // TODO: remove scrutor and register by own util
                 .AddClasses(c => c.AssignableTo(typeof(IDependencyCall<,>)))
                 .AsImplementedInterfaces()
-                .WithScopedLifetime());
+                .WithTransientLifetime());
         return services
             .AddSingleton<IDependencyCallDispatcher, DefaultDependencyCallDispatcher>();
     }

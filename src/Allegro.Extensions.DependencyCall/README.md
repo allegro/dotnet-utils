@@ -147,22 +147,34 @@ To change the default timeout value:
 protected override TimeSpan CancelAfter { get; } = TimeSpan.FromSeconds(10);
 ```
 
-**Retry policy**
+**Error handling policy**
 
-By default, we assume that we are not able to deliver any kind of retry policy. It takes too many possibilities and decisions that are known only by developers.
+By default, we assume that we are not able to deliver any kind of error handling policy. It takes too many possibilities and decisions that are known only by developers.
 
 To give the possibility to set custom policy we decide to use the `Polly` library and expose API in `DependencyCall`:
 
 ```c#
-protected override IAsyncPolicy<SampleResponseData> CustomPolicy(CancellationToken cancellationToken)
-{
-    return Policy<SampleResponseData>.Handle<Exception>().FallbackAsync(
-        token =>
+private class MyClassDependency : DependencyCall<TestRequest, TestResponse>
+    {
+        private static readonly IAsyncPolicy<TestResponse> SamplePolicy = Policy.NoOpAsync<TestResponse>();
+        protected override Task<TestResponse> Execute(TestRequest request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(new SampleResponseData("Fallback value"));
-        });
-}
+            return Task.FromResult(new TestResponse("test data"));
+        }
+
+        protected override Task<FallbackResult> Fallback(
+            TestRequest request,
+            Exception exception,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(FallbackResult.NotSupported);
+        }
+
+        protected override IAsyncPolicy<TestResponse> CustomPolicy => SamplePolicy;
+    }
 ```
+
+Good practice should be to build policy only once and reuse it instance.
 
 ## Metrics
 

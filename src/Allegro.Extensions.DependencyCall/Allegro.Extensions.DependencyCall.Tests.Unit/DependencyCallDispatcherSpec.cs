@@ -241,21 +241,18 @@ public class DependencyCallDispatcherSpec
                 throw _configuration.FallbackException;
             }
 
-            return Task.FromResult(_configuration.ShouldThrowOnError ?
-                FallbackResult.NotSupported :
-                FallbackResult.FromValue(_configuration.Response));
+            return Task.FromResult(
+                _configuration.ShouldThrowOnError
+                    ? FallbackResult.NotSupported
+                    : FallbackResult.FromValue(_configuration.Response));
         }
 
         protected override TimeSpan CancelAfter => _configuration.DefaultTimeoutInMs is null
             ? base.CancelAfter
             : TimeSpan.FromMilliseconds(_configuration.DefaultTimeoutInMs.Value);
 
-        protected override IAsyncPolicy<TestResponse> CustomPolicy(CancellationToken cancellationToken)
-        {
-            return _configuration.CustomPolicy is null
-                ? base.CustomPolicy(cancellationToken)
-                : _configuration.CustomPolicy;
-        }
+        protected override IAsyncPolicy<TestResponse> CustomPolicy =>
+            _configuration.CustomPolicy ?? base.CustomPolicy;
     }
 
     private class TestException : Exception
