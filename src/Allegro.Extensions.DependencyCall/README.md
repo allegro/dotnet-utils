@@ -199,7 +199,7 @@ public interface IDependencyCallMetrics
 }
 ```
 
-By default, we deliver `NoOppDependencyCallMetrics` that might be replaced with your own metrics solution with
+By default, we deliver `NoOperationDependencyCallMetrics` that might be replaced with your own metrics solution with
 `DependencyCallBuilder.WithDependencyCallMetrics` API.
 
 ### Allegro.Extensions.DependencyCall.Metrics.Prometheus
