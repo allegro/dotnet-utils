@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
 using Allegro.Extensions.DependencyCalls.Abstractions;
-using Allegro.Extensions.DependencyCalls.Polly;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Prometheus;
@@ -24,7 +23,7 @@ internal class Fixture
 
     public Fixture Build()
     {
-        _services.AddPollyDependencyCall(
+        _services.AddDependencyCall(
             applicationAssemblies: _applicationAssemblies,
             configureDependencyCall: builder =>
             {

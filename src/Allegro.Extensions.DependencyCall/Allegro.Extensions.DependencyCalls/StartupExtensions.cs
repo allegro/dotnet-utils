@@ -2,7 +2,7 @@ using System.Reflection;
 using Allegro.Extensions.DependencyCalls.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Allegro.Extensions.DependencyCalls.Polly;
+namespace Allegro.Extensions.DependencyCalls;
 
 /// <summary>
 /// Startup extensions for FluentValidation
@@ -12,7 +12,7 @@ public static class StartupExtensions
     /// <summary>
     /// Register dependency call abstractions and scan to register usages;
     /// </summary>
-    public static IServiceCollection AddPollyDependencyCall(
+    public static IServiceCollection AddDependencyCall(
         this IServiceCollection services,
         Action<DependencyCallBuilder>? configureDependencyCall = null,
         IReadOnlyCollection<Assembly>? applicationAssemblies = null)
@@ -26,11 +26,11 @@ public static class StartupExtensions
                 .FromAssemblies(
                     applicationAssemblies ??
                     AppDomain.CurrentDomain.GetAssemblies())
-                .AddClasses(c => c.AssignableTo(typeof(IPollyDependencyCall<,>)))
+                .AddClasses(c => c.AssignableTo(typeof(IDependencyCall<,>)))
                 .AsImplementedInterfaces() // in case of using AsyncCircuitBreakerPolicy remember that transient will not work
                 .WithTransientLifetime());
 
         return services
-            .AddSingleton<IDependencyCallDispatcher, PollyDependencyCallDispatcher>();
+            .AddSingleton<IDependencyCallDispatcher, DefaultDependencyCallDispatcher>();
     }
 }

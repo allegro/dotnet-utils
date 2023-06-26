@@ -8,7 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.DependencyCalls.Abstractions\Allegro.Extensions.DependencyCalls.Abstractions.csproj" />
-    <ProjectReference Include="..\Allegro.Extensions.DependencyCalls.Polly\Allegro.Extensions.DependencyCalls.Polly.csproj" />
     <ProjectReference Include="..\Allegro.Extensions.DependencyCalls\Allegro.Extensions.DependencyCalls.csproj" />
   </ItemGroup>
   <ItemGroup>
