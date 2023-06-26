@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Allegro.Extensions.DependencyCalls.Polly</PackageId>
+    <PackageDescription>Contains DependencyCall tool</PackageDescription>
+    <NoWarn>${NoWarn},CS8618,SA1636</NoWarn>
+  </PropertyGroup>
+  <Import Project="..\..\Package.Build.props" />
+  
+  <ItemGroup>
+    <PackageReference Include="Polly" Version="7.2.4" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Allegro.Extensions.DependencyCalls\Allegro.Extensions.DependencyCalls.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Allegro.Extensions.DependencyCall.Tests.Unit" />
+  </ItemGroup>
+</Project>

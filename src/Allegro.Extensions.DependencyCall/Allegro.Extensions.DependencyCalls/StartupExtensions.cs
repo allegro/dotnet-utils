@@ -1,8 +1,8 @@
 using System.Reflection;
-using Allegro.Extensions.DependencyCall.Abstractions;
+using Allegro.Extensions.DependencyCalls.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Allegro.Extensions.DependencyCall;
+namespace Allegro.Extensions.DependencyCalls;
 
 /// <summary>
 /// Startup extensions for FluentValidation
@@ -25,12 +25,13 @@ public static class StartupExtensions
             s => s
                 .FromAssemblies(
                     applicationAssemblies ??
-                    AppDomain.CurrentDomain.GetAssemblies()) // TODO: remove scrutor and register by own util
-                .AddClasses(c => c.AssignableTo(typeof(IDependencyCall<,>)))
+                    AppDomain.CurrentDomain.GetAssemblies())
+                .AddClasses(c => c.AssignableTo(typeof(DependencyCall<>)))
                 .AsImplementedInterfaces()
                 .WithTransientLifetime());
-        return services
-            .AddSingleton<IDependencyCallDispatcher, DefaultDependencyCallDispatcher>();
+
+        return services;
+        // TODO: generic services.AddSingleton<IDependencyCallDispatcher, DependencyCallDispatcher>();
     }
 }
 
@@ -74,11 +75,14 @@ public sealed class DependencyCallBuilder
         return this;
     }
 
-    internal void Build()
+    /// <summary>
+    /// Builder for with noop impl
+    /// </summary>
+    public void Build()
     {
         if (_dependencyCallMetricsInstance is not null)
         {
-            Services.AddSingleton<IDependencyCallMetrics>(sp => _dependencyCallMetricsInstance);
+            Services.AddSingleton<IDependencyCallMetrics>(_ => _dependencyCallMetricsInstance);
         }
         else
         {

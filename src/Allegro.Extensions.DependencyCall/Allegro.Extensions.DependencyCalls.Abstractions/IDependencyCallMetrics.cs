@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Allegro.Extensions.DependencyCall.Abstractions;
+namespace Allegro.Extensions.DependencyCalls.Abstractions;
 
 /// <summary>
 /// Expose metrics collected by dispatcher. Allow to support own implementation of metrics
@@ -10,15 +10,18 @@ public interface IDependencyCallMetrics
     /// <summary>
     /// Triggered when new dependency call was executed successfully
     /// </summary>
-    public void Succeeded(IRequest request, Stopwatch timer);
+    public void Succeeded<TRequest>(TRequest request, Stopwatch timer)
+        where TRequest : Request;
 
     /// <summary>
-    /// Triggered when new dependency call failed with error
+    /// Triggered when new dependency call used timeout
     /// </summary>
-    public void Failed(IRequest request, Exception exception, Stopwatch timer);
+    public void Timeout<TRequest>(TRequest request, Stopwatch timer)
+        where TRequest : Request;
 
     /// <summary>
     /// Triggered when new dependency call used fallback
     /// </summary>
-    public void Fallback(IRequest request, Stopwatch timer);
+    public void Fallback<TRequest>(TRequest request, Stopwatch timer)
+        where TRequest : Request;
 }

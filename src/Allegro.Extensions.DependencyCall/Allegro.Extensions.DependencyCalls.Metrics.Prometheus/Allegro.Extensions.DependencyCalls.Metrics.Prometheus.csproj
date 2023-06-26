@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>Allegro.Extensions.DependencyCall.Metrics.Prometheus</PackageId>
+    <PackageId>Allegro.Extensions.DependencyCalls.Metrics.Prometheus</PackageId>
     <PackageDescription>Contains prometheus based metrics for dependency call</PackageDescription>
     <NoWarn>${NoWarn},CS8618,SA1636</NoWarn>
   </PropertyGroup>
@@ -8,8 +8,9 @@
     <PackageReference Include="prometheus-net" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Allegro.Extensions.DependencyCall.Abstractions\Allegro.Extensions.DependencyCall.Abstractions.csproj" />
-    <ProjectReference Include="..\Allegro.Extensions.DependencyCall\Allegro.Extensions.DependencyCall.csproj" />
+    <ProjectReference Include="..\Allegro.Extensions.DependencyCalls.Abstractions\Allegro.Extensions.DependencyCalls.Abstractions.csproj" />
+    <ProjectReference Include="..\Allegro.Extensions.DependencyCalls.Polly\Allegro.Extensions.DependencyCalls.Polly.csproj" />
+    <ProjectReference Include="..\Allegro.Extensions.DependencyCalls\Allegro.Extensions.DependencyCalls.csproj" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Allegro.Extensions.DependencyCall.Tests.Unit" />

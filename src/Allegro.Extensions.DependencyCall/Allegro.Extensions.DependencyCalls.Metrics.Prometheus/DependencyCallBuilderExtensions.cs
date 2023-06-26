@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Allegro.Extensions.DependencyCall.Metrics.Prometheus;
+namespace Allegro.Extensions.DependencyCalls.Metrics.Prometheus;
 
 /// <summary>
 /// Register Prometheus metrics extensions
@@ -14,7 +14,7 @@ public static class DependencyCallBuilderExtensions
         this DependencyCallBuilder builder,
         string applicationName)
     {
-        builder.Services.AddSingleton(sp => new ApplicationNameProvider(applicationName));
+        builder.Services.AddSingleton(_ => new ApplicationNameProvider(applicationName));
         return builder.WithDependencyCallMetrics<PrometheusDependencyCallMetrics>();
     }
 }
