@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Allegro.Extensions.DependencyCalls.Abstractions;
+using Allegro.Extensions.DependencyCalls.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Fallback;
@@ -95,12 +96,21 @@ internal class PollyDependencyCallDispatcher : IDependencyCallDispatcher
         return Policy<TResult>
             .Handle<Exception>()
             .FallbackAsync(
-                fallbackAction: (result, _, cancellationToken) => fallback(request, result.Exception, cancellationToken),
-                onFallbackAsync: (_, _) =>
+                fallbackAction: async (result, _, cancellationToken) =>
                 {
-                    _dependencyCallMetrics.Fallback(request, dependencyCallTimer);
-                    return Task.CompletedTask;
-                });
+                    try
+                    {
+                        var fallbackResult = await fallback(request, result.Exception, cancellationToken);
+                        _dependencyCallMetrics.Fallback(request, result.Exception, dependencyCallTimer);
+                        return fallbackResult;
+                    }
+                    catch
+                    {
+                        _dependencyCallMetrics.Failed(request, result.Exception, dependencyCallTimer);
+                        throw new FallbackExecutionException(request, result.Exception);
+                    }
+                },
+                onFallbackAsync: (_, _) => Task.CompletedTask); // The action to call asynchronously before invoking the fallback delegate
     }
 
     private AsyncTimeoutPolicy CreateTimeoutPolicy<TRequest>(
@@ -119,18 +129,5 @@ internal class PollyDependencyCallDispatcher : IDependencyCallDispatcher
                     _dependencyCallMetrics.Timeout(request, dependencyCallTimer);
                     return Task.CompletedTask;
                 });
-    }
-}
-
-internal class MissingDependencyCallException : Exception
-{
-    public MissingDependencyCallException(Request request)
-        : base($"Missing dependency call for request {request.GetType().FullName}")
-    {
-    }
-
-    public MissingDependencyCallException(string message)
-        : base(message)
-    {
     }
 }

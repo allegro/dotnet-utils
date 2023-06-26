@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>Allegro.Extensions.DependencyCalls</PackageId>
     <PackageDescription>Contains DependencyCall tool</PackageDescription>
     <NoWarn>${NoWarn},CS8618,SA1636</NoWarn>
   </PropertyGroup>
@@ -18,6 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Allegro.Extensions.DependencyCall.Tests.Unit" />
+    <InternalsVisibleTo Include="Allegro.Extensions.DependencyCalls.Tests.Unit" />
   </ItemGroup>
 </Project>

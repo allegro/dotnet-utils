@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Prometheus;
 
-namespace Allegro.Extensions.DependencyCall.Tests.Unit;
+namespace Allegro.Extensions.DependencyCalls.Tests.Unit;
 
 internal class Fixture
 {

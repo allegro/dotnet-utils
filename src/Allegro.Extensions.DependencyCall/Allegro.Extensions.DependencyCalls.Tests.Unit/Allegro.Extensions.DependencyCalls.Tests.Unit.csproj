@@ -5,8 +5,9 @@
     <NoWarn>${NoWarn},CS8618,CS1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Allegro.Extensions.DependencyCall.Metrics.Prometheus\Allegro.Extensions.DependencyCall.Metrics.Prometheus.csproj" />
-    <ProjectReference Include="..\Allegro.Extensions.DependencyCall\Allegro.Extensions.DependencyCall.csproj" />
+    <ProjectReference Include="..\Allegro.Extensions.DependencyCalls.Metrics.Prometheus\Allegro.Extensions.DependencyCalls.Metrics.Prometheus.csproj" />
+    <ProjectReference Include="..\Allegro.Extensions.DependencyCalls\Allegro.Extensions.DependencyCalls.csproj" />
+    <ProjectReference Include="..\Allegro.Extensions.DependencyCalls.Polly\Allegro.Extensions.DependencyCalls.Polly.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.2.0" />

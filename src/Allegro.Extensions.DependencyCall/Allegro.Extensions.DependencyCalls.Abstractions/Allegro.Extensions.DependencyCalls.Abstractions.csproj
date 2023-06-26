@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>Allegro.Extensions.DependencyCalls.Abstractions</PackageId>
     <PackageDescription>Contains DependencyCall package abstractions</PackageDescription>
     <NoWarn>${NoWarn},CS8618,SA1636</NoWarn>
   </PropertyGroup>

@@ -1,13 +1,15 @@
-using Allegro.Extensions.DependencyCall.Abstractions;
-using Allegro.Extensions.DependencyCall.Metrics.Prometheus;
+using Allegro.Extensions.DependencyCalls.Abstractions;
+using Allegro.Extensions.DependencyCalls.Exceptions;
+using Allegro.Extensions.DependencyCalls.Metrics.Prometheus;
 using FluentAssertions;
 using Moq;
 using Polly;
 using Polly.Timeout;
 using Xunit;
 
-namespace Allegro.Extensions.DependencyCall.Tests.Unit;
+namespace Allegro.Extensions.DependencyCalls.Tests.Unit;
 
+#pragma warning disable CS1591
 public class DependencyCallDispatcherSpec
 {
     public class DependencyCallPipeline

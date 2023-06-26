@@ -14,14 +14,20 @@ public interface IDependencyCallMetrics
         where TRequest : Request;
 
     /// <summary>
-    /// Triggered when new dependency call used timeout
+    /// Triggered when new dependency call failed with error
     /// </summary>
-    public void Timeout<TRequest>(TRequest request, Stopwatch timer)
+    public void Failed<TRequest>(TRequest request, Exception exception, Stopwatch timer)
         where TRequest : Request;
 
     /// <summary>
     /// Triggered when new dependency call used fallback
     /// </summary>
-    public void Fallback<TRequest>(TRequest request, Stopwatch timer)
+    public void Fallback<TRequest>(TRequest request, Exception exception, Stopwatch timer)
+        where TRequest : Request;
+
+    /// <summary>
+    /// Triggered when new dependency call used timeout
+    /// </summary>
+    public void Timeout<TRequest>(TRequest request, Stopwatch timer)
         where TRequest : Request;
 }

@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.DependencyCalls.Polly", "Allegro.Extensions.DependencyCalls.Polly\Allegro.Extensions.DependencyCalls.Polly.csproj", "{FE489585-F1F4-4D01-9EFB-7380CC61EE53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.DependencyCall.Tests.Unit", "Allegro.Extensions.DependencyCall.Tests.Unit\Allegro.Extensions.DependencyCall.Tests.Unit.csproj", "{1150B88B-C4B7-4D11-B689-ADB0AD2AACD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.DependencyCalls.Tests.Unit", "Allegro.Extensions.DependencyCalls.Tests.Unit\Allegro.Extensions.DependencyCalls.Tests.Unit.csproj", "{1150B88B-C4B7-4D11-B689-ADB0AD2AACD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.DependencyCalls.Abstractions", "Allegro.Extensions.DependencyCalls.Abstractions\Allegro.Extensions.DependencyCalls.Abstractions.csproj", "{D04612EF-C500-488B-A8E6-8F334811C6E3}"
 EndProject

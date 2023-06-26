@@ -26,7 +26,14 @@ internal class PrometheusDependencyCallMetrics : IDependencyCallMetrics
             .Observe(timer.Elapsed.TotalSeconds);
     }
 
-    public void Fallback<TRequest>(TRequest request, Stopwatch timer)
+    public void Failed<TRequest>(TRequest request, Exception exception, Stopwatch timer)
+        where TRequest : Request
+    {
+        _dependencyCallDuration.WithLabels(request.GetType().FullName!, "failed")
+            .Observe(timer.Elapsed.TotalSeconds);
+    }
+
+    public void Fallback<TRequest>(TRequest request, Exception exception, Stopwatch timer)
         where TRequest : Request
     {
         _dependencyCallDuration.WithLabels(request.GetType().FullName!, "fallback")
