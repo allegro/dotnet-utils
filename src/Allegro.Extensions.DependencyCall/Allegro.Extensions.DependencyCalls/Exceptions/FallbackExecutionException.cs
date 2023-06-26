@@ -1,5 +1,3 @@
-using Allegro.Extensions.DependencyCalls.Abstractions;
-
 namespace Allegro.Extensions.DependencyCalls.Exceptions;
 
 /// <summary>
@@ -10,9 +8,9 @@ public class FallbackExecutionException : Exception
     /// <summary>
     /// Constructor
     /// </summary>
-    public FallbackExecutionException(Request request, Exception dependencyCallException)
+    public FallbackExecutionException(Type requestType, Exception dependencyCallException)
         : base(
-            $"Error while executing fallback logic for request {request.GetType().Name}",
+            $"Error while executing fallback logic for request {requestType.FullName}",
             dependencyCallException)
     {
     }

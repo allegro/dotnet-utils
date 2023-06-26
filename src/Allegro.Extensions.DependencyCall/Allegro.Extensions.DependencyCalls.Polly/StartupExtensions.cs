@@ -26,7 +26,7 @@ public static class StartupExtensions
                 .FromAssemblies(
                     applicationAssemblies ??
                     AppDomain.CurrentDomain.GetAssemblies())
-                .AddClasses(c => c.AssignableTo(typeof(PollyDependencyCall<>)))
+                .AddClasses(c => c.AssignableTo(typeof(PollyDependencyCall<,>)))
                 .AsImplementedInterfaces()
                 // in case of using AsyncCircuitBreakerPolicy remember that transient will not work
                 .WithTransientLifetime());

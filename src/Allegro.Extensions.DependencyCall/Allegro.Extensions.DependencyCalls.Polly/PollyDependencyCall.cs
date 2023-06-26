@@ -8,8 +8,8 @@ namespace Allegro.Extensions.DependencyCalls.Polly;
 /// Abstraction to support any dependency call, that allows to declare some common aspects
 /// (ex. fallbacks, metrics, retries, timeout) of any dependency call.
 /// </summary>
-public abstract class PollyDependencyCall<TRequest> : DependencyCall<TRequest>
-    where TRequest : Request
+public abstract class PollyDependencyCall<TRequest, TResult> : DependencyCall<TRequest, TResult>
+    where TRequest : Request<TResult>
 {
     /// <summary>
     /// A custom policies such as AsyncCircuitBreakerPolicy

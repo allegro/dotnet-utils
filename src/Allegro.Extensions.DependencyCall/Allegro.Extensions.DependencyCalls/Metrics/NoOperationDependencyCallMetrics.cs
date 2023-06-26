@@ -7,23 +7,23 @@ namespace Allegro.Extensions.DependencyCalls.Metrics;
 [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Interface implementation")]
 internal class NoOperationDependencyCallMetrics : IDependencyCallMetrics
 {
-    public void Succeeded<TRequest>(TRequest request, Stopwatch timer)
-        where TRequest : Request
+    public void Succeeded<TRequest, TResult>(TRequest request, Stopwatch timer)
+        where TRequest : Request<TResult>
     {
     }
 
-    public void Failed<TRequest>(TRequest request, Exception exception, Stopwatch timer)
-        where TRequest : Request
+    public void Failed<TRequest, TResult>(TRequest request, Exception exception, Stopwatch timer)
+        where TRequest : Request<TResult>
     {
     }
 
-    public void Fallback<TRequest>(TRequest request, Exception exception, Stopwatch timer)
-        where TRequest : Request
+    public void Fallback<TRequest, TResult>(TRequest request, Exception exception, Stopwatch timer)
+        where TRequest : Request<TResult>
     {
     }
 
-    public void Timeout<TRequest>(TRequest request, Stopwatch timer)
-        where TRequest : Request
+    public void Timeout<TRequest, TResult>(TRequest request, Stopwatch timer)
+        where TRequest : Request<TResult>
     {
     }
 }

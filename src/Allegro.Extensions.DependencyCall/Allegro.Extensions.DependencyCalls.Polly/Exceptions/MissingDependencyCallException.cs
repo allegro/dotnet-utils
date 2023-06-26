@@ -1,6 +1,4 @@
-using Allegro.Extensions.DependencyCalls.Abstractions;
-
-namespace Allegro.Extensions.DependencyCalls.Exceptions;
+namespace Allegro.Extensions.DependencyCalls.Polly.Exceptions;
 
 /// <summary>
 /// Missing dependency call implementation for request type
@@ -10,8 +8,8 @@ public class MissingDependencyCallException : Exception
     /// <summary>
     /// Constructor
     /// </summary>
-    public MissingDependencyCallException(Request request)
-        : base($"Missing dependency call for request {request.GetType().FullName}")
+    public MissingDependencyCallException(Type requestType)
+        : base($"Missing dependency call for request {requestType.FullName}")
     {
     }
 

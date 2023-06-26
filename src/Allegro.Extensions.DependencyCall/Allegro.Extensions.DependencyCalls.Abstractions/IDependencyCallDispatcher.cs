@@ -9,6 +9,5 @@ public interface IDependencyCallDispatcher
     /// Dispatches Request with default pipeline and support for metrics, fallbacks, retry policies.
     /// </summary>
     Task<TResult> Dispatch<TRequest, TResult>(TRequest request, CancellationToken cancellationToken = default)
-        where TRequest : Request
-        where TResult : Result;
+        where TRequest : Request<TResult>;
 }

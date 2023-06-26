@@ -4,16 +4,15 @@ namespace Allegro.Extensions.DependencyCalls.Abstractions;
 /// Abstraction to support any dependency call, that allows to declare some common aspects
 /// (ex. fallbacks, metrics, retries, timeout) of any dependency call.
 /// </summary>
-public abstract class DependencyCall<TRequest>
-    where TRequest : Request
+public abstract class DependencyCall<TRequest, TResult>
+    where TRequest : Request<TResult>
 {
     /// <summary>
     /// Execute (happy path)
     /// </summary>
     public abstract Task<TExecutedResult> Execute<TExecutedResult>(
         TRequest request,
-        CancellationToken cancellationToken)
-        where TExecutedResult : Result;
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Fallback (negative path)
@@ -21,33 +20,16 @@ public abstract class DependencyCall<TRequest>
     public abstract Task<TFallbackResult> Fallback<TFallbackResult>(
         TRequest request,
         Exception exception,
-        CancellationToken cancellationToken)
-        where TFallbackResult : Result;
+        CancellationToken cancellationToken);
 }
 
 /// <summary>
 /// Dependency call base representation of request.
 /// </summary>
-public abstract record Request
+public abstract record Request<TResult>
 {
     /// <summary>
     /// Identifier of request
     /// </summary>
     public string Id { get; } = Guid.NewGuid().ToString();
 }
-
-/// <summary>
-/// Dependency call base representation of result.
-/// </summary>
-public abstract record Result;
-
-// TODO: Create union
-// /// <summary>
-// /// Success path result
-// /// </summary>
-// public abstract record ExecutedResult : Result;
-//
-// /// <summary>
-// /// Fallback path result
-// /// </summary>
-// public abstract record FallbackResult : Result;

@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Allegro.Extensions.DependencyCalls.Tests.Unit;
 
+
 #pragma warning disable CS1591
 public class DependencyCallDispatcherSpec
 {
@@ -211,7 +212,7 @@ public class DependencyCallDispatcherSpec
         int? DefaultTimeoutInMs = null,
         Exception? FallbackException = null);
 
-    private abstract class TestCallBase<TRequest> : DependencyCall<TRequest, TestResponse> where TRequest : IRequest<TestResponse>
+    private abstract class TestCallBase<TRequest> : DependencyCall<TRequest, TestResponse> where TRequest : Request<TestResponse>
     {
         private readonly TestCallConfiguration _configuration;
 
@@ -286,9 +287,11 @@ public class DependencyCallDispatcherSpec
     {
     }
 
-    private record TestRequest(string Data) : IRequest<TestResponse>;
-    private record TestRequestTimeout(string Data) : IRequest<TestResponse>;
-    private record TestRequestCustomPolicy(string Data) : IRequest<TestResponse>;
+    private record TestRequest(string Data) : Request<TestResponse>;
+
+    private record TestRequestTimeout(string Data) : Request<TestResponse>;
+
+    private record TestRequestCustomPolicy(string Data) : Request<TestResponse>;
 
     private record TestResponse(string Data);
 }
