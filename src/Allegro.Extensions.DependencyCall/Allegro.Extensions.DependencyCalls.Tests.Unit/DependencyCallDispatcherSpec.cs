@@ -1,6 +1,7 @@
 using Allegro.Extensions.DependencyCalls.Abstractions;
 using Allegro.Extensions.DependencyCalls.Exceptions;
 using Allegro.Extensions.DependencyCalls.Metrics.Prometheus;
+using Allegro.Extensions.DependencyCalls.Polly;
 using FluentAssertions;
 using Moq;
 using Polly;
@@ -8,7 +9,6 @@ using Polly.Timeout;
 using Xunit;
 
 namespace Allegro.Extensions.DependencyCalls.Tests.Unit;
-
 
 #pragma warning disable CS1591
 public class DependencyCallDispatcherSpec
@@ -212,7 +212,8 @@ public class DependencyCallDispatcherSpec
         int? DefaultTimeoutInMs = null,
         Exception? FallbackException = null);
 
-    private abstract class TestCallBase<TRequest> : DependencyCall<TRequest, TestResponse> where TRequest : Request<TestResponse>
+    private abstract class TestCallBase<TRequest> : PollyDependencyCall<TRequest, TestResponse>
+        where TRequest : IRequest<TestResponse>
     {
         private readonly TestCallConfiguration _configuration;
 
@@ -221,7 +222,7 @@ public class DependencyCallDispatcherSpec
             _configuration = configuration;
         }
 
-        protected override async Task<TestResponse> Execute(TRequest request, CancellationToken cancellationToken)
+        public override async Task<TestResponse> Execute(TRequest request, CancellationToken cancellationToken)
         {
             if (_configuration.Exception is not null)
             {
@@ -232,7 +233,7 @@ public class DependencyCallDispatcherSpec
             return _configuration.Response;
         }
 
-        protected override Task<FallbackResult> Fallback(
+        public override Task<TestResponse> Fallback(
             TRequest request,
             Exception exception,
             CancellationToken cancellationToken)
@@ -244,8 +245,8 @@ public class DependencyCallDispatcherSpec
 
             return Task.FromResult(
                 _configuration.ShouldThrowOnError
-                    ? FallbackResult.NotSupported
-                    : FallbackResult.FromValue(_configuration.Response));
+                    ? throw new TestFallbackException()
+                    : _configuration.Response);
         }
     }
 
@@ -265,9 +266,11 @@ public class DependencyCallDispatcherSpec
             _configuration = configuration;
         }
 
-        protected override TimeSpan CancelAfter => _configuration.DefaultTimeoutInMs is null
-            ? base.CancelAfter
-            : TimeSpan.FromMilliseconds(_configuration.DefaultTimeoutInMs.Value);
+        public override PollyPolicyConfiguration Configuration =>
+            _configuration.DefaultTimeoutInMs is null
+                ? PollyPolicyConfiguration.Default
+                : new PollyPolicyConfiguration(
+                    TimeSpan.FromMilliseconds(_configuration.DefaultTimeoutInMs.Value));
     }
 
     private class TestCallCustomPolicy : TestCallBase<TestRequestCustomPolicy>
@@ -279,19 +282,23 @@ public class DependencyCallDispatcherSpec
             _configuration = configuration;
         }
 
-        protected override IAsyncPolicy<TestResponse> CustomPolicy =>
-            _configuration.CustomPolicy ?? base.CustomPolicy;
+        public override IAsyncPolicy<TestResponse>[]? CustomResultPolicies =>
+            _configuration.CustomPolicy is not null ? new[] { _configuration.CustomPolicy } : null;
     }
 
     private class TestException : Exception
     {
     }
 
-    private record TestRequest(string Data) : Request<TestResponse>;
+    private class TestFallbackException : Exception
+    {
+    }
 
-    private record TestRequestTimeout(string Data) : Request<TestResponse>;
+    private record TestRequest(string Data) : IRequest<TestResponse>;
 
-    private record TestRequestCustomPolicy(string Data) : Request<TestResponse>;
+    private record TestRequestTimeout(string Data) : IRequest<TestResponse>;
+
+    private record TestRequestCustomPolicy(string Data) : IRequest<TestResponse>;
 
     private record TestResponse(string Data);
 }

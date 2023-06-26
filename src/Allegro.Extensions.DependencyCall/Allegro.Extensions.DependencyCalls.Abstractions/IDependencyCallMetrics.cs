@@ -10,24 +10,20 @@ public interface IDependencyCallMetrics
     /// <summary>
     /// Triggered when new dependency call was executed successfully
     /// </summary>
-    public void Succeeded<TRequest, TResult>(TRequest request, Stopwatch timer)
-        where TRequest : Request<TResult>;
+    public void Succeeded(IRequest request, Stopwatch timer);
 
     /// <summary>
     /// Triggered when new dependency call failed with error
     /// </summary>
-    public void Failed<TRequest, TResult>(TRequest request, Exception exception, Stopwatch timer)
-        where TRequest : Request<TResult>;
+    public void Failed(IRequest request, Exception exception, Stopwatch timer);
 
     /// <summary>
     /// Triggered when new dependency call used fallback
     /// </summary>
-    public void Fallback<TRequest, TResult>(TRequest request, Exception exception, Stopwatch timer)
-        where TRequest : Request<TResult>;
+    public void Fallback(IRequest request, Exception exception, Stopwatch timer);
 
     /// <summary>
     /// Triggered when new dependency call used timeout
     /// </summary>
-    public void Timeout<TRequest, TResult>(TRequest request, Stopwatch timer)
-        where TRequest : Request<TResult>;
+    public void Timeout(IRequest request, Stopwatch timer);
 }

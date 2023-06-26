@@ -19,29 +19,25 @@ internal class PrometheusDependencyCallMetrics : IDependencyCallMetrics
             "Duration of dependency call",
             new[] { "dependencyCallName", "type" });
 
-    public void Succeeded<TRequest, TResult>(TRequest request, Stopwatch timer)
-        where TRequest : Request<TResult>
+    public void Succeeded(IRequest request, Stopwatch timer)
     {
         _dependencyCallDuration.WithLabels(request.GetType().FullName!, "succeeded")
             .Observe(timer.Elapsed.TotalSeconds);
     }
 
-    public void Failed<TRequest, TResult>(TRequest request, Exception exception, Stopwatch timer)
-        where TRequest : Request<TResult>
+    public void Failed(IRequest request, Exception exception, Stopwatch timer)
     {
         _dependencyCallDuration.WithLabels(request.GetType().FullName!, "failed")
             .Observe(timer.Elapsed.TotalSeconds);
     }
 
-    public void Fallback<TRequest, TResult>(TRequest request, Exception exception, Stopwatch timer)
-        where TRequest : Request<TResult>
+    public void Fallback(IRequest request, Exception exception, Stopwatch timer)
     {
         _dependencyCallDuration.WithLabels(request.GetType().FullName!, "fallback")
             .Observe(timer.Elapsed.TotalSeconds);
     }
 
-    public void Timeout<TRequest, TResult>(TRequest request, Stopwatch timer)
-        where TRequest : Request<TResult>
+    public void Timeout(IRequest request, Stopwatch timer)
     {
         _dependencyCallDuration.WithLabels(request.GetType().FullName!, "timeout")
             .Observe(timer.Elapsed.TotalSeconds);

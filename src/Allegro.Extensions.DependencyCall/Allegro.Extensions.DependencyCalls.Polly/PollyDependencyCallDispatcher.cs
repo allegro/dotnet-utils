@@ -22,13 +22,12 @@ internal class PollyDependencyCallDispatcher : IDependencyCallDispatcher
         _dependencyCallMetrics = dependencyCallMetrics;
     }
 
-    public async Task<TResult> Dispatch<TRequest, TResult>(TRequest request, CancellationToken cancellationToken = default)
-        where TRequest : Request<TResult>
+    public async Task<TResponse> Dispatch<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         await using var scope = _serviceProvider.CreateAsyncScope();
 
-        // Cannot use GetService<DependencyCall<TRequest>() as there's is underlying TResult.
-        var dependencyCallType = typeof(DependencyCall<,>).MakeGenericType(request.GetType(), typeof(TResult));
+        // Cannot use GetService<IPollyDependencyCall<IRequest<TResponse>, TResponse>>() as there's is underlying TResponse.
+        var dependencyCallType = typeof(IPollyDependencyCall<,>).MakeGenericType(request.GetType(), typeof(TResponse));
         var dependencyCall = scope.ServiceProvider.GetService(dependencyCallType);
 
         if (dependencyCall is null)
@@ -36,30 +35,25 @@ internal class PollyDependencyCallDispatcher : IDependencyCallDispatcher
             throw new MissingDependencyCallException(dependencyCallType);
         }
 
-        return dependencyCall switch
-        {
-            PollyDependencyCall<TRequest, TResult> pollyDependencyCall =>
-                await Run(pollyDependencyCall, request, cancellationToken),
-            _ => throw new MissingDependencyCallException("Missing non polly runner")
-        };
+        var pollyDependencyCall = dependencyCall as IPollyDependencyCall<IRequest<TResponse>, TResponse>; // TODO: this is broken
+        return await Run(pollyDependencyCall!, request, cancellationToken);
     }
 
-    private async Task<TResult> Run<TRequest, TResult>(
-        PollyDependencyCall<TRequest, TResult> dependencyCall,
-        TRequest request,
+    private async Task<TResponse> Run<TResponse>(
+        IPollyDependencyCall<IRequest<TResponse>, TResponse> dependencyCall,
+        IRequest<TResponse> request,
         CancellationToken cancellationToken)
-        where TRequest : Request<TResult>
     {
         var dependencyCallTimer = new Stopwatch();
 
-        var timeoutPolicy = CreateTimeoutPolicy<TRequest, TResult>(
+        var timeoutPolicy = CreateTimeoutPolicy(
             dependencyCall.Configuration.Timeout,
             dependencyCall.Configuration.TimeoutStrategy,
             request,
             dependencyCallTimer);
 
         var fallBackPolicy = CreateFallbackPolicy(
-            dependencyCall.Fallback<TResult>,
+            dependencyCall.Fallback,
             request,
             dependencyCallTimer);
 
@@ -67,59 +61,63 @@ internal class PollyDependencyCallDispatcher : IDependencyCallDispatcher
 
         if (dependencyCall.CustomPolicies?.Any() is true)
         {
-            policies.WrapAsync(Policy.WrapAsync(dependencyCall.CustomPolicies));
+            policies = policies.WrapAsync(Policy.WrapAsync(dependencyCall.CustomPolicies));
+        }
+
+        if (dependencyCall.CustomResultPolicies?.Any() is true)
+        {
+            policies = policies.WrapAsync(Policy.WrapAsync(dependencyCall.CustomResultPolicies));
         }
 
         dependencyCallTimer.Start();
-        var result = await policies.ExecuteAsync(
+        var response = await policies.ExecuteAsync(
             async pollyCancellationToken =>
             {
                 using var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(
                     pollyCancellationToken,
                     cancellationToken);
-                return await dependencyCall.Execute<TResult>(request, linkedTokenSource.Token);
+                return await dependencyCall.Execute(request, linkedTokenSource.Token);
             },
             CancellationToken.None);
 
         // CancellationToken.None above here indicates missing independent cancellation control and
         // cancellation will be provided by TimeoutPolicy.
         dependencyCallTimer.Stop();
-        _dependencyCallMetrics.Succeeded<TRequest, TResult>(request, dependencyCallTimer);
-        return result;
+        _dependencyCallMetrics.Succeeded(request, dependencyCallTimer);
+        return response;
     }
 
-    private AsyncFallbackPolicy<TResult> CreateFallbackPolicy<TRequest, TResult>(
-        Func<TRequest, Exception, CancellationToken, Task<TResult>> fallback,
+    private AsyncFallbackPolicy<TResponse> CreateFallbackPolicy<TRequest, TResponse>(
+        Func<TRequest, Exception, CancellationToken, Task<TResponse>> fallback,
         TRequest request,
         Stopwatch dependencyCallTimer)
-        where TRequest : Request<TResult>
+        where TRequest : IRequest<TResponse>
     {
-        return Policy<TResult>
+        return Policy<TResponse>
             .Handle<Exception>()
             .FallbackAsync(
                 fallbackAction: async (result, _, cancellationToken) =>
                 {
                     try
                     {
-                        var fallbackResult = await fallback(request, result.Exception, cancellationToken);
-                        _dependencyCallMetrics.Fallback<TRequest, TResult>(request, result.Exception, dependencyCallTimer);
-                        return fallbackResult;
+                        var fallbackResponse = await fallback(request, result.Exception, cancellationToken);
+                        _dependencyCallMetrics.Fallback(request, result.Exception, dependencyCallTimer);
+                        return fallbackResponse;
                     }
                     catch
                     {
-                        _dependencyCallMetrics.Failed<TRequest, TResult>(request, result.Exception, dependencyCallTimer);
+                        _dependencyCallMetrics.Failed(request, result.Exception, dependencyCallTimer);
                         throw new FallbackExecutionException(request.GetType(), result.Exception);
                     }
                 },
                 onFallbackAsync: (_, _) => Task.CompletedTask); // The action to call asynchronously before invoking the fallback delegate
     }
 
-    private AsyncTimeoutPolicy CreateTimeoutPolicy<TRequest, TResult>(
+    private AsyncTimeoutPolicy CreateTimeoutPolicy<TResponse>(
         TimeSpan timeout,
         TimeoutStrategy timeoutStrategy,
-        TRequest request,
+        IRequest<TResponse> request,
         Stopwatch dependencyCallTimer)
-        where TRequest : Request<TResult>
     {
         return Policy
             .TimeoutAsync(
@@ -127,7 +125,7 @@ internal class PollyDependencyCallDispatcher : IDependencyCallDispatcher
                 timeoutStrategy: timeoutStrategy,
                 onTimeoutAsync: (_, _, _) =>
                 {
-                    _dependencyCallMetrics.Timeout<TRequest, TResult>(request, dependencyCallTimer);
+                    _dependencyCallMetrics.Timeout(request, dependencyCallTimer);
                     return Task.CompletedTask;
                 });
     }

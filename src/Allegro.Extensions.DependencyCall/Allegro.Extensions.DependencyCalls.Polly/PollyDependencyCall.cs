@@ -4,23 +4,76 @@ using Polly.Timeout;
 
 namespace Allegro.Extensions.DependencyCalls.Polly;
 
-/// <summary>
-/// Abstraction to support any dependency call, that allows to declare some common aspects
-/// (ex. fallbacks, metrics, retries, timeout) of any dependency call.
-/// </summary>
-public abstract class PollyDependencyCall<TRequest, TResult> : DependencyCall<TRequest, TResult>
-    where TRequest : Request<TResult>
+internal interface IPollyDependencyCall<in TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
     /// <summary>
-    /// A custom policies such as AsyncCircuitBreakerPolicy
-    /// (those policies have to be singleton so remember to override registration in DI)
+    /// Execute (happy path)
     /// </summary>
-    public IAsyncPolicy[]? CustomPolicies { get; set; }
+    public Task<TResponse> Execute(
+        TRequest request,
+        CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Fallback (negative path)
+    /// </summary>
+    public Task<TResponse> Fallback(
+        TRequest request,
+        Exception exception,
+        CancellationToken cancellationToken);
+
+    /// <summary>
+    /// A custom policies such as AsyncFallbackPolicy.
+    /// </summary>
+    public IAsyncPolicy<TResponse>[]? CustomResultPolicies { get; }
+
+    /// <summary>
+    /// A custom policies such as AsyncTimeoutPolicy, AsyncCircuitBreakerPolicy.
+    /// </summary>
+    public IAsyncPolicy[]? CustomPolicies { get; }
 
     /// <summary>
     /// Policy configuration
     /// </summary>
-    public PollyPolicyConfiguration Configuration { get; set; }
+    public PollyPolicyConfiguration Configuration { get; }
+}
+
+/// <summary>
+/// Abstraction to support any dependency call, that allows to declare some common aspects
+/// (ex. fallbacks, metrics, retries, timeout) of any dependency call.
+/// </summary>
+public abstract class PollyDependencyCall<TRequest, TResponse> : IPollyDependencyCall<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
+{
+    /// <summary>
+    /// Execute (happy path)
+    /// </summary>
+    public abstract Task<TResponse> Execute(
+        TRequest request,
+        CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Fallback (negative path)
+    /// </summary>
+    public abstract Task<TResponse> Fallback(
+        TRequest request,
+        Exception exception,
+        CancellationToken cancellationToken);
+
+    /// <summary>
+    /// A custom policies such as AsyncFallbackPolicy.
+    /// </summary>
+    public virtual IAsyncPolicy<TResponse>[]? CustomResultPolicies { get; }
+
+    /// <summary>
+    /// A custom policies such as AsyncTimeoutPolicy, AsyncCircuitBreakerPolicy.
+    /// </summary>
+    public virtual IAsyncPolicy[]? CustomPolicies { get; }
+
+    /// <summary>
+    /// Policy configuration
+    /// </summary>
+    public virtual PollyPolicyConfiguration Configuration { get; } = PollyPolicyConfiguration.Default;
 }
 
 /// <summary>
@@ -28,14 +81,13 @@ public abstract class PollyDependencyCall<TRequest, TResult> : DependencyCall<TR
 /// </summary>
 public record PollyPolicyConfiguration(
     TimeSpan Timeout,
-    TimeoutStrategy TimeoutStrategy)
+    TimeoutStrategy TimeoutStrategy = TimeoutStrategy.Pessimistic)
 {
     private const double DefaultTimeoutInMilliseconds = 5000;
-    private const TimeoutStrategy DefaultTimeoutStrategy = TimeoutStrategy.Pessimistic;
 
     /// <summary>
     /// Default configuration for policy
     /// </summary>
     public static PollyPolicyConfiguration Default =>
-        new(TimeSpan.FromMilliseconds(DefaultTimeoutInMilliseconds), DefaultTimeoutStrategy);
+        new(TimeSpan.FromMilliseconds(DefaultTimeoutInMilliseconds));
 }

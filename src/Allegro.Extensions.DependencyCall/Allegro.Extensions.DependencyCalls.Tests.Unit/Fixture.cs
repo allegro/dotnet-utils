@@ -44,8 +44,7 @@ internal class Fixture
 
     public IDependencyCallMetrics DependencyCallMetrics => _provider!.GetRequiredService<IDependencyCallMetrics>();
 
-    public Fixture WithConfiguration<T>(T testCallConfiguration)
-        where T : class
+    public Fixture WithConfiguration<T>(T testCallConfiguration) where T : class
     {
         _services.AddTransient<T>(sp => testCallConfiguration);
         return this;
@@ -71,7 +70,7 @@ internal class Fixture
             throw new NotSupportedException("You need to build fixture with WithMetricsSpy option");
         }
 
-        _metricsSpy.Verify(m => m.Succeeded(It.IsAny<Request>(), It.IsAny<Stopwatch>()), times);
+        _metricsSpy.Verify(m => m.Succeeded(It.IsAny<IRequest>(), It.IsAny<Stopwatch>()), times);
         return this;
     }
 
@@ -82,7 +81,7 @@ internal class Fixture
             throw new NotSupportedException("You need to build fixture with WithMetricsSpy option");
         }
 
-        _metricsSpy.Verify(m => m.Failed(It.IsAny<Request>(), It.IsAny<Exception>(), It.IsAny<Stopwatch>()), times);
+        _metricsSpy.Verify(m => m.Failed(It.IsAny<IRequest>(), It.IsAny<Exception>(), It.IsAny<Stopwatch>()), times);
         return this;
     }
 
@@ -93,7 +92,7 @@ internal class Fixture
             throw new NotSupportedException("You need to build fixture with WithMetricsSpy option");
         }
 
-        _metricsSpy.Verify(m => m.Fallback(It.IsAny<Request>(), It.IsAny<Stopwatch>()), times);
+        _metricsSpy.Verify(m => m.Fallback(It.IsAny<IRequest>(), It.IsAny<Exception>(), It.IsAny<Stopwatch>()), times);
         return this;
     }
 

@@ -80,7 +80,7 @@ public class SampleDependencyCall : DependencyCall<SampleRequestData, SampleResp
     }
 }
 
-public record SampleRequestData(string Data) : Request<SampleResponseData>;
+public record SampleRequestData(string Data) : IRequest<SampleResponseData>;
 
 public record SampleResponseData(string Data);
 ```
@@ -111,7 +111,7 @@ public class ApplictionLogic
 
 We decided to use a mediator pattern to be able to:
 - automatically register all `DependencyCall` implementations and resolve dependencies with `ServiceProvider`
-- separate application logic layer (abstractions like `IDependencyCallDispatcher`, and `Request` used ) from infrastructure (ex. httpClient, entity framework)
+- separate application logic layer (abstractions like `IDependencyCallDispatcher`, and `IRequest` used ) from infrastructure (ex. httpClient, entity framework)
 - have a possibility to extend the pipeline in the future with some cross-cutting things like logging (log issues or enrich logs);
 
 To register tool you need to:
@@ -184,27 +184,27 @@ public interface IDependencyCallMetrics
     /// <summary>
     /// Triggered when new dependency call is requested
     /// </summary>
-    public void Requested(Request request);
+    public void Requested(IRequest request);
 
     /// <summary>
     /// Triggered when new dependency call was executed successfully
     /// </summary>
-    public void Executed(Request request);
+    public void Executed(IRequest request);
 
     /// <summary>
     /// Triggered when new dependency call failed with error
     /// </summary>
-    public void Failed(Request request, Exception exception);
+    public void Failed(IRequest request, Exception exception);
 
     /// <summary>
     /// Triggered when new dependency call used fallback
     /// </summary>
-    public void Fallback(Request request);
+    public void Fallback(IRequest request);
 
     /// <summary>
     /// Used to start timer for histograms. Dispose will be called at the end of call execution
     /// </summary>
-    public IDisposable StartTimer(Request request);
+    public IDisposable StartTimer(IRequest request);
 }
 ```
 

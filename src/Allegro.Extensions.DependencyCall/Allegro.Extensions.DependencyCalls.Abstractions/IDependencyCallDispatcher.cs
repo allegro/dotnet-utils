@@ -6,8 +6,10 @@ namespace Allegro.Extensions.DependencyCalls.Abstractions;
 public interface IDependencyCallDispatcher
 {
     /// <summary>
-    /// Dispatches Request with default pipeline and support for metrics, fallbacks, retry policies.
+    /// Dispatches IRequest with default pipeline and support for metrics, fallbacks, retry policies.
     /// </summary>
-    Task<TResult> Dispatch<TRequest, TResult>(TRequest request, CancellationToken cancellationToken = default)
-        where TRequest : Request<TResult>;
+    /// <param name="request">Request data</param>
+    /// <param name="cancellationToken">Optional cancellation token. If null default cancellation policy will be used</param>
+    /// <typeparam name="TResponse">Type of response data</typeparam>
+    Task<TResponse> Dispatch<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default);
 }
