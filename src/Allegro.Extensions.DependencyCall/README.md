@@ -44,6 +44,7 @@ Of course, some developers will additionally solve common network-related issues
 In advanced solutions we even might find:
 - some metrics to be able to observe dependency behavior
 - introduce business fallbacks if possible with monitoring
+- recovery strategies (circuit breakers etc.)
 
 The last issue related to this approach is an assumption, that this service has single responsibility (purpose) to call external service.
 From a technical point of view, probably we can say so.
@@ -172,6 +173,23 @@ private class MyClassDependency : DependencyCall<TestRequest, TestResponse>
 ```
 
 Policy is cached so not able to change it in runtime.
+
+### Naming conventions
+
+In basic usage each call is composed from 3 files
+- `{Name}DependencyCall`
+- `{Name}Request`
+- `{Name}Resposne`
+
+{Name} should be descriptive and based on business language used in current application logic usage.
+
+Ex. When we need customer address data, we could end with:
+- `GetCustomerAddressDependencyCall`
+- `GetCustomerAddressRequest`
+- `GetCustomerAddressResponse`
+
+We should avoid technical or generic names like `GetDataFromCustomerClientApi` or `GetUserData`. 
+Purpose of `DependencyCall` approach is to create component that is based on business need not technical implementation.
 
 ## Metrics
 
