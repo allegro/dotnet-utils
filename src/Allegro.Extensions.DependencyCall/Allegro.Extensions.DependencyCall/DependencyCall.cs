@@ -39,7 +39,7 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
         {
             cancellationToken.ThrowIfCancellationRequested();
             var response = await policy.ExecuteAsync(token => Execute(request, token), cancellationToken);
-            dependencyCallMetrics.Succeeded(request, dependencyCallTimer);
+            dependencyCallMetrics.Succeeded(request, dependencyCallTimer.Elapsed);
             return response;
         }
         catch (Exception exception)
@@ -49,11 +49,11 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
             switch (fallbackResult.Result)
             {
                 case FallbackResult.ValueResult<TResponse> result:
-                    dependencyCallMetrics.Fallback(request, dependencyCallTimer);
+                    dependencyCallMetrics.Fallback(request, dependencyCallTimer.Elapsed);
                     return result.Value;
 
                 default:
-                    dependencyCallMetrics.Failed(request, exception, dependencyCallTimer);
+                    dependencyCallMetrics.Failed(request, exception, dependencyCallTimer.Elapsed);
                     if (fallbackResult.FallbackException is not null)
                     {
                         throw new FallbackExecutionException(request, exception);

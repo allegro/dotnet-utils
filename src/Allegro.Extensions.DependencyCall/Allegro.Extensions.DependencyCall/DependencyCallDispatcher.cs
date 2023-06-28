@@ -19,7 +19,7 @@ internal class DefaultDependencyCallDispatcher : IDependencyCallDispatcher
 
         if (handler is null)
         {
-            // TODO: throw this on startup
+            // TODO: consider kind of validation on startup rather on runtime
             throw new MissingDependencyCallException<TResponse>(request);
         }
 

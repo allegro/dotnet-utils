@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Allegro.Extensions.DependencyCall.Abstractions;
 using Prometheus;
 
@@ -18,21 +17,21 @@ internal class PrometheusDependencyCallMetrics : IDependencyCallMetrics
             $"{applicationName}_dependency_call_duration_metrics",
             "Duration of dependency call",
             new[] { "dependencyCallName", "type" });
-    public void Succeeded(IRequest request, Stopwatch timer)
+    public void Succeeded(IRequest request, TimeSpan duration)
     {
         _dependencyCallDuration.WithLabels(request.GetType().FullName!, "succeeded")
-            .Observe(timer.Elapsed.TotalSeconds);
+            .Observe(duration.TotalSeconds);
     }
 
-    public void Failed(IRequest request, Exception exception, Stopwatch timer)
+    public void Failed(IRequest request, Exception exception, TimeSpan duration)
     {
-        _dependencyCallDuration.WithLabels(request.GetType().FullName!, "failed").Observe(timer.Elapsed.TotalSeconds);
+        _dependencyCallDuration.WithLabels(request.GetType().FullName!, "failed").Observe(duration.TotalSeconds);
     }
 
-    public void Fallback(IRequest request, Stopwatch timer)
+    public void Fallback(IRequest request, TimeSpan duration)
     {
         _dependencyCallDuration.WithLabels(request.GetType().FullName!, "fallback")
-            .Observe(timer.Elapsed.TotalSeconds);
+            .Observe(duration.TotalSeconds);
     }
 }
 
