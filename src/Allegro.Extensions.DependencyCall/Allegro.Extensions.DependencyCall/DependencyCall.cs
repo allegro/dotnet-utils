@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Allegro.Extensions.DependencyCall.Abstractions;
 using Polly;
 using Polly.Timeout;
+using Polly.Wrap;
 
 namespace Allegro.Extensions.DependencyCall;
 
@@ -24,8 +25,6 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
 #pragma warning restore MA0049
     where TRequest : IRequest<TResponse>
 {
-    private const int DefaultCancelCallAfterSeconds = 5;
-
     async Task<TResponse> IDependencyCall<TRequest, TResponse>.Run(
         TRequest request,
         IDependencyCallMetrics dependencyCallMetrics,
@@ -88,9 +87,16 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
     {
         var dependencyCallPolicyKey = GetType().FullName!;
 
-        return Policies.GetOrAdd(
-            dependencyCallPolicyKey,
-            _ => Policy.TimeoutAsync<TResponse>(CancelAfter, TimeoutStrategy.Pessimistic).WrapAsync(customPolicy));
+        return
+            PolicyConfiguration.CachePolicy
+                ? Policies.GetOrAdd(
+                    dependencyCallPolicyKey,
+                    _ => BuildPolicyInternal())
+                : BuildPolicyInternal();
+
+        AsyncPolicyWrap<TResponse> BuildPolicyInternal() => Policy
+            .TimeoutAsync<TResponse>(PolicyConfiguration.CancelAfter, PolicyConfiguration.TimeoutStrategy)
+            .WrapAsync(customPolicy);
     }
 
     /// <summary>
@@ -113,14 +119,66 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
     private static readonly IAsyncPolicy<TResponse> NoOperation = Policy.NoOpAsync<TResponse>();
 
     /// <summary>
-    /// Allows to preset custom retry policy (based on Polly). The policy is build at first usage so should be static. Not able to reconfigure in runtime.
+    /// Allows to preset custom retry policy (based on Polly). The policy is build and cached at first usage so should be static. Not able to reconfigure in runtime.
     /// </summary>
     protected virtual IAsyncPolicy<TResponse> CustomPolicy => NoOperation;
 
     /// <summary>
     /// Allows to set own timeout for call. The policy is build at first usage so timeout is set only once. Not able to reconfigure in runtime.
     /// </summary>
-    protected virtual TimeSpan CancelAfter => TimeSpan.FromSeconds(DefaultCancelCallAfterSeconds);
+    protected virtual PolicyConfiguration PolicyConfiguration => PolicyConfiguration.Default;
+}
+
+/// <summary>
+/// Allows to configure basic policy behaviour
+/// </summary>
+public record PolicyConfiguration
+{
+    private const int DefaultCancelCallAfterSeconds = 5;
+
+    internal static PolicyConfiguration Default = new(
+        cancelAfter: TimeSpan.FromSeconds(DefaultCancelCallAfterSeconds)
+    );
+
+    private PolicyConfiguration(
+        TimeSpan cancelAfter,
+        TimeoutStrategy timeoutStrategy = TimeoutStrategy.Pessimistic,
+        bool cachePolicy = false)
+    {
+        CancelAfter = cancelAfter;
+        TimeoutStrategy = timeoutStrategy;
+        CachePolicy = cachePolicy;
+    }
+
+    /// <summary>Allows to set own timeout for call. The policy is build at first usage so timeout is set only once. Not able to reconfigure in runtime.</summary>
+    internal TimeSpan CancelAfter { get; private init; }
+
+    /// <summary>
+    /// Default timeout strategy used by Polly.TimeouPolicy
+    /// </summary>
+    internal TimeoutStrategy TimeoutStrategy { get; private init; }
+
+    /// <summary>
+    /// Indicates if policy should be cached. True by default.
+    /// </summary>
+    internal bool CachePolicy { get; private init; }
+
+    /// <summary>
+    /// Able to reconfigure default cancel after timeout
+    /// </summary>
+    public PolicyConfiguration WithCancelAfter(TimeSpan cancelAfter) => this with { CancelAfter = cancelAfter };
+
+    /// <summary>
+    /// Able to reconfigure default timeout strategy
+    /// </summary>
+    public PolicyConfiguration WithTimeoutStrategy(TimeoutStrategy timeoutStrategy) =>
+        this with { TimeoutStrategy = timeoutStrategy };
+
+    /// <summary>
+    /// Disable caching for this call
+    /// </summary>
+    public PolicyConfiguration WithoutCaching() =>
+        this with { CachePolicy = false };
 }
 
 /// <summary>

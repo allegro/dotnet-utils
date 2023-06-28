@@ -88,6 +88,29 @@ public class DependencyCallDispatcherSpec
         }
 
         [Fact]
+        public async Task Token_cancelled_during_execution()
+        {
+            var testResponse = new TestResponse("testResponseFallback");
+            var fixture = new Fixture()
+                .WithConfiguration(
+                    new TestCallConfiguration(
+                        testResponse,
+                        ShouldThrowOnError: true,
+                        WaitingTimeInSeconds: 1,
+                        DefaultTimeoutInMs: 10000))
+                .Build();
+            var cancellationToken = new CancellationTokenSource(TimeSpan.FromMilliseconds(200)).Token;
+
+            var act = () => fixture.Dispatcher.Dispatch(new TestRequest("testRequest"), cancellationToken);
+
+            await act.Should().ThrowAsync<OperationCanceledException>();
+        }
+
+        // PPTODO: zmiana zwrotki z unii na TResult i opakowanie
+        // PPTODO: timeout
+        // PPTODO: optimistic
+
+        [Fact]
         public async Task Able_to_apply_custom_retry_policy()
         {
             var testResponse = new TestResponse("testResponseFallback");
@@ -98,7 +121,9 @@ public class DependencyCallDispatcherSpec
                         testResponse,
                         ShouldThrowOnError: true,
                         Exception: new TestException(),
-                        CustomPolicy: Policy<TestResponse>.Handle<TestException>().FallbackAsync(
+                        CustomPolicy: Policy<TestResponse>.Handle<TestException>()
+                            // .CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 3, durationOfBreak: TimeSpan.FromSeconds(3))
+                            .FallbackAsync(
                             token =>
                             {
                                 customPolicyUsed = true;
@@ -262,9 +287,9 @@ public class DependencyCallDispatcherSpec
             _configuration = configuration;
         }
 
-        protected override TimeSpan CancelAfter => _configuration.DefaultTimeoutInMs is null
-            ? base.CancelAfter
-            : TimeSpan.FromMilliseconds(_configuration.DefaultTimeoutInMs.Value);
+        protected override PolicyConfiguration PolicyConfiguration => _configuration.DefaultTimeoutInMs is null
+            ? base.PolicyConfiguration
+            : base.PolicyConfiguration.WithCancelAfter(TimeSpan.FromMilliseconds(_configuration.DefaultTimeoutInMs.Value));
     }
 
     private class TestCallCustomPolicy : TestCallBase<TestRequestCustomPolicy>
