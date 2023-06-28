@@ -237,4 +237,3 @@ where `applicationName` will be a prefix for conventional metrics name, ex:
 - app1_dependency_call_duration_metrics_sum
 - app1_dependency_call_duration_metrics_count
 - app1_dependency_call_duration_metrics_bucket
-- app1_dependency_call_used_total{status="requested"}
