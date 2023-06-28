@@ -124,11 +124,11 @@ public class DependencyCallDispatcherSpec
                         CustomPolicy: Policy<TestResponse>.Handle<TestException>()
                             // .CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 3, durationOfBreak: TimeSpan.FromSeconds(3))
                             .FallbackAsync(
-                            token =>
-                            {
-                                customPolicyUsed = true;
-                                return Task.FromResult(testResponse);
-                            })))
+                                token =>
+                                {
+                                    customPolicyUsed = true;
+                                    return Task.FromResult(testResponse);
+                                })))
                 .Build();
             var response = await fixture.Dispatcher.Dispatch(new TestRequestCustomPolicy("testRequest"));
 
@@ -234,7 +234,8 @@ public class DependencyCallDispatcherSpec
         int? DefaultTimeoutInMs = null,
         Exception? FallbackException = null);
 
-    private abstract class TestCallBase<TRequest> : DependencyCall<TRequest, TestResponse> where TRequest : IRequest<TestResponse>
+    private abstract class TestCallBase<TRequest> : DependencyCall<TRequest, TestResponse>
+        where TRequest : IRequest<TestResponse>
     {
         private readonly TestCallConfiguration _configuration;
 
@@ -289,7 +290,8 @@ public class DependencyCallDispatcherSpec
 
         protected override PolicyConfiguration PolicyConfiguration => _configuration.DefaultTimeoutInMs is null
             ? base.PolicyConfiguration
-            : base.PolicyConfiguration.WithCancelAfter(TimeSpan.FromMilliseconds(_configuration.DefaultTimeoutInMs.Value));
+            : base.PolicyConfiguration.WithCancelAfter(
+                TimeSpan.FromMilliseconds(_configuration.DefaultTimeoutInMs.Value));
     }
 
     private class TestCallCustomPolicy : TestCallBase<TestRequestCustomPolicy>
@@ -310,8 +312,52 @@ public class DependencyCallDispatcherSpec
     }
 
     private record TestRequest(string Data) : IRequest<TestResponse>;
+
     private record TestRequestTimeout(string Data) : IRequest<TestResponse>;
+
     private record TestRequestCustomPolicy(string Data) : IRequest<TestResponse>;
 
     private record TestResponse(string Data);
+
+#region Sample
+    private class SampleDependencyCall : DependencyCall<SampleRequestData, SampleResponseData>
+    {
+        protected override Task<SampleResponseData> Execute(
+            SampleRequestData request,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new SampleResponseData("Data1"));
+        }
+
+        protected override Task<FallbackResult> Fallback(
+            SampleRequestData request,
+            Exception exception,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(FallbackResult.FromValue(new SampleResponseData("Data2")));
+        }
+    }
+
+    private class SampleNoFallbackDependencyCall : DependencyCall<SampleRequestData, SampleResponseData>
+    {
+        protected override Task<SampleResponseData> Execute(
+            SampleRequestData request,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new SampleResponseData("Data1"));
+        }
+
+        protected override Task<FallbackResult> Fallback(
+            SampleRequestData request,
+            Exception exception,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(FallbackResult.NotSupported);
+        }
+    }
+
+    private record SampleRequestData(string Data) : IRequest<SampleResponseData>;
+
+    private record SampleResponseData(string Data);
+#endregion
 }

@@ -68,22 +68,27 @@ However, from a business/application logic perspective, each call will have diff
 The main part of this package is the `DependencyCall` abstraction. Basic usage is:
 
 ```c#
-public class SampleDependencyCall : DependencyCall<SampleRequestData, SampleResponseData>
-{
-    protected override Task<SampleResponseData> Execute(SampleRequestData request, CancellationToken cancellationToken)
+    private class SampleDependencyCall : DependencyCall<SampleRequestData, SampleResponseData>
     {
-        ...
+        protected override Task<SampleResponseData> Execute(
+            SampleRequestData request,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new SampleResponseData("Data1"));
+        }
+
+        protected override Task<FallbackResult> Fallback(
+            SampleRequestData request,
+            Exception exception,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(FallbackResult.FromValue(new SampleResponseData("Data2")));
+        }
     }
 
-    protected override Task<(ShouldThrowOnError ShouldThrowOnError, SampleResponseData Response)> Fallback(SampleRequestData request, Exception exception, CancellationToken cancellationToken)
-    {
-        ...
-    }
-}
+    private record SampleRequestData(string Data) : IRequest<SampleResponseData>;
 
-public record SampleRequestData(string Data) : IRequest<SampleResponseData>;
-
-public record SampleResponseData(string Data);
+    private record SampleResponseData(string Data);
 ```
 
 We need to implement:
