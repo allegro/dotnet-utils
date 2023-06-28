@@ -319,7 +319,7 @@ public class DependencyCallDispatcherSpec
 
     private record TestResponse(string Data);
 
-#region Sample
+    #region Sample
     private class SampleDependencyCall : DependencyCall<SampleRequestData, SampleResponseData>
     {
         protected override Task<SampleResponseData> Execute(
@@ -359,5 +359,5 @@ public class DependencyCallDispatcherSpec
     private record SampleRequestData(string Data) : IRequest<SampleResponseData>;
 
     private record SampleResponseData(string Data);
-#endregion
+    #endregion
 }
