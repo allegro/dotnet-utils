@@ -16,7 +16,12 @@ internal class PrometheusDependencyCallMetrics : IDependencyCallMetrics
         metrics.CreateHistogram(
             $"{applicationName}_dependency_call_duration_metrics",
             "Duration of dependency call",
-            new[] { "dependencyCallName", "type" });
+            new HistogramConfiguration()
+            {
+                LabelNames = new[] { "dependencyCallName", "type" },
+                Buckets = new[] { 0.008, 0.016, 0.032, 0.064, 0.128, 0.512, 1, 4, 16 }
+            });
+
     public void Succeeded(IRequest request, TimeSpan duration)
     {
         _dependencyCallDuration.WithLabels(request.GetType().FullName!, "succeeded")
