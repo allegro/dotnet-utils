@@ -79,4 +79,4 @@ jobs:
     - name: Sign package
       run: dotnet nuget sign unsigned/*.nupkg --certificate-path cert.p12 --certificate-password ${{ secrets.nugetCertificatePassword }} --timestamper http://timestamp.digicert.com --output signed
     - name: Push package
-      run: dotnet nuget push signed/${{needs.build.outputs.nupkgFilename}} --api-key ${{ secrets.nugetApiKey }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push signed/*.nupkg --api-key ${{ secrets.nugetApiKey }} --source https://api.nuget.org/v3/index.json
