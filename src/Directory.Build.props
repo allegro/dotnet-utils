@@ -1,30 +1,16 @@
 <Project>
-
+  <Import Project="Sdk.props" Sdk="Allegro.DotnetSdk" />
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <AnalysisLevel>latest</AnalysisLevel>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TargetFramework>$(NetCoreVersions)</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Condition=" !$(MSBuildProjectDirectory.Contains(`test`)) ">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <!-- SourceLink configuration -->
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!-- Embed PDBs in .nupkg because Azure Artifacts doesn't support .snupkg yet -->
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>
-      $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
-    </AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <!-- Enable after Azure Artifacts supports .snupkg -->
-    <!-- <IncludeSymbols>true</IncludeSymbols> -->
-    <!-- <SymbolPackageFormat>snupkg</SymbolPackageFormat> -->
   </PropertyGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
+  <PropertyGroup Label="Build Output Override">
+    <BaseOutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <PackageOutputPath>$(SolutionDir)\nuget</PackageOutputPath>
+  </PropertyGroup>
 </Project>

@@ -3,8 +3,8 @@ namespace Allegro.Extensions.Identifiers.Abstractions;
 /// <summary>
 /// Marker interface for strongly typed entities
 /// </summary>
-public interface IStronglyTypedEntity<out T, Tu>
-    where T : IStronglyTypedId<Tu>
+public interface IStronglyTypedEntity<out T, TU>
+    where T : IStronglyTypedId<TU>
 {
     /// <summary>
     /// Strongly typed entity id

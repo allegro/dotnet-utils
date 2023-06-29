@@ -1,4 +1,3 @@
-using System;
 #pragma warning disable CS1591
 
 namespace Allegro.Extensions.Financials.ValueObjects;
@@ -100,9 +99,10 @@ public partial record Money
 
         if (c1 != c2)
         {
-            throw new Exception(
-                $"Invalid currency! {c1} " +
-                $"is different than {c2}");
+#pragma warning disable CA2201
+            // TODO: more explicit exception should be added
+            throw new Exception($"Invalid currency! {c1} is different than {{c2}}");
+#pragma warning restore CA2201
         }
 
         var amount = @operator switch
@@ -131,8 +131,10 @@ public partial record Money
 
         if (c1 != c2)
         {
-            throw new Exception($"Invalid currency! {c1} " +
-                                $"is different than {c2}");
+#pragma warning disable CA2201
+            // TODO: more explicit exception should be added
+            throw new Exception($"Invalid currency! {c1} is different than {c2}");
+#pragma warning restore CA2201
         }
 
         return @operator switch

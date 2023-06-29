@@ -15,6 +15,8 @@ TestResults/
 *.suo
 *.ncrunchsolution
 *.ncrunchproject
+*.nupkg
+*.snupkg
 .vs/
 **/frontend/node_modules/
 **/frontend/coverage/

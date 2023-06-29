@@ -39,7 +39,9 @@ namespace Allegro.Extensions.Globalization.Tests
         [InlineData(113, "spłat", "spłata", "spłaty", "spłat", "spłat")]
         [InlineData(124, "spłat", "spłata", "spłaty", "spłat", "spłaty")]
         [InlineData(127, "spłat", "spłata", "spłaty", "spłat", "spłat")]
+#pragma warning disable CA1720
         public void Pluralize_SampleText_RendersProperty(int quantity, string none, string single, string two, string five, string expected)
+#pragma warning restore CA1720
         {
             // act
             var result = quantity.Pluralize(

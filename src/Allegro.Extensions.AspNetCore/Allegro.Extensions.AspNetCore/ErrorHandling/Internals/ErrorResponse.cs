@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Allegro.Extensions.AspNetCore.ErrorHandling.Internals;
 
 internal record ErrorResponse(

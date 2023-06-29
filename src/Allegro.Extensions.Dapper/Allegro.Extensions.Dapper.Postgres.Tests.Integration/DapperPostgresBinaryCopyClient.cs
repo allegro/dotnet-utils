@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Allegro.Extensions.Dapper.Abstractions;
 using Allegro.Extensions.Dapper.Postgres.Abstractions;
 using Allegro.Extensions.Dapper.Postgres.Tests.Integration.Helpers;

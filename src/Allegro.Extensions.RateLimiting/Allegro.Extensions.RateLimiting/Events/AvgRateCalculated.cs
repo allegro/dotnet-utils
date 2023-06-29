@@ -1,11 +1,11 @@
-using System;
-
 namespace Allegro.Extensions.RateLimiting.Events
 {
     /// <summary>
     /// Event handler delegate for the event of periodic average rate of rate limiter being calculated.
     /// </summary>
+#pragma warning disable CA1711
     public delegate void AvgRateCalculatedEventHandler(object sender, AvgRateCalculatedEventArgs e);
+#pragma warning restore CA1711
 
     /// <summary>
     /// Event arguments for the event of periodic average rate of rate limiter being calculated.

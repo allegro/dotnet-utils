@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Allegro.Extensions.AspNetCore.ErrorHandling.Internals;
 
 // ReSharper disable ClassNeverInstantiated.Global

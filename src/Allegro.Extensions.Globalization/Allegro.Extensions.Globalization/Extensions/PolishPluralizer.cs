@@ -1,4 +1,4 @@
-using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Allegro.Extensions.Globalization.Extensions;
 
@@ -18,6 +18,7 @@ public static class PolishPluralizer
     /// <returns>correct form of a number in a word</returns>
     /// <exception cref="ArgumentOutOfRangeException">throw when quantity is less than 0</exception>
     /// <exception cref="ArgumentNullException">throw when 'single', 'two' or 'five' word is missing or when quantity is 0 and 'none' word is missing</exception>
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Domain needed")]
     public static string Pluralize(this int quantity, string single, string two, string five, string? none = null)
     {
         if (quantity < 0)

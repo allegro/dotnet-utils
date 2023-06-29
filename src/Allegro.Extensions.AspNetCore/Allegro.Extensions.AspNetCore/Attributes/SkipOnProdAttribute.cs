@@ -1,5 +1,3 @@
-using System;
-
 namespace Allegro.Extensions.AspNetCore.Attributes
 {
     /// <summary>

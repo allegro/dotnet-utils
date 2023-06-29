@@ -1,6 +1,9 @@
 {
     "sdk": {
-        "version": "6.0.100",
+        "version": "6.0.405",
         "rollForward": "latestFeature"
+    },
+    "msbuild-sdks": {
+        "Allegro.DotnetSdk": "1.2.2"
     }
 }

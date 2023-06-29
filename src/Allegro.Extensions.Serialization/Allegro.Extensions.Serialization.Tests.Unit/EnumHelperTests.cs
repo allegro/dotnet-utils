@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.Serialization;
 using Allegro.Extensions.Serialization.Extensions;
 using FluentAssertions;

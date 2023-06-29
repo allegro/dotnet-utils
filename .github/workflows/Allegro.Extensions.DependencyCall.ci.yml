@@ -1,0 +1,20 @@
+name: Build Allegro.Extensions.DependencyCall
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.DependencyCall/**'
+      - 'src/*'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.DependencyCall/**'
+      - 'src/*'
+
+jobs:
+  ci:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.DependencyCall
+      solutionName: Allegro.Extensions.DependencyCall

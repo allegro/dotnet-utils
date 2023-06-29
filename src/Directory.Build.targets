@@ -1,3 +1,4 @@
 <Project>
+  <Import Project="Sdk.targets" Sdk="Allegro.DotnetSdk"/>
   <!-- Empty file prevents accidental inclusion of files from directories above -->
 </Project>
