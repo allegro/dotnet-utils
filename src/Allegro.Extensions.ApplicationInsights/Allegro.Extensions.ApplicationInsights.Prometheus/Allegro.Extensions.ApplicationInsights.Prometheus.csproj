@@ -2,9 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>1.0.3</Version>
+        <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,11 +15,4 @@
     <ItemGroup>
       <ProjectReference Include="..\Allegro.Extensions.ApplicationInsights.AspNetCore\Allegro.Extensions.ApplicationInsights.AspNetCore.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="Microsoft.Extensions.Logging.Abstractions">
-        <HintPath>..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\6.0.20\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
 </Project>

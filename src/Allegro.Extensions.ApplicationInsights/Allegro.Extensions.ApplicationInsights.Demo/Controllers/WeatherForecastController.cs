@@ -2,6 +2,7 @@ using System.Net.Http;
 using Allegro.Extensions.ApplicationInsights.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Allegro.Extensions.ApplicationInsights.Demo.Controllers;

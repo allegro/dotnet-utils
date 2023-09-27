@@ -3,7 +3,6 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
@@ -17,12 +16,4 @@
       <ProjectReference Include="..\Allegro.Extensions.ApplicationInsights.Prometheus\Allegro.Extensions.ApplicationInsights.Prometheus.csproj" />
       <ProjectReference Include="..\Allegro.Extensions.ApplicationInsights.AspNetCore\Allegro.Extensions.ApplicationInsights.AspNetCore.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="obj\Allegro.Extensions.ApplicationInsights.Demo.csproj.nuget.dgspec.json" />
-      <_ContentIncludedByDefault Remove="obj\Debug\net6.0\staticwebassets.build.json" />
-      <_ContentIncludedByDefault Remove="obj\project.assets.json" />
-      <_ContentIncludedByDefault Remove="obj\project.packagespec.json" />
-    </ItemGroup>
-
 </Project>
