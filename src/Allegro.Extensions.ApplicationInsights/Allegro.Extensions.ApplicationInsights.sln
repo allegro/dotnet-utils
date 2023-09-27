@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.ApplicationInsights.AspNetCore", "Allegro.Extensions.ApplicationInsights.AspNetCore\Allegro.Extensions.ApplicationInsights.AspNetCore.csproj", "{6E34766A-24D4-4786-B4B9-4719649C3D80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.ApplicationInsights.AspNetCore.UnitTests", "Allegro.Extensions.ApplicationInsights.AspNetCore.UnitTests\Allegro.Extensions.ApplicationInsights.AspNetCore.UnitTests.csproj", "{E3B7B2D9-D344-49AD-8F59-B28F9633C3DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.ApplicationInsights.Demo", "Allegro.Extensions.ApplicationInsights.Demo\Allegro.Extensions.ApplicationInsights.Demo.csproj", "{194B390F-AB82-4DD5-B57E-87666EF4EE3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.ApplicationInsights.Demo.UnitTests", "Allegro.Extensions.ApplicationInsights.Demo.UnitTests\Allegro.Extensions.ApplicationInsights.Demo.UnitTests.csproj", "{5825A234-B029-4385-8FC7-91317D5AE74F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.ApplicationInsights.Prometheus", "Allegro.Extensions.ApplicationInsights.Prometheus\Allegro.Extensions.ApplicationInsights.Prometheus.csproj", "{5CE90762-D8E8-4C9E-B96A-5D371AAC6B31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.ApplicationInsights.Prometheus.UnitTests", "Allegro.Extensions.ApplicationInsights.Prometheus.UnitTests\Allegro.Extensions.ApplicationInsights.Prometheus.UnitTests.csproj", "{EF90A591-4365-4A4D-8826-27874BFF895E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E34766A-24D4-4786-B4B9-4719649C3D80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E34766A-24D4-4786-B4B9-4719649C3D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E34766A-24D4-4786-B4B9-4719649C3D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E34766A-24D4-4786-B4B9-4719649C3D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3B7B2D9-D344-49AD-8F59-B28F9633C3DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3B7B2D9-D344-49AD-8F59-B28F9633C3DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3B7B2D9-D344-49AD-8F59-B28F9633C3DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3B7B2D9-D344-49AD-8F59-B28F9633C3DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{194B390F-AB82-4DD5-B57E-87666EF4EE3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{194B390F-AB82-4DD5-B57E-87666EF4EE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{194B390F-AB82-4DD5-B57E-87666EF4EE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{194B390F-AB82-4DD5-B57E-87666EF4EE3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5825A234-B029-4385-8FC7-91317D5AE74F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5825A234-B029-4385-8FC7-91317D5AE74F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5825A234-B029-4385-8FC7-91317D5AE74F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5825A234-B029-4385-8FC7-91317D5AE74F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CE90762-D8E8-4C9E-B96A-5D371AAC6B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE90762-D8E8-4C9E-B96A-5D371AAC6B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE90762-D8E8-4C9E-B96A-5D371AAC6B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE90762-D8E8-4C9E-B96A-5D371AAC6B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF90A591-4365-4A4D-8826-27874BFF895E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF90A591-4365-4A4D-8826-27874BFF895E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF90A591-4365-4A4D-8826-27874BFF895E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF90A591-4365-4A4D-8826-27874BFF895E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
