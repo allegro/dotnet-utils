@@ -171,6 +171,8 @@ public static class ApplicationInsightsExtensions
             this ApplicationInsightsExtensionsBuilder builder,
             Func<DependencyTelemetry, TDependencyForFilter> dependencyMap,
             Func<RequestTelemetry, TRequestForFilter> requestMap)
+        where TDependencyForFilter : DependencyForFilter
+        where TRequestForFilter : RequestForFilter
     {
         builder.Services
             .AddSingleton<ITelemetryInitializer,
@@ -198,6 +200,8 @@ public static class ApplicationInsightsExtensions
         this ApplicationInsightsExtensionsBuilder builder,
         Func<DependencyTelemetry, TDependencyForFilter> dependencyMap,
         Func<RequestTelemetry, TRequestForFilter> requestMap)
+        where TDependencyForFilter : DependencyForFilter
+        where TRequestForFilter : RequestForFilter
     {
         builder.Services.Configure<ExcludeFromSamplingTelemetryConfig>(
             builder.Configuration.GetSection("ApplicationInsights:ExcludeFromSamplingTelemetryConfig"));
@@ -355,7 +359,10 @@ public static class StartupExtensions
         Action<ApplicationInsightsExtensions.ApplicationInsightsExtensionsBuilder> builderFunc)
     {
         var builder =
-            new ApplicationInsightsExtensions.ApplicationInsightsExtensionsBuilder(configuration, services, hostEnvironment);
+            new ApplicationInsightsExtensions.ApplicationInsightsExtensionsBuilder(
+                configuration,
+                services,
+                hostEnvironment);
         builderFunc(builder);
 
         // this is required to separate ILogger in ExcludeFromSamplingTelemetryInitializer from default one, and configure with separate ApplicationInsights

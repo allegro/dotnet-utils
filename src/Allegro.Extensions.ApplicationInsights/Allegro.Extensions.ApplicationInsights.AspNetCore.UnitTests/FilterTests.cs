@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 namespace Allegro.Extensions.ApplicationInsights.AspNetCore;
 
 public class FilterTests<TDependencyForFilter, TRequestForFilter>
+    where TDependencyForFilter : DependencyForFilter
+    where TRequestForFilter : RequestForFilter
 {
     public void ApplyDependencyRules(
         DependencyTelemetry dependencyTelemetry,

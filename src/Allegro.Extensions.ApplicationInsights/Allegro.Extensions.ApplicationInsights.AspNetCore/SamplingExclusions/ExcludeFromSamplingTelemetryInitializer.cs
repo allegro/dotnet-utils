@@ -32,8 +32,12 @@ internal static class LoggerExtensions
     }
 }
 
-// TODO: constraint T parameters
-internal class ExcludeFromSamplingTelemetryInitializer<TDependencyForFilter, TRequestForFilter> : ITelemetryInitializer
+/// <summary>
+/// It is publicly visible for unit tests purposes. See Demo.UnitTests
+/// </summary>
+public class ExcludeFromSamplingTelemetryInitializer<TDependencyForFilter, TRequestForFilter> : ITelemetryInitializer
+    where TDependencyForFilter : DependencyForFilter
+    where TRequestForFilter : RequestForFilter
 {
     private readonly Func<DependencyTelemetry, TDependencyForFilter> _dependencyMap;
     private readonly List<Func<TDependencyForFilter, bool>> _dependencyPredicates;
@@ -41,6 +45,9 @@ internal class ExcludeFromSamplingTelemetryInitializer<TDependencyForFilter, TRe
     private readonly Func<RequestTelemetry, TRequestForFilter> _requestMap;
     private readonly List<Func<TRequestForFilter, bool>> _requestPredicates;
 
+    /// <summary>
+    /// It is publicly visible for unit tests purposes. See Demo.UnitTests
+    /// </summary>
     public ExcludeFromSamplingTelemetryInitializer(
         IOptions<ExcludeFromSamplingTelemetryConfig> config,
         ITelemetryInitializerLogger logger,
@@ -56,6 +63,9 @@ internal class ExcludeFromSamplingTelemetryInitializer<TDependencyForFilter, TRe
             CreatePredicates<TRequestForFilter>(_logger, config.Value.RequestRules);
     }
 
+    /// <summary>
+    /// It is publicly visible for unit tests purposes. See Demo.UnitTests
+    /// </summary>
     public void Initialize(ITelemetry telemetry)
     {
         try

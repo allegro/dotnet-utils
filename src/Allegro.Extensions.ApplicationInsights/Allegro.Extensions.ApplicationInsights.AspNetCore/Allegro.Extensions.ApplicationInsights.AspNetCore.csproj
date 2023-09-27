@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
     </PropertyGroup>
-
+    <Import Project="..\..\Package.Build.props" />
     <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="6.7.0" />
       <PackageReference Include="Microsoft.ApplicationInsights" Version="2.21.0" />
