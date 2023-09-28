@@ -1,0 +1,25 @@
+name: Build Allegro.Extensions.ApplicationInsights
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.ApplicationInsights/**'
+      - 'src/*'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/Allegro.Extensions.ApplicationInsights/**'
+      - 'src/*'
+
+jobs:
+  ci1:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.ApplicationInsights.AspNetCore
+      solutionName: Allegro.Extensions.ApplicationInsights
+  ci2:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.ApplicationInsights.Prometheus
+      solutionName: Allegro.Extensions.ApplicationInsights
