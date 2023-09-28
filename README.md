@@ -12,6 +12,8 @@ Please refer to [Contributing guideline](CONTRIBUTING.md) for details.
 
 - [Allegro.Extensions.AspNetCore](src/Allegro.Extensions.AspNetCore)  
   This library contains useful extensions and utilities for ASP.NET Core based projects.
+- [Allegro.Extensions.ApplicationInsights](src/Allegro.Extensions.ApplicationInsights)  
+  This library contains useful extensions for Azure Application Insights SDK
 - [Allegro.Extensions.Cqrs](src/Allegro.Extensions.Cqrs)  
   Contains implementation of common tools to support Cqrs pattern based on Handlers approach.
 - [Allegro.Extensions.Dapper](src/Allegro.Extensions.Dapper)  

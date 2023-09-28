@@ -2,7 +2,6 @@ using Allegro.Extensions.ApplicationInsights.AspNetCore;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.ApplicationInsights.DataContracts;
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Allegro.Extensions.ApplicationInsights.Demo.UnitTests;
 

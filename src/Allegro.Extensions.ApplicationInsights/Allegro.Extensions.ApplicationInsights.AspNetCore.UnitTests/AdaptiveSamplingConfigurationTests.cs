@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Microsoft.ApplicationInsights.Extensibility;
 using Moq;
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Allegro.Extensions.ApplicationInsights.AspNetCore.UnitTests;
 

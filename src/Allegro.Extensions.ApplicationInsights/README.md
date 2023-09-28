@@ -1,6 +1,6 @@
 # Allegro.Extensions.ApplicationInsights
 
-This repo contains a collection of useful Azure Application Insights extensions and utilities, developed as part of [Allegro Pay](https://allegropay.pl/) product which allow you:
+This repo contains a collection of useful Azure Application Insights extensions and utilities, developed as part of [Allegro Pay](https://allegropay.pl/) product.
 - [Allegro.Extensions.ApplicationInsights](#allegroextensionsapplicationinsights)
     - [Better sampling configuration](#better-sampling-configuration)
     - [Sampling exclusions](#sampling-exclusions)
@@ -34,7 +34,7 @@ builder.AddApplicationInsightsSamplingConfig()
 
 and now you can configure using such sections (represent default values):
 
-```json
+```jsonc
 {
     "ApplicationInsights": {
         "SamplingMode": "AdaptiveWithRules",
@@ -377,16 +377,18 @@ and
 you can configure it using `appsettings.json`:
 
 ```json
-"ApplicationInsights": {
+{
+  "ApplicationInsights": {
     "ApplicationInsightsToPrometheusMetrics": {
-        "DependenciesTypesIncluded": [
-            "HTTP"
-        ],
-        "IncludeBusRequests": false,
-        "ShouldGeneralizeHttpDependencyOperationName": false,
-        "ShouldGeneralizeHttpDependencyTargetUrl": false,
-        "MaxUrisPerHost": 100
+      "DependenciesTypesIncluded": [
+        "HTTP"
+      ],
+      "IncludeBusRequests": false,
+      "ShouldGeneralizeHttpDependencyOperationName": false,
+      "ShouldGeneralizeHttpDependencyTargetUrl": false,
+      "MaxUrisPerHost": 100
     }
+  }
 }
 ```
 
@@ -410,7 +412,7 @@ Secondly, if it fails and finds more than `MaxUrisPerHost` (100 by default) - it
 
 However, despite these protections, <span style="color:red;font-size:20px">BE CAUCIUS</span>, when using this feature. Check your metrics cardinality and size.
 
-## Bringing all together
+## Bringing it all together
 
 All features enabled, with default settings
 

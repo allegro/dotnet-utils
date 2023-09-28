@@ -4,7 +4,6 @@ using FluentAssertions;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Extensions.Options;
 using Moq;
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Allegro.Extensions.ApplicationInsights.Demo.UnitTests;
 
