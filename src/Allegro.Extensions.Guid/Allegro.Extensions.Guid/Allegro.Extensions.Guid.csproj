@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Allegro.Extensions.Guid</PackageId>
+    <PackageDescription>Contains FGuid</PackageDescription>
+    <NoWarn>${NoWarn},SA1516,MA0076,MA0011,SA1118,SA1204,SA1202,MA0008</NoWarn>
+  </PropertyGroup>
+  <Import Project="..\..\Package.Build.props"/>
+  <ItemGroup>
+    <PackageReference Include="IdGen" Version="3.0.1"/>
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Allegro.Extensions.Guid.Tests.Unit"/>
+  </ItemGroup>
+</Project>
