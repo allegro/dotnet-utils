@@ -65,9 +65,11 @@ internal class ConfeaturePerProviderMiddleware
     {
     }
 
-    public static async Task InvokeAsync(
+#pragma warning disable CA1822
+    public async Task InvokeAsync(
         HttpContext context,
         IConfigurationPrinter configurationPrinter)
+#pragma warning restore CA1822
     {
         if (!await ConfeatureMiddlewareHelper.IsAuthorized(context))
         {
@@ -92,9 +94,11 @@ internal class ConfeatureGenericMiddleware
     {
     }
 
-    public static async Task InvokeAsync(
+#pragma warning disable CA1822
+    public async Task InvokeAsync(
         HttpContext context,
         IConfigurationPrinter configurationPrinter)
+#pragma warning restore CA1822
     {
         if (!await ConfeatureMiddlewareHelper.IsAuthorized(context))
         {
