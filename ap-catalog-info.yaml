@@ -1,0 +1,16 @@
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: AllegroExtensions
+  description: "This repo contains utility packages that can be shared between Allegro services, but are not required. "
+  title: Allegro Extensions
+  annotations:
+    # backstage.io/techdocs-ref: dir:. #TODO: if you want  to support docs in backstage uncomment this and add mkdocs files ex. https://dev.azure.com/AllegroTechies/AllegroPay.DevOps/_git/ops-backstage-platform?path=/mkdocs.yml&_a=contents&version=GBmain
+    allegropay/entity-updated-at: '2023-11-03T08:15'
+  links: []
+spec:
+  type: library
+  owner: aard
+  lifecycle: production
+  system: application-platform
