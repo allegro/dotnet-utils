@@ -8,6 +8,7 @@ metadata:
   annotations:
     # backstage.io/techdocs-ref: dir:. #TODO: if you want  to support docs in backstage uncomment this and add mkdocs files ex. https://dev.azure.com/AllegroTechies/AllegroPay.DevOps/_git/ops-backstage-platform?path=/mkdocs.yml&_a=contents&version=GBmain
     allegropay/entity-updated-at: '2023-11-03T08:15'
+    github.com/project-slug: allegro/dotnet-utils
   links: []
 spec:
   type: library
