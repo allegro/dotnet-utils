@@ -45,7 +45,11 @@ jobs:
     - name: Test
       run: dotnet test -c Release --no-build --verbosity normal
     - name: Pack
+      if: ${{ github.ref == 'refs/heads/main' }}
       run: dotnet pack -v normal -c Release --no-build --include-symbols --include-source -o package
+    - name: Pack BETA
+      if: ${{ github.ref != 'refs/heads/main' }}
+      run: dotnet pack -v normal -c Release --no-build --include-symbols --include-source -o package --version-suffix beta
     - name: Verify package name & version
       id: nupkg
       if: inputs.publish
