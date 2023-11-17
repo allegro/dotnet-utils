@@ -34,9 +34,9 @@ public sealed class ConfeatureConfigurationSource : IConfigurationSource
     /// <param name="confeatureOptions">Confeature options</param>
     public ConfeatureConfigurationSource(
         ContextGroupsConfiguration configuration,
-        Uri fallbackUri,
+        Uri? fallbackUri,
         bool isDevelopment,
-        Func<HttpMessageHandler, HttpMessageHandler> authHandler,
+        Func<HttpMessageHandler, HttpMessageHandler>? authHandler,
         ConfeatureOptions confeatureOptions)
     {
         _configuration = configuration;

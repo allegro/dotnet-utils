@@ -1,3 +1,5 @@
+using Allegro.Extensions.Configuration.Configuration;
+using Allegro.Extensions.Configuration.Demo.Configuration;
 using Allegro.Extensions.Configuration.Extensions;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
@@ -9,10 +11,22 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        var confeatureOptions = new ConfeatureOptions
+        {
+            IsEnabled = true,
+            ServiceName = "demo",
+            AuthorizationPolicy = null,
+        };
+
+        builder.Configuration.AddGlobalConfiguration(
+            confeatureOptions,
+            builder.Environment);
+
         builder.Services.AddControllers();
         builder.Services.AddHttpClient();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddConfeature();
+        builder.Services.AddConfeature(confeatureOptions)
+            .RegisterGlobalConfig<TestGlobalConfig>(builder.Configuration, confeatureOptions);
 
         var app = builder.Build();
 

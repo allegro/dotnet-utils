@@ -13,4 +13,10 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Allegro.Extensions.Configuration.Tests.Integration"/>
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="global-config\*.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

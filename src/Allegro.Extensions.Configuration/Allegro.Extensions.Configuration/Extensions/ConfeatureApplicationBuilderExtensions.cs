@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace Allegro.Extensions.Configuration.Extensions;
 
@@ -32,8 +31,8 @@ public static class ConfeatureAppBuilderExtensions
             return appBuilder;
         }
 
-        var confeatureOptions = appBuilder.ApplicationServices.GetRequiredService<IOptions<ConfeatureOptions>>();
-        if (!confeatureOptions.Value.IsEnabled)
+        var confeatureOptions = appBuilder.ApplicationServices.GetRequiredService<ConfeatureOptions>();
+        if (!confeatureOptions.IsEnabled)
         {
             return appBuilder;
         }
@@ -121,16 +120,16 @@ internal static class ConfeatureMiddlewareHelper
             return true;
         }
 
-        var confeatureOptions = context.RequestServices.GetRequiredService<IOptions<ConfeatureOptions>>();
-        if (confeatureOptions.Value.AuthorizationPolicy == null)
+        var confeatureOptions = context.RequestServices.GetRequiredService<ConfeatureOptions>();
+        if (confeatureOptions.AuthorizationPolicy == null)
         {
             return true;
         }
 
         var policyProvider = context.RequestServices.GetRequiredService<IAuthorizationPolicyProvider>();
         var policyEvaluator = context.RequestServices.GetRequiredService<IPolicyEvaluator>();
-        var policy = await policyProvider.GetPolicyAsync(confeatureOptions.Value.AuthorizationPolicy)
-            ?? throw new AuthorizationPolicyNotFoundException(confeatureOptions.Value.AuthorizationPolicy);
+        var policy = await policyProvider.GetPolicyAsync(confeatureOptions.AuthorizationPolicy)
+            ?? throw new AuthorizationPolicyNotFoundException(confeatureOptions.AuthorizationPolicy);
         var authenticateResult = await policyEvaluator.AuthenticateAsync(policy, context);
         var authorizationResult = await policyEvaluator.AuthorizeAsync(
             policy,

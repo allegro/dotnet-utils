@@ -17,12 +17,13 @@ public static class StartupExtensions
     /// Registers Confeature V2 dependencies.
     /// </summary>
     public static IServiceCollection AddConfeature(
-        this IServiceCollection services)
+        this IServiceCollection services,
+        ConfeatureOptions confeatureOptions)
     {
         services.AddTransient<IStartupFilter, ConfeatureStartupFilter>();
         services.AddSingleton<IConfigurationPrinter, ConfigurationPrinter>();
-        services.AddOptions<ContextGroupsConfiguration>().BindConfiguration("GlobalConfiguration");
-        services.AddOptions<ConfeatureOptions>(); // TODO set in platform
+        services.AddSingleton(confeatureOptions);
+        services.AddOptions<ContextGroupsConfiguration>().BindConfiguration(ContextGroupsConfiguration.SectionName);
         services.AddOptions<EnvironmentConfiguration>(); // TODO set in platform
         return services;
     }

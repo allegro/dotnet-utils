@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Allegro.Extensions.Configuration.GlobalConfiguration;
 
@@ -14,13 +13,13 @@ public class ConfeatureLoggingHostedService : IHostedService
     private readonly ILogger _logger;
     private readonly IConfiguration _configuration;
     private readonly IServiceProvider _serviceProvider;
-    private readonly IOptions<ConfeatureOptions> _confeatureOptions;
+    private readonly ConfeatureOptions _confeatureOptions;
 
     public ConfeatureLoggingHostedService(
         ILogger<ConfeatureLoggingHostedService> logger,
         IConfiguration configuration,
         IServiceProvider serviceProvider,
-        IOptions<ConfeatureOptions> confeatureOptions)
+        ConfeatureOptions confeatureOptions)
     {
         _logger = logger;
         _configuration = configuration;
@@ -30,7 +29,7 @@ public class ConfeatureLoggingHostedService : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        if (!_confeatureOptions.Value.IsEnabled)
+        if (!_confeatureOptions.IsEnabled)
         {
             return Task.CompletedTask;
         }
