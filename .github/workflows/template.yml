@@ -52,7 +52,7 @@ jobs:
       run: dotnet pack -v normal -c Release --no-build --include-symbols --include-source -o package --version-suffix beta
     - name: Verify package name & version
       id: nupkg
-      if: inputs.publish
+      if: ${{ inputs.publish && github.ref == 'refs/heads/main' }}
       run: |
         TAG_NAME=${{ inputs.tagName }}
         VERSION=${TAG_NAME##*_}
