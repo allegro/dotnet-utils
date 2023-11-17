@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Configur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Configuration.Tests", "Allegro.Extensions.Configuration.Tests\Allegro.Extensions.Configuration.Tests.csproj", "{163927CB-2D1B-4F76-9168-F24E413B0172}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allegro.Extensions.Configuration.Demo.FallbackService", "Allegro.Extensions.Configuration.Demo.FallbackService\Allegro.Extensions.Configuration.Demo.FallbackService.csproj", "{7469554F-424A-4A2B-AF22-8158DDB69663}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{163927CB-2D1B-4F76-9168-F24E413B0172}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{163927CB-2D1B-4F76-9168-F24E413B0172}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{163927CB-2D1B-4F76-9168-F24E413B0172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7469554F-424A-4A2B-AF22-8158DDB69663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7469554F-424A-4A2B-AF22-8158DDB69663}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7469554F-424A-4A2B-AF22-8158DDB69663}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7469554F-424A-4A2B-AF22-8158DDB69663}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{30D9202F-01A9-42EE-B001-B5FE531272DB} = {481202ED-BACC-4139-891E-1A0F44E5045F}
@@ -89,5 +95,6 @@ Global
 		{3A135BA9-F302-4A69-A144-7711C5B0BE3F} = {481202ED-BACC-4139-891E-1A0F44E5045F}
 		{121DD59B-3DF3-4E3F-AB1C-CA8977CADD15} = {472E42F5-2281-4D90-835B-5C24C996B6B5}
 		{163927CB-2D1B-4F76-9168-F24E413B0172} = {472E42F5-2281-4D90-835B-5C24C996B6B5}
+		{7469554F-424A-4A2B-AF22-8158DDB69663} = {481202ED-BACC-4139-891E-1A0F44E5045F}
 	EndGlobalSection
 EndGlobal

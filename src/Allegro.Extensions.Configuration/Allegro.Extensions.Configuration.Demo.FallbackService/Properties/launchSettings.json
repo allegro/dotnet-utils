@@ -1,10 +1,10 @@
 ﻿{
   "profiles": {
-    "Allegro.Extensions.Configuration.Demo": {
+    "Allegro.Extensions.Configuration.Demo.FallbackService": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5283",
+      "applicationUrl": "http://localhost:5284",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

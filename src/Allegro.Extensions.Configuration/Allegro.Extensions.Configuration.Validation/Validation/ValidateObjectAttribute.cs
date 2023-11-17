@@ -43,7 +43,7 @@ public class ValidateObjectAttribute : ValidationAttribute
             .ObjectType
             .GetMember(
                 validationContext.MemberName ??
-                throw new ArgumentException($"{nameof(validationContext.MemberName)} cannot be null"))
+                throw new ArgumentException($"{nameof(validationContext.MemberName)} cannot be null", nameof(validationContext)))
             .GetType()
             .GetInterfaces()
             .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>));

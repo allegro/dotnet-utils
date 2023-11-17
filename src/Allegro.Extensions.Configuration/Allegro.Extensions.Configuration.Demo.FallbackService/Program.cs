@@ -1,11 +1,11 @@
+using Allegro.Extensions.Configuration.Api;
+using Allegro.Extensions.Configuration.Api.Services;
 using Allegro.Extensions.Configuration.Configuration;
-using Allegro.Extensions.Configuration.Demo.Configuration;
 using Allegro.Extensions.Configuration.Extensions;
-using Allegro.Extensions.Configuration.Wrappers;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace Allegro.Extensions.Configuration.Demo;
+namespace Allegro.Extensions.Configuration.Demo.FallbackService;
 
 public class Program
 {
@@ -21,23 +21,16 @@ public class Program
             AuthorizationPolicy = null,
         };
 
-        // This is just an example of marking configuration source as sensitive.
-        // In real-world scenario this would be something like a K8S Secret mounted on volume.
-        // Values from this source will not be visible in /configuration endpoint response.
-        builder.Configuration.WrapSensitive().AddJsonFile("appsettings.Secret.json");
-
         // Add the global configuration source
         builder.Configuration.AddGlobalConfiguration(
             confeatureOptions,
             builder.Environment);
 
-        // Register the Confeature and all configuration classes (available later using IOptions<> pattern)
-        builder.Services
-            .AddConfeature(confeatureOptions)
-            .RegisterConfig<TestLocalConfig>(builder.Configuration, "TestConfig")
-            .RegisterGlobalConfig<TestGlobalConfig>(builder.Configuration, confeatureOptions);
+        // Register the Confeature
+        builder.Services.AddConfeatureFallbackService(confeatureOptions);
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+            .AddApplicationPart(typeof(ISecretsProvider).Assembly);
         builder.Services.AddHttpClient();
         builder.Services.AddEndpointsApiExplorer();
 

@@ -25,8 +25,10 @@ public static class ConfigurationExtensions
     {
         var attr = typeof(TGlobalContext).GetCustomAttribute<GlobalConfigurationContextAttribute>();
         if (attr is null)
-            throw new ArgumentException($"Global configuration DTO {typeof(TGlobalContext)} " +
-                                        $"should be marked with the {nameof(GlobalConfigurationContextAttribute)}");
+#pragma warning disable CA2201
+            throw new Exception($"Global configuration DTO {typeof(TGlobalContext)} " +
+                                $"should be marked with the {nameof(GlobalConfigurationContextAttribute)}");
+#pragma warning restore CA2201
 
         var serviceName = confeatureOptions.ServiceName;
         var section = configuration.GetSection(attr.SectionName);

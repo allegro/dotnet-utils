@@ -11,15 +11,25 @@ namespace Allegro.Extensions.Configuration.Demo.Controllers;
 public class TestController : ControllerBase
 {
     private readonly IOptions<TestGlobalConfig> _testGlobalConfig;
+    private readonly IOptions<TestLocalConfig> _testLocalConfig;
 
-    public TestController(IOptions<TestGlobalConfig> testGlobalConfig)
+    public TestController(
+        IOptions<TestGlobalConfig> testGlobalConfig,
+        IOptions<TestLocalConfig> testLocalConfig)
     {
         _testGlobalConfig = testGlobalConfig;
+        _testLocalConfig = testLocalConfig;
     }
 
     [HttpGet("global")]
     public Task<TestGlobalConfig> GetGlobal()
     {
         return Task.FromResult(_testGlobalConfig.Value);
+    }
+
+    [HttpGet("local")]
+    public Task<TestLocalConfig> GetLocal()
+    {
+        return Task.FromResult(_testLocalConfig.Value);
     }
 }
