@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Vabank.Confeature.Validation;
+namespace Allegro.Extensions.Configuration.Validation;
 
 /// <summary>
 /// Validation attribute used to validate whether date ranges in enumerable do not overlap

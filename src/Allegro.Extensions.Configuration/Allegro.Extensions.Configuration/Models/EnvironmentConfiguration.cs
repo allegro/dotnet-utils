@@ -1,5 +1,3 @@
-using Vabank.Confeature;
-
 namespace Allegro.Extensions.Configuration.Models;
 
 public class EnvironmentConfiguration : IConfigurationMarker

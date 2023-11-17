@@ -6,8 +6,6 @@ using Allegro.Extensions.Configuration.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Vabank.Confeature;
-using Vabank.Confeature.GlobalConfiguration;
 
 // ReSharper disable ConvertClosureToMethodGroup
 

@@ -2,7 +2,6 @@ using Allegro.Extensions.Configuration.Configuration;
 using Allegro.Extensions.Configuration.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Vabank.Confeature;
 
 namespace Allegro.Extensions.Configuration.Services;
 

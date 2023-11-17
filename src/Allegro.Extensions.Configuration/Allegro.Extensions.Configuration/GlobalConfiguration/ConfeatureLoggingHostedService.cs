@@ -4,8 +4,8 @@ using Allegro.Extensions.Configuration.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Serilog;
 
 namespace Allegro.Extensions.Configuration.GlobalConfiguration;
 
@@ -17,7 +17,7 @@ public class ConfeatureLoggingHostedService : IHostedService
     private readonly IOptions<ConfeatureOptions> _confeatureOptions;
 
     public ConfeatureLoggingHostedService(
-        ILogger logger,
+        ILogger<ConfeatureLoggingHostedService> logger,
         IConfiguration configuration,
         IServiceProvider serviceProvider,
         IOptions<ConfeatureOptions> confeatureOptions)
@@ -52,7 +52,9 @@ public class ConfeatureLoggingHostedService : IHostedService
 
         foreach (var (providerId, providerMetadata) in configurationResponse.Providers)
         {
-            _logger.Information("[Confeature] ConfigurationProvider {ProviderId}: {@ProviderMetadata}", providerId, providerMetadata);
+#pragma warning disable CA1848
+            _logger.LogInformation("[Confeature] ConfigurationProvider {ProviderId}: {@ProviderMetadata}", providerId, providerMetadata);
+#pragma warning restore CA1848
         }
 
         foreach (var (key, values) in configurationResponse.Configuration)
@@ -62,7 +64,9 @@ public class ConfeatureLoggingHostedService : IHostedService
                 continue;
             }
 
-            _logger.Information("[Confeature] ConfigurationKey {Key}: {@Value}", key, values.First());
+#pragma warning disable CA1848
+            _logger.LogInformation("[Confeature] ConfigurationKey {Key}: {@Value}", key, values.First());
+#pragma warning restore CA1848
         }
 
         return Task.CompletedTask;

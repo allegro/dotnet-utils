@@ -15,10 +15,5 @@
   <ItemGroup>
     <PackageReference Include="Allegro.Extensions.AspNetCore" Version="1.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="bin\Debug\net6.0\appsettings.Local.json" />
-    <_ContentIncludedByDefault Remove="bin\Debug\net6.0\Vabank.Confeature.Service.deps.json" />
-    <_ContentIncludedByDefault Remove="bin\Debug\net6.0\Vabank.Confeature.Service.runtimeconfig.json" />
-  </ItemGroup>
   <Import Project="..\..\Package.Build.props" />
 </Project>

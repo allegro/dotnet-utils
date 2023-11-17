@@ -1,4 +1,4 @@
-namespace Vabank.Confeature.Validation;
+namespace Allegro.Extensions.Configuration.Validation;
 
 /// <summary>
 /// Marker attribute to explicitly indicate fields and properties that should not be validated

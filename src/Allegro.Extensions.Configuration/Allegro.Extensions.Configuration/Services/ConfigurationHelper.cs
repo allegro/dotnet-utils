@@ -6,10 +6,9 @@ using Allegro.Extensions.Configuration.Models;
 using Allegro.Extensions.Configuration.Services.ProviderHandlers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Serilog;
-using Vabank.Confeature;
 
 // ReSharper disable ConvertClosureToMethodGroup
 
@@ -124,7 +123,8 @@ internal static class ConfigurationHelper
         Dictionary<string, (IConfigurationProvider Provider, ConfigurationProviderMetadata Metadata)>
             providersMetadata)
     {
-        var logger = new Lazy<ILogger>(() => services.GetRequiredService<ILogger>());
+        var logger = new Lazy<ILogger>(
+            () => services.GetRequiredService<ILogger<ScheduledConfigurationWrapper<object>>>());
         var scheduledValueInfix = $":{nameof(ScheduledConfigurationWrapper<object>.Schedules)}:";
         var scheduledValuesCandidates = keyValues
             .Where(x => x.Key.Contains(scheduledValueInfix, StringComparison.InvariantCultureIgnoreCase))
@@ -198,10 +198,12 @@ internal static class ConfigurationHelper
             }
             catch (Exception e)
             {
-                logger.Value.Error(
+#pragma warning disable CA1848
+                logger.Value.LogError(
                     e,
                     "Unable to extract Value of ScheduledConfigurationWrapper for '{Key}'",
                     candidate.Key);
+#pragma warning restore CA1848
             }
         }
 

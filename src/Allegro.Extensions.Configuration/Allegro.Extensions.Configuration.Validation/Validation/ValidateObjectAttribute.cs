@@ -2,7 +2,7 @@ using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Vabank.Confeature.Validation;
+namespace Allegro.Extensions.Configuration.Validation;
 
 /// <summary>
 /// Validates nested objects. Null objects are treated as invalid, unless they're of type that implements

@@ -1,6 +1,6 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 
-namespace Vabank.Confeature;
+namespace Allegro.Extensions.Configuration;
 
 /// <summary>
 /// Binds the class marked with the attribute with the configuration context

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Microsoft.Extensions.Options;
 
-namespace Vabank.Confeature.Validation;
+namespace Allegro.Extensions.Configuration.Validation;
 
 /// <summary>
 /// By default Validator does not validate nested members, this validator recursively validates

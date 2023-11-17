@@ -5,9 +5,9 @@ using Allegro.Extensions.Configuration.Configuration;
 using Allegro.Extensions.Configuration.Exceptions;
 using Allegro.Extensions.Configuration.Extensions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
-using Serilog;
 
 namespace Allegro.Extensions.Configuration.GlobalConfiguration.Provider;
 
@@ -107,11 +107,13 @@ internal class ConfeatureConfigurationProvider : ConfigurationProvider, ITravers
         var invalidContextGroup = _configuration.ContextGroups.Find(cg => !Directory.Exists(cg.Path));
         if (invalidContextGroup is not null)
         {
-            DeferredLogger.Error(
+#pragma warning disable CA1848
+            DeferredLogger.LogError(
                 "[Confeature] Could not find directory: {InvalidContextGroupPath} " +
                 "for context group: {InvalidContextGroupName}",
                 invalidContextGroup.Path,
                 invalidContextGroup.Name);
+#pragma warning restore CA1848
             return LoadFromFallbackService().GetAwaiter().GetResult();
         }
 
@@ -148,9 +150,11 @@ internal class ConfeatureConfigurationProvider : ConfigurationProvider, ITravers
         }
         catch (IOException e)
         {
-            DeferredLogger.Error(
+#pragma warning disable CA1848
+            DeferredLogger.LogError(
                 e,
                 "Caught an exception when trying to read the global config, falling back to the HTTP");
+#pragma warning restore CA1848
             return LoadFromFallbackService().GetAwaiter().GetResult();
         }
     }
@@ -162,7 +166,9 @@ internal class ConfeatureConfigurationProvider : ConfigurationProvider, ITravers
             throw new ConfeatureClientNotConfiguredException();
         }
 
-        DeferredLogger.Information("[Confeature] Using fallback service to retrieve the configuration");
+#pragma warning disable CA1848
+        DeferredLogger.LogInformation("[Confeature] Using fallback service to retrieve the configuration");
+#pragma warning restore CA1848
 
         var globalConfig = await _retryPolicy.ExecuteAsync(() => _confeatureClient.GetGlobalConfiguration(_serviceName));
 
@@ -195,7 +201,9 @@ internal class ConfeatureConfigurationProvider : ConfigurationProvider, ITravers
                     contextGroupName));
         }
 
-        DeferredLogger.Information("[Confeature] Configuration loaded from the fallback service successfully");
+#pragma warning disable CA1848
+        DeferredLogger.LogInformation("[Confeature] Configuration loaded from the fallback service successfully");
+#pragma warning restore CA1848
 
         return configurationProviders;
     }

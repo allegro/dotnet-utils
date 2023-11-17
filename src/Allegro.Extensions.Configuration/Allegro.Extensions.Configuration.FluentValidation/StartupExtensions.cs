@@ -3,7 +3,6 @@ using Allegro.Extensions.Validators;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Vabank.Confeature;
 
 namespace Allegro.Extensions.Configuration.FluentValidation;
 

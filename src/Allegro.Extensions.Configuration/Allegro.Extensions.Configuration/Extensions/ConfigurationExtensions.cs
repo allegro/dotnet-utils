@@ -2,7 +2,6 @@ using System.Reflection;
 using Allegro.Extensions.Configuration.Configuration;
 using Allegro.Extensions.Configuration.GlobalConfiguration.Provider;
 using Microsoft.Extensions.Configuration;
-using Vabank.Confeature;
 
 namespace Allegro.Extensions.Configuration.Extensions;
 

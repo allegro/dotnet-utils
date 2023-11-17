@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Vabank.Confeature.Validation;
+using Allegro.Extensions.Configuration.Validation;
 
-// ReSharper disable once CheckNamespace
-namespace Vabank.Confeature;
+namespace Allegro.Extensions.Configuration;
 
 /// <summary>
 /// Used to determine configuration schedules

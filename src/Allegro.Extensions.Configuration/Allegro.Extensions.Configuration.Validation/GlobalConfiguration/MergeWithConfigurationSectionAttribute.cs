@@ -1,4 +1,4 @@
-namespace Vabank.Confeature.GlobalConfiguration;
+namespace Allegro.Extensions.Configuration.GlobalConfiguration;
 
 /// <summary>
 /// Marks that this global configuration DTO should also be bind with the given configuration section

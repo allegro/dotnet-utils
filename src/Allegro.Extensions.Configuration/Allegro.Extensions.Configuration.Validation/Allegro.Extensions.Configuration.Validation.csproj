@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Description>Confeature v2 validations library</Description>
         <Nullable>enable</Nullable>
         <!-- Restore warnings when ready -->
         <NoWarn>$(NoWarn);1591</NoWarn>
-        <Authors>Vabank C# Team</Authors>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>
             $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
         </AllowedOutputExtensionsInPackageBuildOutputFolder>
-        <RootNamespace>Vabank.Confeature</RootNamespace>
+        <RootNamespace>Allegro.Extensions.Configuration</RootNamespace>
     </PropertyGroup>
     
     <ItemGroup>

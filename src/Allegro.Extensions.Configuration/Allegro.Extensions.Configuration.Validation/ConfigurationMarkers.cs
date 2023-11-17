@@ -1,4 +1,4 @@
-namespace Vabank.Confeature;
+namespace Allegro.Extensions.Configuration;
 
 /// <summary>
 /// Dummy marker interface for local configuration classes

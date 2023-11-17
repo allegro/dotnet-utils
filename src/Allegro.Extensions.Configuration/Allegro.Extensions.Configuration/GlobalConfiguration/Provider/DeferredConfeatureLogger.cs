@@ -1,5 +1,4 @@
-using Serilog;
-using Serilog.Events;
+using Microsoft.Extensions.Logging;
 
 namespace Allegro.Extensions.Configuration.GlobalConfiguration.Provider;
 
@@ -12,17 +11,27 @@ internal class DeferredConfeatureLogger : ILogger
     private readonly List<Action<ILogger>> _deferred = new();
     public IReadOnlyList<Action<ILogger>> Deferred => _deferred.AsReadOnly();
 
-    public void Write(LogEvent logEvent)
+    public IDisposable BeginScope<TState>(TState state)
     {
-        var stringWriter = new StringWriter();
-        logEvent.RenderMessage(stringWriter);
-        Console.WriteLine(stringWriter.ToString());
+#pragma warning disable MA0025
+        throw new NotImplementedException();
+#pragma warning restore MA0025
+    }
 
-        if (logEvent.Exception != null)
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        return true;
+    }
+
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+    {
+        Console.WriteLine(formatter(state, exception));
+
+        if (exception != null)
         {
-            Console.WriteLine(logEvent.Exception);
+            Console.WriteLine(exception);
         }
 
-        _deferred.Add(logger => logger.Write(logEvent));
+        _deferred.Add(logger => logger.Log(logLevel, eventId, state, exception, formatter));
     }
 }

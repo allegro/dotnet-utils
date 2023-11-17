@@ -1,13 +1,12 @@
 using System.ComponentModel.DataAnnotations;
-using Vabank.Confeature.Validation;
+using Allegro.Extensions.Configuration.Validation;
 
-// ReSharper disable once CheckNamespace
-namespace Vabank.Confeature;
+namespace Allegro.Extensions.Configuration;
 
 /// <summary>
 /// Wrapper used to schedule configuration changes
 /// </summary>
-/// <remarks>Use the <see cref="Vabank.Confeature.Validation.ValidateObjectAttribute"/> attribute on fields
+/// <remarks>Use the <see cref="ValidateObjectAttribute"/> attribute on fields
 /// of ScheduledConfigurationWrapper type</remarks>
 /// <typeparam name="T">Wrapped configuration value type</typeparam>
 [Serializable]

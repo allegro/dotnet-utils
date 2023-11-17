@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Vabank.Confeature.Validation;
+namespace Allegro.Extensions.Configuration.Validation;
 
 /// <summary>
 /// Validation attribute used to compare DateTimeOffset a property marked with it against other DateTimeOffset property
