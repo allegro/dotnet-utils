@@ -28,6 +28,28 @@ public static class ErrorHandlingMiddlewareExtensions
         Action<ErrorHandlingConfigurationBuilder>? customErrorHandlerRegistration = null,
         IErrorSerializer? errorSerializer = null)
     {
+        return services.AddFluentErrorHandlingMiddleware(
+            _ => logError,
+            _ => logWarning,
+            customErrorHandlerRegistration,
+            errorSerializer);
+    }
+
+    /// <summary>
+    /// Adds fluent error handling support to application
+    /// </summary>
+    /// <param name="services">Service collections</param>
+    /// <param name="logErrorFactory">Factory of delegate to log errors - enables to use any logger technology without Microsoft ILogger/<T/></param>
+    /// <param name="logWarningFactory">Factory of delegate to log warnings - enables to use any logger technology without Microsoft ILogger/<T/></param>
+    /// <param name="customErrorHandlerRegistration">Custom handler configurations</param>
+    /// <param name="errorSerializer">Enables to use other kind of error serialization than default System.Text.Json in Web mode</param>
+    public static IServiceCollection AddFluentErrorHandlingMiddleware(
+        this IServiceCollection services,
+        Func<IServiceProvider, Action<(string Message, Exception Exception)>> logErrorFactory,
+        Func<IServiceProvider, Action<(string Message, Exception Exception)>> logWarningFactory,
+        Action<ErrorHandlingConfigurationBuilder>? customErrorHandlerRegistration = null,
+        IErrorSerializer? errorSerializer = null)
+    {
         var errorHandlingConfigurationBuilder = CreateErrorHandlingConfigurationBuilder(customErrorHandlerRegistration);
 
         services.TryAddSingleton(
@@ -35,8 +57,8 @@ public static class ErrorHandlingMiddlewareExtensions
                 errorHandlingConfigurationBuilder.CustomErrorHandlerMap,
                 errorHandlingConfigurationBuilder.AdditionalInstrumentation,
                 errorSerializer ?? new SystemTextJsonWebErrorSerializer(),
-                logError,
-                logWarning));
+                logErrorFactory(provider),
+                logWarningFactory(provider)));
         return services;
     }
 
