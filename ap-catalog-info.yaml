@@ -1,0 +1,17 @@
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: AllegroExtensions
+  description: "This repo contains utility packages that can be shared between Allegro services, but are not required. "
+  title: Allegro Extensions
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    allegropay/entity-updated-at: '2023-11-03T08:15'
+    github.com/project-slug: allegro/dotnet-utils
+  links: []
+spec:
+  type: library
+  owner: aard
+  lifecycle: production
+  system: application-platform

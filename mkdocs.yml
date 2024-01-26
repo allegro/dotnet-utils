@@ -1,0 +1,5 @@
+site_name: Allegro Pay Backstage docs
+
+plugins:
+  - techdocs-core
+  - include-markdown
