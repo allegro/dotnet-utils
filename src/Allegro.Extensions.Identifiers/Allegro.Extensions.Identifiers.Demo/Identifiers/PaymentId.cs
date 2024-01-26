@@ -1,6 +1,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 
 using Allegro.Extensions.Identifiers.Abstractions;
+using Meziantou.Framework.Annotations;
 
 namespace Allegro.Extensions.Identifiers.Demo.Identifiers;
 

@@ -19,6 +19,7 @@ public static class StronglyTypedIdsSwaggerExtensions
         services.Configure<SwaggerGenOptions>(options =>
         {
             var types = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => a.FullName?.StartsWith("Microsoft", StringComparison.Ordinal) != true)
                 .SelectMany(x => x.GetTypes())
                 .Where(x => IsAssignableToGenericType(x, typeof(IStronglyTypedId<>)) && !x.IsInterface && !x.IsAbstract)
                 .ToList();
