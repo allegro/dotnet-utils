@@ -2,6 +2,7 @@
 #pragma warning disable 1591
 
 using Allegro.Extensions.Identifiers.Abstractions;
+using Meziantou.Framework.Annotations;
 
 namespace Allegro.Extensions.Identifiers.Demo.Identifiers;
 

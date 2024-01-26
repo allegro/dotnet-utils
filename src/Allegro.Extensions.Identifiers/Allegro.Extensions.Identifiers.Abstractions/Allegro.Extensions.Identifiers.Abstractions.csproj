@@ -7,7 +7,7 @@
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
   <ItemGroup>
-    <PackageReference Include="Meziantou.Framework.StronglyTypedId" Version="[1.0.34]" />
-    <PackageReference Include="Microsoft.CodeAnalysis" Version="[4.7.0]"/>
+    <PackageReference Include="Meziantou.Framework.StronglyTypedId" Version="2.1.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="4.8.0" />
   </ItemGroup>
 </Project>
