@@ -1,5 +1,16 @@
 # Contributing
 
+## How to produce Beta package
+
+1. Go to Github Actions tab
+2. Select a pipeline referencing your project, e.g. [Build Allegro.Extensions.AspNetCore](https://github.com/allegro/dotnet-utils/actions/workflows/Allegro.Extensions.AspNetCore.ci.yml)
+3. Click `Run workflow`
+4. Select your branch.
+
+> NOTE:
+>
+> Pipeline will produce a package with `version-beta` name, where `version` is fetched from `version.xml` file.
+
 ## Pull requests
 
 * for small changes, no need to add separate issue, defining problem in pull request is enough
