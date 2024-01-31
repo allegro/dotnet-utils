@@ -225,7 +225,7 @@ public class DependencyCallDispatcherSpec
         }
     }
 
-    private record TestCallConfiguration(
+    private sealed record TestCallConfiguration(
         TestResponse Response,
         bool ShouldThrowOnError = false,
         Exception? Exception = null,
@@ -272,14 +272,14 @@ public class DependencyCallDispatcherSpec
         }
     }
 
-    private class TestCall : TestCallBase<TestRequest>
+    private sealed class TestCall : TestCallBase<TestRequest>
     {
         public TestCall(TestCallConfiguration configuration) : base(configuration)
         {
         }
     }
 
-    private class TestCallTimeout : TestCallBase<TestRequestTimeout>
+    private sealed class TestCallTimeout : TestCallBase<TestRequestTimeout>
     {
         private readonly TestCallConfiguration _configuration;
 
@@ -294,7 +294,7 @@ public class DependencyCallDispatcherSpec
                 TimeSpan.FromMilliseconds(_configuration.DefaultTimeoutInMs.Value));
     }
 
-    private class TestCallCustomPolicy : TestCallBase<TestRequestCustomPolicy>
+    private sealed class TestCallCustomPolicy : TestCallBase<TestRequestCustomPolicy>
     {
         private readonly TestCallConfiguration _configuration;
 
@@ -307,20 +307,20 @@ public class DependencyCallDispatcherSpec
             _configuration.CustomPolicy ?? base.CustomPolicy;
     }
 
-    private class TestException : Exception
+    private sealed class TestException : Exception
     {
     }
 
-    private record TestRequest(string Data) : IRequest<TestResponse>;
+    private sealed record TestRequest(string Data) : IRequest<TestResponse>;
 
-    private record TestRequestTimeout(string Data) : IRequest<TestResponse>;
+    private sealed record TestRequestTimeout(string Data) : IRequest<TestResponse>;
 
-    private record TestRequestCustomPolicy(string Data) : IRequest<TestResponse>;
+    private sealed record TestRequestCustomPolicy(string Data) : IRequest<TestResponse>;
 
-    private record TestResponse(string Data);
+    private sealed record TestResponse(string Data);
 
     #region Sample
-    private class SampleDependencyCall : DependencyCall<SampleRequestData, SampleResponseData>
+    private sealed class SampleDependencyCall : DependencyCall<SampleRequestData, SampleResponseData>
     {
         protected override Task<SampleResponseData> Execute(
             SampleRequestData request,
@@ -338,7 +338,7 @@ public class DependencyCallDispatcherSpec
         }
     }
 
-    private class SampleNoFallbackDependencyCall : DependencyCall<SampleRequestData, SampleResponseData>
+    private sealed class SampleNoFallbackDependencyCall : DependencyCall<SampleRequestData, SampleResponseData>
     {
         protected override Task<SampleResponseData> Execute(
             SampleRequestData request,
@@ -356,8 +356,8 @@ public class DependencyCallDispatcherSpec
         }
     }
 
-    private record SampleRequestData(string Data) : IRequest<SampleResponseData>;
+    private sealed record SampleRequestData(string Data) : IRequest<SampleResponseData>;
 
-    private record SampleResponseData(string Data);
+    private sealed record SampleResponseData(string Data);
     #endregion
 }

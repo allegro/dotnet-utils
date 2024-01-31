@@ -25,9 +25,11 @@ public static class StartupExtensions
             s => s
                 .FromAssemblies(
                     applicationAssemblies ??
-                    AppDomain.CurrentDomain.GetAssemblies()) // TODO: remove scrutor and register by own util
+                    AppDomain.CurrentDomain.GetAssemblies()
+                        // Filter microsoft assemblies due to reflection problems in Microsoft.Data.SqlClient
+                        .Where(a => a.FullName?.StartsWith("Microsoft", StringComparison.Ordinal) != true))
                 .AddClasses(c => c.AssignableTo(typeof(IDependencyCall<,>)))
-                .AsImplementedInterfaces()
+                .AsImplementedInterfaces()// TODO: remove scrutor and register by own util
                 .WithTransientLifetime());
         return services
             .AddSingleton<IDependencyCallDispatcher, DefaultDependencyCallDispatcher>();

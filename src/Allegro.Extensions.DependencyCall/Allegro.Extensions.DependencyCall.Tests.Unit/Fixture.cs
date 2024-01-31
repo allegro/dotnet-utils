@@ -6,7 +6,7 @@ using Prometheus;
 
 namespace Allegro.Extensions.DependencyCall.Tests.Unit;
 
-internal class Fixture
+internal sealed class Fixture
 {
     private readonly ServiceCollection _services;
     private readonly Assembly[] _applicationAssemblies;
