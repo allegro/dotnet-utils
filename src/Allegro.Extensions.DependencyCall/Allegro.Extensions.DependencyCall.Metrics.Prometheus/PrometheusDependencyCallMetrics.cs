@@ -18,8 +18,11 @@ internal class PrometheusDependencyCallMetrics : IDependencyCallMetrics
             "Duration of dependency call",
             new HistogramConfiguration()
             {
+                // CA1861 : Prefer 'static readonly' fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array
+#pragma warning disable CA1861
                 LabelNames = new[] { "dependencyCallName", "type" },
-                Buckets = new[] { 0.008, 0.016, 0.032, 0.064, 0.128, 0.512, 1, 4, 16 }
+#pragma warning restore CA1861
+                Buckets = new[] { 0.008, 0.016, 0.032, 0.064, 0.128, 0.512, 1, 4, 16 },
             });
 
     public void Succeeded(IRequest request, TimeSpan duration)
