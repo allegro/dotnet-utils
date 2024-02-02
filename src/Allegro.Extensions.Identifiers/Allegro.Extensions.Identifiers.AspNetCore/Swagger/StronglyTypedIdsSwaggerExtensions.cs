@@ -1,3 +1,4 @@
+using System.Reflection;
 using Allegro.Extensions.Identifiers.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
@@ -14,12 +15,13 @@ public static class StronglyTypedIdsSwaggerExtensions
     /// <summary>
     /// Add swagger support for strongly typed identifiers
     /// </summary>
-    public static IServiceCollection AddStronglyTypedIds(this IServiceCollection services)
+    public static IServiceCollection AddStronglyTypedIds(
+        this IServiceCollection services,
+        IReadOnlyCollection<Assembly>? applicationAssemblies = null)
     {
         services.Configure<SwaggerGenOptions>(options =>
         {
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(a => a.FullName?.StartsWith("Microsoft", StringComparison.Ordinal) != true)
+            var types = (applicationAssemblies ?? AppDomain.CurrentDomain.GetAssemblies())
                 .SelectMany(x => x.GetTypes())
                 .Where(x => IsAssignableToGenericType(x, typeof(IStronglyTypedId<>)) && !x.IsInterface && !x.IsAbstract)
                 .ToList();
