@@ -14,6 +14,9 @@ jobs:
       publish: true
       tagName: ${{ github.ref_name }}
     secrets:
-      nugetCertificate: ${{ secrets.NUGET_PRIVATE_KEY_P12 }}
-      nugetCertificatePassword: ${{ secrets.GPG_PRIVATE_KEY_PASSWORD }}
+      SM_CLIENT_CERT_PASSWORD: ${{ secrets.DIGICERT_SM_CLIENT_CERT_PASSWORD }}
+      SM_CLIENT_CERT_FILE_B64: ${{ secrets.DIGICERT_SM_CLIENT_CERT_FILE_B64 }}
+      SM_HOST: ${{ secrets.DIGICERT_SM_HOST }}
+      SM_API_KEY: ${{ secrets.DIGICERT_SM_API_KEY }}
+      SM_CODE_SIGNING_CERT_SHA1_HASH: ${{ secrets.DIGICERT_SM_CODE_SIGNING_CERT_SHA1_HASH }}
       nugetApiKey: ${{ secrets.NUGET_API_KEY }}

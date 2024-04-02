@@ -64,19 +64,51 @@ jobs:
         name: package
         path: src/${{ inputs.solutionName }}/package
   publish:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     if: inputs.publish
     needs: [build]
     steps:
-    - uses: actions/download-artifact@v3
-      with:
-        name: package
-        path: unsigned
-    - name: Save & verify certificate
-      run: |
-        echo ${{ secrets.nugetCertificate }} | base64 -d > cert.p12
-        openssl pkcs12 -in cert.p12 -nodes -passin pass:"${{ secrets.nugetCertificatePassword }}" | openssl x509 -noout -subject || echo "Certificate validation failed"
-    - name: Sign package
-      run: dotnet nuget sign unsigned/*.nupkg --certificate-path cert.p12 --certificate-password ${{ secrets.nugetCertificatePassword }} --timestamper http://timestamp.digicert.com --output signed
-    - name: Push package
-      run: dotnet nuget push signed/*.nupkg --api-key ${{ secrets.nugetApiKey }} --skip-duplicate --source https://api.nuget.org/v3/index.json
+      - uses: actions/download-artifact@v3
+        with:
+          name: package
+          path: unsigned
+      - name: NuGet Install
+        uses: NuGet/setup-nuget@v1.0.5
+        with:
+          nuget-version: latest
+      - name: Setup Certificate
+        run: |
+          echo "${{ secrets.SM_CLIENT_CERT_FILE_B64 }}" | base64 --decode > /d/cognite_code_signing_github_actions.p12
+        shell: bash
+      - name: Set variables
+        id: variables
+        run: |
+          echo "SM_HOST=${{ secrets.SM_HOST }}" >> "$GITHUB_ENV" 
+          echo "SM_API_KEY=${{ secrets.SM_API_KEY }}" >> "$GITHUB_ENV" 
+          echo "SM_CLIENT_CERT_PASSWORD=${{ secrets.SM_CLIENT_CERT_PASSWORD }}" >> "$GITHUB_ENV" 
+          echo "SM_CODE_SIGNING_CERT_SHA1_HASH=${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}" >> "$GITHUB_ENV"
+          echo "SM_CLIENT_CERT_FILE=D:\\cognite_code_signing_github_actions.p12" >> "$GITHUB_ENV"
+        shell: bash
+      - name: Configure Digicert Secure Software Manager
+        uses: digicert/ssm-code-signing@v0.0.2
+        env:
+          SM_API_KEY: ${{ env.SM_API_KEY }}
+          SM_CLIENT_CERT_PASSWORD: ${{ env.SM_CLIENT_CERT_PASSWORD }}
+          SM_CLIENT_CERT_FILE: ${{ env.SM_CLIENT_CERT_FILE }}
+      - name: Setup SSM KSP on windows latest 
+        run: | 
+          smksp_registrar.exe list 
+          smctl.exe keypair ls 
+          C:\Windows\System32\certutil.exe -csp "DigiCert Signing Manager KSP" -key -user 
+          smksp_cert_sync.exe 
+          smctl.exe healthcheck
+        shell: cmd 
+      - name: Signing using Nuget
+        run: |
+          dir "%cd%\unsigned"
+          mkdir "%cd%\signed"
+          nuget sign "%cd%\unsigned\*.nupkg" -Timestamper http://timestamp.digicert.com -outputdirectory "%cd%\signed" -CertificateFingerprint ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }} -HashAlgorithm SHA256 -Verbosity detailed -Overwrite
+          nuget verify -All "%cd%\signed\*.nupkg"
+        shell: cmd
+      - name: Push package
+        run: dotnet nuget push signed/*.nupkg --api-key ${{ secrets.nugetApiKey }} --skip-duplicate --source https://api.nuget.org/v3/index.json
