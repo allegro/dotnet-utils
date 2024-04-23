@@ -1,6 +1,7 @@
 name: Publish Allegro.Extensions.AspNetCore
 
 on:
+  workflow_dispatch: {}
   push:
     tags:
       - 'Allegro.Extensions.AspNetCore_*'

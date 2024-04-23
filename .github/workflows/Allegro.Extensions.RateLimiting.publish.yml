@@ -1,6 +1,7 @@
 name: Publish Allegro.Extensions.RateLimiting
 
 on:
+  workflow_dispatch: {}
   push:
     tags:
       - 'Allegro.Extensions.RateLimiting_*'
