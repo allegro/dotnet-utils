@@ -6,7 +6,7 @@
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="6.0.7" />
+    <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.Dapper\Allegro.Extensions.Dapper.csproj" />
