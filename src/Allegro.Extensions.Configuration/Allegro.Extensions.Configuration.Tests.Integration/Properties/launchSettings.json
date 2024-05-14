@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Vabank.Confeature.Integration.Tests": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:53245;http://localhost:53246"
+    }
+  }
+}

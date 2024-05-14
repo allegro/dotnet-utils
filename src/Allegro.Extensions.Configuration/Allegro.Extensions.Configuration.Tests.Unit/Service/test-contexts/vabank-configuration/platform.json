@@ -1,0 +1,12 @@
+{
+  "config": {
+    "platform-key": "value-20"
+  },
+  "metadata": {
+    "restartServices": true,
+    "services": [
+      "platform-demo",
+      "confeaturev2"
+    ]
+  }
+}

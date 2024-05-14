@@ -1,0 +1,7 @@
+FluentAssertions
+Microsoft.AspNetCore.Mvc.Testing
+Microsoft.NET.Test.Sdk
+Moq
+Serilog.Sinks.XUnit
+xunit
+xunit.runner.visualstudio

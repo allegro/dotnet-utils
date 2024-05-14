@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Nullable>enable</Nullable>
+        <!-- Restore warnings when ready -->
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>
+          $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+        </AllowedOutputExtensionsInPackageBuildOutputFolder>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Allegro.Extensions.Configuration.Tests.Integration" />
+        <InternalsVisibleTo Include="Allegro.Extensions.Configuration.Tests.Unit" />
+        <InternalsVisibleTo Include="Allegro.Extensions.Configuration.FluentValidation" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Allegro.Extensions.Configuration.Abstractions\Allegro.Extensions.Configuration.Abstractions.csproj" />
+      <ProjectReference Include="..\Allegro.Extensions.Configuration.Client\Allegro.Extensions.Configuration.Client.csproj" />
+      <ProjectReference Include="..\Allegro.Extensions.Configuration.Validation\Allegro.Extensions.Configuration.Validation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="6.0.0" />
+      <PackageReference Include="Polly" Version="7.2.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <Import Project="..\..\Package.Build.props" />
+</Project>
