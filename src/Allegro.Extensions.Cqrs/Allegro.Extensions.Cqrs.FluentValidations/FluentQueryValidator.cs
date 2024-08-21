@@ -23,7 +23,7 @@ internal class FluentQueryValidator<T> : IQueryValidator<T>
             .Where(f => f != null)
             .ToList();
 
-        if (failures.Any())
+        if (failures.Count != 0)
         {
             throw new ValidationException(failures);
         }

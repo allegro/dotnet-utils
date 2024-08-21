@@ -180,6 +180,8 @@ dotnet_diagnostic.CA1012.severity = warning
 # CA1822: Make member static
 dotnet_diagnostic.CA1822.severity = warning
 
+dotnet_diagnostic.CA1852.severity = suggestion
+
 # IDE0005: Using directive is unnecessary
 dotnet_diagnostic.IDE0005.severity = warning
 
