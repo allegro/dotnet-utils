@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Allegro.Extensions.Cqrs.Abstractions;
 using Allegro.Extensions.Cqrs.Abstractions.Commands;
 using Allegro.Extensions.Cqrs.Commands;
@@ -36,6 +32,49 @@ public class CommandsSpec
             var act = () => commandDispatcher.Send(new TestCommandNoHandler());
 
             return act.Should().ThrowAsync<MissingCommandHandlerException>();
+        }
+
+        [Fact]
+        public Task When_multiple_handlers_registered_exception_thrown()
+        {
+            var queryDispatcher = new Fixture().Build().CommandDispatcher;
+            var act = () => queryDispatcher.Send(new MultipleHandlerCommandTest());
+
+            return act.Should().ThrowAsync<MultipleCommandHandlerException>();
+        }
+
+        private record MultipleHandlerCommandTest : Command;
+
+        private class FirstCommandHandler : ICommandHandler<MultipleHandlerCommandTest>
+        {
+            private readonly CommandLog _commandLog;
+
+            public FirstCommandHandler(CommandLog commandLog)
+            {
+                _commandLog = commandLog;
+            }
+
+            public Task Handle(MultipleHandlerCommandTest command)
+            {
+                _commandLog.ExecutedCommandsLog.Add(command.ToString());
+                return Task.CompletedTask;
+            }
+        }
+
+        private class SecondCommandHandler : ICommandHandler<MultipleHandlerCommandTest>
+        {
+            private readonly CommandLog _commandLog;
+
+            public SecondCommandHandler(CommandLog commandLog)
+            {
+                _commandLog = commandLog;
+            }
+
+            public Task Handle(MultipleHandlerCommandTest command)
+            {
+                _commandLog.ExecutedCommandsLog.Add(command.ToString());
+                return Task.CompletedTask;
+            }
         }
 
         private record TestCommand : Command;

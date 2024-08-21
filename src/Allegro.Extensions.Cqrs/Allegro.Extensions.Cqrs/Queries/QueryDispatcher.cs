@@ -46,6 +46,7 @@ internal sealed class QueryDispatcher : IQueryDispatcher
         var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
         var handlers = scope.ServiceProvider.GetServices(handlerType).ToList();
 
+        // TODO: throw this on startup
         if (handlers.Count == 0)
             throw new MissingQueryHandlerException<TResult>(query);
 
