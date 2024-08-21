@@ -37,6 +37,33 @@ public class QueriesSpec
             return act.Should().ThrowAsync<MissingQueryHandlerException>();
         }
 
+        [Fact]
+        public Task When_multiple_handlers_registered_exception_thrown()
+        {
+            var queryDispatcher = new Fixture().Build().QueryDispatcher;
+            var act = () => queryDispatcher.Query(new MultipleHandlerQueryTest(), CancellationToken.None);
+
+            return act.Should().ThrowAsync<MultipleQueryHandlerException<TestData>>();
+        }
+
+        private record MultipleHandlerQueryTest : Query<TestData>;
+
+        private class FirstQueryHandler : IQueryHandler<MultipleHandlerQueryTest, TestData>
+        {
+            public Task<TestData> Handle(MultipleHandlerQueryTest query, CancellationToken cancellationToken)
+            {
+                return Task.FromResult(new TestData("TestData"));
+            }
+        }
+
+        private class SecondQueryHandler : IQueryHandler<MultipleHandlerQueryTest, TestData>
+        {
+            public Task<TestData> Handle(MultipleHandlerQueryTest query, CancellationToken cancellationToken)
+            {
+                return Task.FromResult(new TestData("TestData"));
+            }
+        }
+
         private record TestQuery : Query<TestData>;
 
         private record TestData(string Name);

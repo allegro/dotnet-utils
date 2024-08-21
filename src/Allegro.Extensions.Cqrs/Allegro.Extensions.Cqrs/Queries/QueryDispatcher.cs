@@ -44,21 +44,21 @@ internal sealed class QueryDispatcher : IQueryDispatcher
 
         // TODO: micro-optimization possibility - cache those types
         var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
-        var handler = scope.ServiceProvider.GetService(handlerType);
+        var handlers = scope.ServiceProvider.GetServices(handlerType).ToList();
 
-        if (handler is null)
-        {
-            // TODO: throw this on startup
+        if (handlers.Count == 0)
             throw new MissingQueryHandlerException<TResult>(query);
-        }
+
+        if (handlers.Count > 1)
+            throw new MultipleQueryHandlerException<TResult>(query);
+
+        var handler = handlers.Single();
 
         var handleMethodInfo = handlerType
             .GetMethod(nameof(IQueryHandler<Query<TResult>, TResult>.Handle));
 
         if (handleMethodInfo is null)
-        {
             throw new MissingMethodException($"Missing method Handle in handler for query {query.GetType().FullName}");
-        }
 
         // this is not a constructor, we can skip null
         var invoke = handleMethodInfo.Invoke(
@@ -75,6 +75,14 @@ internal sealed class QueryDispatcher : IQueryDispatcher
 internal class MissingQueryHandlerException<T> : MissingQueryHandlerException
 {
     public MissingQueryHandlerException(Query<T> query) : base($"Missing handler for query {query.GetType().FullName}")
+    {
+    }
+}
+
+internal class MultipleQueryHandlerException<T> : Exception
+{
+    public MultipleQueryHandlerException(Query<T> query)
+        : base($"Multiple handler for query {query.GetType().FullName}")
     {
     }
 }
