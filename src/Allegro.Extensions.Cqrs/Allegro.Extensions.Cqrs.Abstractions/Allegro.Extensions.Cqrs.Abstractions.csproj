@@ -2,6 +2,7 @@
   <PropertyGroup>
     <PackageId>Allegro.Extensions.Cqrs.Abstractions</PackageId>
     <PackageDescription>Contains Cqrs basic abstractions used in Allegro services</PackageDescription>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
   <ItemGroup>

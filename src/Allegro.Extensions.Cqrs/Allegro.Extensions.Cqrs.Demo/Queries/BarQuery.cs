@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Allegro.Extensions.Cqrs.Abstractions;
 using Allegro.Extensions.Cqrs.Abstractions.Queries;
 using Allegro.Extensions.Cqrs.Demo.Commands;
@@ -9,9 +7,9 @@ using Microsoft.Extensions.Logging;
 namespace Allegro.Extensions.Cqrs.Demo.Queries;
 
 public record BarData(string SomeData);
-internal record BarQuery(string? SomeId) : Query<BarData>;
+internal sealed record BarQuery(string? SomeId) : Query<BarData>;
 
-internal class BarQueryFluentValidator : AbstractValidator<BarQuery>
+internal sealed class BarQueryFluentValidator : AbstractValidator<BarQuery>
 {
     public BarQueryFluentValidator()
     {
@@ -19,7 +17,7 @@ internal class BarQueryFluentValidator : AbstractValidator<BarQuery>
     }
 }
 
-internal class BarQueryValidator : IQueryValidator<BarQuery>
+internal sealed class BarQueryValidator : IQueryValidator<BarQuery>
 {
     public Task Validate(BarQuery query, CancellationToken cancellationToken)
     {
@@ -32,7 +30,7 @@ internal class BarQueryValidator : IQueryValidator<BarQuery>
     }
 }
 
-internal class BarQueryHandler : IQueryHandler<BarQuery, BarData>
+internal sealed class BarQueryHandler : IQueryHandler<BarQuery, BarData>
 {
     public Task<BarData> Handle(BarQuery query, CancellationToken cancellationToken)
     {
@@ -42,7 +40,7 @@ internal class BarQueryHandler : IQueryHandler<BarQuery, BarData>
 }
 
 [Decorator]
-internal class BarQueryHandlerDecorator : IQueryHandler<BarQuery, BarData>
+internal sealed class BarQueryHandlerDecorator : IQueryHandler<BarQuery, BarData>
 {
     private readonly IQueryHandler<BarQuery, BarData> _decorated;
     private readonly ILogger<BarCommand> _logger;

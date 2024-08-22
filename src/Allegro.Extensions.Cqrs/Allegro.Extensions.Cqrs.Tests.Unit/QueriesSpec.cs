@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Threading;
-using System.Threading.Tasks;
 using Allegro.Extensions.Cqrs.Abstractions;
 using Allegro.Extensions.Cqrs.Abstractions.Queries;
 using Allegro.Extensions.Cqrs.Queries;
@@ -37,11 +33,38 @@ public class QueriesSpec
             return act.Should().ThrowAsync<MissingQueryHandlerException>();
         }
 
-        private record TestQuery : Query<TestData>;
+        [Fact]
+        public Task When_multiple_handlers_registered_exception_thrown()
+        {
+            var queryDispatcher = new Fixture().Build().QueryDispatcher;
+            var act = () => queryDispatcher.Query(new MultipleHandlerQueryTest(), CancellationToken.None);
 
-        private record TestData(string Name);
+            return act.Should().ThrowAsync<MultipleQueryHandlerException<TestData>>();
+        }
 
-        private class TestQueryHandler : IQueryHandler<TestQuery, TestData>
+        private sealed record MultipleHandlerQueryTest : Query<TestData>;
+
+        private sealed class FirstQueryHandler : IQueryHandler<MultipleHandlerQueryTest, TestData>
+        {
+            public Task<TestData> Handle(MultipleHandlerQueryTest query, CancellationToken cancellationToken)
+            {
+                return Task.FromResult(new TestData("TestData"));
+            }
+        }
+
+        private sealed class SecondQueryHandler : IQueryHandler<MultipleHandlerQueryTest, TestData>
+        {
+            public Task<TestData> Handle(MultipleHandlerQueryTest query, CancellationToken cancellationToken)
+            {
+                return Task.FromResult(new TestData("TestData"));
+            }
+        }
+
+        private sealed record TestQuery : Query<TestData>;
+
+        private sealed record TestData(string Name);
+
+        private sealed class TestQueryHandler : IQueryHandler<TestQuery, TestData>
         {
             public Task<TestData> Handle(TestQuery query, CancellationToken cancellationToken)
             {
@@ -49,7 +72,7 @@ public class QueriesSpec
             }
         }
 
-        private record TestQueryNoHandler : Query<TestData>;
+        private sealed record TestQueryNoHandler : Query<TestData>;
     }
 
     public class QueryValidator
@@ -76,9 +99,9 @@ public class QueriesSpec
             fixture.VerifyQueryDecoratorsWereNotExecuted();
         }
 
-        private record NotValidTestQuery : Query<int>;
+        private sealed record NotValidTestQuery : Query<int>;
 
-        private class TestQueryValidator : IQueryValidator<NotValidTestQuery>
+        private sealed class TestQueryValidator : IQueryValidator<NotValidTestQuery>
         {
             public Task Validate(NotValidTestQuery query, CancellationToken cancellationToken)
             {
@@ -86,7 +109,7 @@ public class QueriesSpec
             }
         }
 
-        private class TestQueryHandler : IQueryHandler<NotValidTestQuery, int>
+        private sealed class TestQueryHandler : IQueryHandler<NotValidTestQuery, int>
         {
             public Task<int> Handle(NotValidTestQuery query, CancellationToken cancellationToken)
             {
@@ -95,7 +118,7 @@ public class QueriesSpec
         }
 
         [Decorator]
-        private class TestQueryHandlerDecorator : IQueryHandler<NotValidTestQuery, int>
+        private sealed class TestQueryHandlerDecorator : IQueryHandler<NotValidTestQuery, int>
         {
             private readonly IQueryHandler<NotValidTestQuery, int> _handler;
             private readonly QueryLog _queryLog;
@@ -129,9 +152,9 @@ public class QueriesSpec
             fixture.VerifyQueryWithDecoratorWasHandled(query);
         }
 
-        private record TestQuery : Query<int>;
+        private sealed record TestQuery : Query<int>;
 
-        private class TestQueryHandler : IQueryHandler<TestQuery, int>
+        private sealed class TestQueryHandler : IQueryHandler<TestQuery, int>
         {
             private readonly QueryLog _queryLog;
 
@@ -148,7 +171,7 @@ public class QueriesSpec
         }
 
         [Decorator]
-        private class TestQueryHandlerDecorator : IQueryHandler<TestQuery, int>
+        private sealed class TestQueryHandlerDecorator : IQueryHandler<TestQuery, int>
         {
             private readonly IQueryHandler<TestQuery, int> _handler;
             private readonly QueryLog _queryLog;
@@ -169,7 +192,7 @@ public class QueriesSpec
         }
     }
 
-    private class Fixture
+    private sealed class Fixture
     {
         private readonly ServiceCollection _serviceCollection;
         private IServiceProvider? _provider;
@@ -215,7 +238,7 @@ public class QueriesSpec
         }
     }
 
-    private class QueryLog
+    private sealed class QueryLog
     {
         public List<string> ExecutedQueriesLog { get; } = new();
     }

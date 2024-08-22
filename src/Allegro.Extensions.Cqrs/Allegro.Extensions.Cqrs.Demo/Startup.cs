@@ -5,9 +5,6 @@ using Allegro.Extensions.Cqrs.Demo.Commands;
 using Allegro.Extensions.Cqrs.Demo.Queries;
 using Allegro.Extensions.Cqrs.FluentValidations;
 using Allegro.Extensions.Cqrs.Queries;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Allegro.Extensions.Cqrs.Demo;
 

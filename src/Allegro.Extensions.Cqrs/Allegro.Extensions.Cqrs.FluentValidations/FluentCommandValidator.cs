@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Allegro.Extensions.Cqrs.FluentValidations;
 
-internal class FluentCommandValidator<T> : ICommandValidator<T>
+internal sealed class FluentCommandValidator<T> : ICommandValidator<T>
     where T : Command
 {
     private readonly IServiceProvider _serviceProvider;
@@ -23,7 +23,7 @@ internal class FluentCommandValidator<T> : ICommandValidator<T>
            .Where(f => f != null)
            .ToList();
 
-        if (failures.Any())
+        if (failures.Count != 0)
         {
             throw new ValidationException(failures);
         }

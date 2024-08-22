@@ -7,7 +7,7 @@ namespace Allegro.Extensions.Cqrs.Demo.Commands;
 
 public record BarCommand(string Name) : Command;
 
-internal class BarCommandFluentValidator : AbstractValidator<BarCommand>
+internal sealed class BarCommandFluentValidator : AbstractValidator<BarCommand>
 {
     public BarCommandFluentValidator()
     {
@@ -15,7 +15,7 @@ internal class BarCommandFluentValidator : AbstractValidator<BarCommand>
     }
 }
 
-internal class BarCommandValidator : ICommandValidator<BarCommand>
+internal sealed class BarCommandValidator : ICommandValidator<BarCommand>
 {
     public Task Validate(BarCommand command)
     {
@@ -28,7 +28,7 @@ internal class BarCommandValidator : ICommandValidator<BarCommand>
     }
 }
 
-internal class BarCommandHandler : ICommandHandler<BarCommand>
+internal sealed class BarCommandHandler : ICommandHandler<BarCommand>
 {
     private readonly ILogger<BarCommandHandler> _logger;
 
@@ -47,7 +47,7 @@ internal class BarCommandHandler : ICommandHandler<BarCommand>
 }
 
 [Decorator]
-internal class BarCommandHandlerDecorator : ICommandHandler<BarCommand>
+internal sealed class BarCommandHandlerDecorator : ICommandHandler<BarCommand>
 {
     private readonly ICommandHandler<BarCommand> _decorated;
     private readonly ILogger<BarCommand> _logger;
