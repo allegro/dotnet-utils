@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Allegro.Extensions.Cqrs.FluentValidations;
 
-internal class FluentQueryValidator<T> : IQueryValidator<T>
+internal sealed class FluentQueryValidator<T> : IQueryValidator<T>
     where T : Query
 {
     private readonly IServiceProvider _serviceProvider;

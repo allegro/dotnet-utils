@@ -43,9 +43,9 @@ public class CommandsSpec
             return act.Should().ThrowAsync<MultipleCommandHandlerException>();
         }
 
-        private record MultipleHandlerCommandTest : Command;
+        private sealed record MultipleHandlerCommandTest : Command;
 
-        private class FirstCommandHandler : ICommandHandler<MultipleHandlerCommandTest>
+        private sealed class FirstCommandHandler : ICommandHandler<MultipleHandlerCommandTest>
         {
             private readonly CommandLog _commandLog;
 
@@ -61,7 +61,7 @@ public class CommandsSpec
             }
         }
 
-        private class SecondCommandHandler : ICommandHandler<MultipleHandlerCommandTest>
+        private sealed class SecondCommandHandler : ICommandHandler<MultipleHandlerCommandTest>
         {
             private readonly CommandLog _commandLog;
 
@@ -77,9 +77,9 @@ public class CommandsSpec
             }
         }
 
-        private record TestCommand : Command;
+        private sealed record TestCommand : Command;
 
-        private class TestCommandHandler : ICommandHandler<TestCommand>
+        private sealed class TestCommandHandler : ICommandHandler<TestCommand>
         {
             private readonly CommandLog _log;
 
@@ -95,7 +95,7 @@ public class CommandsSpec
             }
         }
 
-        private record TestCommandNoHandler : Command;
+        private sealed record TestCommandNoHandler : Command;
     }
 
     public class CommandValidator
@@ -122,9 +122,9 @@ public class CommandsSpec
             fixture.VerifyCommandActionsWereNotExecuted();
         }
 
-        private record NotValidTestCommand : Command;
+        private sealed record NotValidTestCommand : Command;
 
-        private class TestCommandValidator : ICommandValidator<NotValidTestCommand>
+        private sealed class TestCommandValidator : ICommandValidator<NotValidTestCommand>
         {
             public Task Validate(NotValidTestCommand command)
             {
@@ -132,7 +132,7 @@ public class CommandsSpec
             }
         }
 
-        private class TestCommandHandler : ICommandHandler<NotValidTestCommand>
+        private sealed class TestCommandHandler : ICommandHandler<NotValidTestCommand>
         {
             public Task Handle(NotValidTestCommand command)
             {
@@ -141,7 +141,7 @@ public class CommandsSpec
         }
 
         [Decorator]
-        private class TestCommandHandlerDecorator : ICommandHandler<NotValidTestCommand>
+        private sealed class TestCommandHandlerDecorator : ICommandHandler<NotValidTestCommand>
         {
             private readonly ICommandHandler<NotValidTestCommand> _handler;
             private readonly CommandLog _commandLog;
@@ -174,9 +174,9 @@ public class CommandsSpec
             fixture.VerifyCommandWithActionsWasHandled(command);
         }
 
-        private record TestCommand : Command;
+        private sealed record TestCommand : Command;
 
-        private class TestCommandHandler : ICommandHandler<TestCommand>
+        private sealed class TestCommandHandler : ICommandHandler<TestCommand>
         {
             private readonly CommandLog _commandLog;
 
@@ -193,7 +193,7 @@ public class CommandsSpec
         }
 
         [Decorator]
-        private class TestCommandHandlerDecorator : ICommandHandler<TestCommand>
+        private sealed class TestCommandHandlerDecorator : ICommandHandler<TestCommand>
         {
             private readonly ICommandHandler<TestCommand> _handler;
             private readonly CommandLog _commandLog;
@@ -213,7 +213,7 @@ public class CommandsSpec
         }
     }
 
-    private class Fixture
+    private sealed class Fixture
     {
         private readonly ServiceCollection _serviceCollection;
         private IServiceProvider? _provider;
@@ -267,7 +267,7 @@ public class CommandsSpec
         }
     }
 
-    private class CommandLog
+    private sealed class CommandLog
     {
         public List<string> ExecutedCommandsLog { get; } = new();
     }
