@@ -15,9 +15,15 @@ on:
         required: false
         type: string
     secrets:
-      nugetCertificate:
+      SM_CLIENT_CERT_PASSWORD:
         required: false
-      nugetCertificatePassword:
+      SM_CLIENT_CERT_FILE_B64:
+        required: false
+      SM_HOST:
+        required: false
+      SM_API_KEY:
+        required: false
+      SM_CODE_SIGNING_CERT_SHA1_HASH:
         required: false
       nugetApiKey:
         required: false
@@ -36,6 +42,7 @@ jobs:
       with:
         dotnet-version: |
           6.0.x
+          8.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: FormatCheck
