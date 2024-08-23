@@ -118,4 +118,4 @@ jobs:
           nuget verify -All "%cd%\signed\*.nupkg"
         shell: cmd
       - name: Push package
-        run: dotnet nuget push signed/*.nupkg --api-key ${{ secrets.nugetApiKey }} --skip-duplicate --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "%cd%\signed" --api-key ${{ secrets.nugetApiKey }} --skip-duplicate --source https://api.nuget.org/v3/index.json
