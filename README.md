@@ -1,14 +1,18 @@
-# Allegro.Extensions
+## Allegro.Extensions
 
 This repo contains utility packages that can be shared between Allegro services, but are not required. Everyone can be an author of such package - the goal of this repository is to make it easier and quicker to share useful code snippets, helpers, extensions etc, with as little effort as possible.  
 
-# Contribution
+***
+
+## Contribution
 
 Every PR is welcomed. You can extend existing packages and add new ones.
 
 Please refer to [Contributing guideline](CONTRIBUTING.md) for details. 
 
-# Available packages
+***
+
+## Available packages
 
 - [Allegro.Extensions.AspNetCore](src/Allegro.Extensions.AspNetCore)  
   This library contains useful extensions and utilities for ASP.NET Core based projects.
@@ -37,6 +41,7 @@ Please refer to [Contributing guideline](CONTRIBUTING.md) for details.
 - [Allegro.Extensions.Validators](src/Allegro.Extensions.Validators)  
   Contains useful classes and extensions validators.
 
+***
 
 ## License
 
