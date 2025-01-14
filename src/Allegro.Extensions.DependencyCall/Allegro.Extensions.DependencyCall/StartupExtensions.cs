@@ -12,10 +12,15 @@ public static class StartupExtensions
     /// <summary>
     /// Register dependency call abstractions and scan to register usages;
     /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configureDependencyCall">An optional action to configure the dependency call builder.</param>
+    /// <param name="applicationAssemblies">An optional collection of assemblies in which dependency call types should be looked for.</param>
+    /// <param name="publicOnly">Determines whether only public classes should be registered</param>
     public static IServiceCollection AddDependencyCall(
         this IServiceCollection services,
         Action<DependencyCallBuilder>? configureDependencyCall = null,
-        IReadOnlyCollection<Assembly>? applicationAssemblies = null)
+        IReadOnlyCollection<Assembly>? applicationAssemblies = null,
+        bool publicOnly = false)
     {
         var builder = new DependencyCallBuilder(services);
         configureDependencyCall?.Invoke(builder);
@@ -26,7 +31,7 @@ public static class StartupExtensions
                 .FromAssemblies(
                     applicationAssemblies ??
                     AppDomain.CurrentDomain.GetAssemblies())
-                .AddClasses(c => c.AssignableTo(typeof(IDependencyCall<,>)))
+                .AddClasses(c => c.AssignableTo(typeof(IDependencyCall<,>)), publicOnly)
                 .AsImplementedInterfaces()// TODO: remove scrutor and register by own util
                 .WithTransientLifetime());
         return services
