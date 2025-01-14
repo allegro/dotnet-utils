@@ -16,16 +16,22 @@ public static class StartupExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <param name="assemblies">Assembly collection in which IValidators should be looked for.</param>
-    public static IServiceCollection AddCqrsFluentValidations(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+    /// <param name="publicOnly">Determines whether only public classes should be registered</param>
+    public static IServiceCollection AddCqrsFluentValidations(
+        this IServiceCollection services,
+        IEnumerable<Assembly> assemblies,
+        bool publicOnly = false)
     {
         services.Scan(s => s.FromAssemblies(assemblies)
-            .AddClasses(c => c.AssignableTo(typeof(IValidator<>)))
+            .AddClasses(c => c.AssignableTo(typeof(IValidator<>)), publicOnly)
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
         services
             .Scan(s => s.FromCallingAssembly()
-                .AddClasses(c => c.AssignableToAny(typeof(ICommandValidator<>), typeof(IQueryValidator<>)))
+                .AddClasses(
+                    c => c.AssignableToAny(typeof(ICommandValidator<>), typeof(IQueryValidator<>)),
+                    publicOnly)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 

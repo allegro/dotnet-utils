@@ -15,18 +15,21 @@ public static class StartupExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <param name="assemblies">Assembly collection in which Command related types should be looked for.</param>
-    public static IServiceCollection AddQueries(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+    /// <param name="publicOnly">Determines whether only public classes should be registered</param>
+    public static IServiceCollection AddQueries(this IServiceCollection services, IEnumerable<Assembly> assemblies, bool publicOnly = false)
     {
         services.AddSingleton<IQueryDispatcher, QueryDispatcher>();
         services.Scan(s => s.FromAssemblies(assemblies) // TODO: remove scrutor and register by own util
-            .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>))
-                .WithoutAttribute<DecoratorAttribute>())
+            .AddClasses(
+                c => c.AssignableTo(typeof(IQueryHandler<,>))
+                    .WithoutAttribute<DecoratorAttribute>(),
+                publicOnly)
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
         services
             .Scan(s => s.FromAssemblies(assemblies)
-                .AddClasses(c => c.AssignableTo(typeof(IQueryValidator<>)))
+                .AddClasses(c => c.AssignableTo(typeof(IQueryValidator<>)), publicOnly)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
         return services;
