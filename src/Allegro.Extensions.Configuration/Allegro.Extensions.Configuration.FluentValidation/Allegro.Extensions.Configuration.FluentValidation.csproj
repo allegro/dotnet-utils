@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Description>Confeature v2 fluent validations library</Description>
+        <Nullable>enable</Nullable>
+        <!-- Restore warnings when ready -->
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>
+            $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+        </AllowedOutputExtensionsInPackageBuildOutputFolder>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Allegro.Extensions.Configuration\Allegro.Extensions.Configuration.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Allegro.Extensions.Validators" Version="1.2.0" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    </ItemGroup>
+
+    <Import Project="..\..\Package.Build.props" />
+</Project>
