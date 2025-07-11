@@ -227,7 +227,7 @@ public class ErrorHandlingMiddlewareTests
             var errorResponse = GetErrorResponse();
 
             errorResponse.Errors.Should().BeEquivalentTo(error.Errors.Select(e =>
-                new ErrorResponse(e.Code, e.Message, e.UserMessage, e.Path, e.Details)));
+                new ErrorData(e.Code, e.Message, e.UserMessage, e.Path, e.Details)));
         }
 
         public void VerifyStandardResponseMessage()
@@ -254,10 +254,10 @@ public class ErrorHandlingMiddlewareTests
             return bodyText;
         }
 
-        private ErrorResponsesHolder GetErrorResponse()
+        private ErrorResponse GetErrorResponse()
         {
             _responseBodyStream.Position = 0;
-            return JsonSerializer.Deserialize<ErrorResponsesHolder>(
+            return JsonSerializer.Deserialize<ErrorResponse>(
                 _responseBodyStream,
                 new JsonSerializerOptions(JsonSerializerDefaults.Web))!;
         }

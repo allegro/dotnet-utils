@@ -23,7 +23,7 @@ public class InvalidModelStateResponseFactoryTests
         var actionResult = (ObjectResult)factory.BuildResponse(actionContext);
 
         actionResult.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
-        actionResult.Value.Should().BeEquivalentTo(TheErrorResponsesHolder);
+        actionResult.Value.Should().BeEquivalentTo(ExpectedErrorResponse);
     }
 
     [Fact]
@@ -53,6 +53,6 @@ public class InvalidModelStateResponseFactoryTests
             modelStateDictionary);
     }
 
-    private static readonly ErrorResponsesHolder TheErrorResponsesHolder =
-        new ErrorResponsesHolder(new[] { new ErrorResponse(ModelValidationState.Invalid.ToString(), TheErrorMessage) });
+    private static readonly ErrorResponse ExpectedErrorResponse =
+        new ErrorResponse(new[] { new ErrorData(ModelValidationState.Invalid.ToString(), TheErrorMessage) });
 }

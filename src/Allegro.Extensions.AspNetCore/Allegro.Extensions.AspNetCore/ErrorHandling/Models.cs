@@ -1,5 +1,3 @@
-using Allegro.Extensions.AspNetCore.ErrorHandling.Internals;
-
 // ReSharper disable ClassNeverInstantiated.Global
 
 namespace Allegro.Extensions.AspNetCore.ErrorHandling;
@@ -58,7 +56,7 @@ public record Error
     public Error AddErrorData(
         string code,
         string message,
-        string userMessage,
+        string? userMessage = null,
         string? path = null,
         string? details = null)
     {
@@ -69,12 +67,18 @@ public record Error
     internal object BuildErrorResponse()
     {
         return
-            CustomResponse ?? new ErrorResponsesHolder(
+            CustomResponse ?? new ErrorResponse(
                 Errors?
-                    .Select(x => new ErrorResponse(x.Code, x.Message, x.UserMessage, x.Path, x.Details))
-                    .ToList() ?? Enumerable.Empty<ErrorResponse>());
+                    .Select(x => new ErrorData(x.Code, x.Message, x.UserMessage, x.Path, x.Details))
+                    .ToList() ?? Enumerable.Empty<ErrorData>());
     }
 }
+
+/// <summary>
+/// Default error response contract
+/// </summary>
+public record ErrorResponse(
+    IEnumerable<ErrorData> Errors);
 
 /// <summary>
 /// Data related to error
