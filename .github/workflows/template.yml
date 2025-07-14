@@ -64,7 +64,7 @@ jobs:
         TAG_NAME=${{ inputs.tagName }}
         VERSION=${TAG_NAME##*_}
         NUPKG="${{ inputs.projectName }}.${VERSION}.nupkg"
-        echo "::set-output name=filename::$NUPKG"
+        echo "filename=$NUPKG" >> $GITHUB_OUTPUT
         if [ ! -f package/$NUPKG ]; then
           echo "File '$NUPKG' does not exist";
           exit 1;
