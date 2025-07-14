@@ -13,8 +13,8 @@ jobs:
   publish:
     uses: ./.github/workflows/template.yml
     with:
-      projectName: Allegro.Extensions.Cqrs
-      solutionName: Allegro.Extensions.Cqrs
+      projectName: Allegro.Extensions.DependencyCall
+      solutionName: Allegro.Extensions.DependencyCall
       publish: true
       tagName: 0.0.1-test
       onPublishNugetPush: false
