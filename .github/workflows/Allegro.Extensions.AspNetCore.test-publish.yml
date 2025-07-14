@@ -5,6 +5,10 @@ on:
   push:
     paths: ['.github/workflows/*']
 
+permissions:
+  actions: read
+  contents: read
+
 jobs:
   publish:
     uses: ./.github/workflows/template.yml
