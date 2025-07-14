@@ -14,10 +14,6 @@ on:
       tagName:
         required: false
         type: string
-      onPublishNugetPush:
-        required: false
-        type: boolean
-        default: true
     secrets:
       SM_CLIENT_CERT_PASSWORD:
         required: false
@@ -124,6 +120,5 @@ jobs:
         shell: cmd
       - name: Push package
         shell: cmd
-        if: inputs.onPublishNugetPush
         run: |
           dotnet nuget push "%cd%\signed\*.nupkg" --api-key ${{ secrets.nugetApiKey }} --skip-duplicate --source https://api.nuget.org/v3/index.json
