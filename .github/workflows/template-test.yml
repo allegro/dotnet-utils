@@ -1,8 +1,8 @@
-name: Publish Allegro.Extensions.AspNetCore
+name: Template test
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     paths: ['.github/workflows/*']
 
 permissions:
@@ -16,10 +16,8 @@ jobs:
       projectName: Allegro.Extensions.AspNetCore
       solutionName: Allegro.Extensions.AspNetCore
       publish: true
-      tagName: v0.0.1-test
-    env:
-      VersionPrefix: 0.0.1
-      VersionSuffix: test
+      tagName: 0.0.1-test
+      onPublishNugetPush: false
     secrets:
       SM_CLIENT_CERT_PASSWORD: ${{ secrets.DIGICERT_SM_CLIENT_CERT_PASSWORD }}
       SM_CLIENT_CERT_FILE_B64: ${{ secrets.DIGICERT_SM_CLIENT_CERT_FILE_B64 }}

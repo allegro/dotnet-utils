@@ -37,6 +37,9 @@ jobs:
     defaults:
       run:
         working-directory: src/${{ inputs.solutionName }}
+    env:
+      VersionPrefix: 0.0.1
+      VersionSuffix: test
     outputs:
       nupkgFilename: ${{ steps.nupkg.outputs.filename }}
     steps:
