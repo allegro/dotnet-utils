@@ -1,0 +1,24 @@
+name: Publish Allegro.Extensions.AspNetCore
+
+on:
+  push:
+    paths: ['.github/workflows/*']
+
+jobs:
+  publish:
+    uses: ./.github/workflows/template.yml
+    with:
+      projectName: Allegro.Extensions.AspNetCore
+      solutionName: Allegro.Extensions.AspNetCore
+      publish: true
+      tagName: v0.0.1-test
+    env:
+      VersionPrefix: 0.0.1
+      VersionSuffix: test
+    secrets:
+      SM_CLIENT_CERT_PASSWORD: ${{ secrets.DIGICERT_SM_CLIENT_CERT_PASSWORD }}
+      SM_CLIENT_CERT_FILE_B64: ${{ secrets.DIGICERT_SM_CLIENT_CERT_FILE_B64 }}
+      SM_HOST: ${{ secrets.DIGICERT_SM_HOST }}
+      SM_API_KEY: ${{ secrets.DIGICERT_SM_API_KEY }}
+      SM_CODE_SIGNING_CERT_SHA1_HASH: ${{ secrets.DIGICERT_SM_CODE_SIGNING_CERT_SHA1_HASH }}
+      nugetApiKey: ${{ secrets.NUGET_API_KEY }}
