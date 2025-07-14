@@ -16,7 +16,7 @@ jobs:
       projectName: Allegro.Extensions.DependencyCall
       solutionName: Allegro.Extensions.DependencyCall
       publish: true
-      tagName: 0.0.1-test
+      tagName: Allegro.Extensions.DependencyCall_1.2.0
       onPublishNugetPush: false
     secrets:
       SM_CLIENT_CERT_PASSWORD: ${{ secrets.DIGICERT_SM_CLIENT_CERT_PASSWORD }}
