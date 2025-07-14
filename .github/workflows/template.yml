@@ -52,10 +52,16 @@ jobs:
     - name: Test
       run: dotnet test -c Release --no-build --verbosity normal
     - name: Pack
+      if: ${{ github.ref == 'refs/heads/main' }}
       run: dotnet pack -v normal -c Release --no-build --include-symbols --include-source -o package
+    - name: Pack BETA
+      if: ${{ github.ref != 'refs/heads/main' }}
+      run: |
+        SUFFIX=$(echo "beta-${{ github.run_number }}.${{ github.run_attempt }}" | tr "/" ".")
+        dotnet pack -v normal -c Release --no-build --include-symbols --include-source -o package --version-suffix $SUFFIX
     - name: Verify package name & version
       id: nupkg
-      if: inputs.publish
+      if: ${{ inputs.publish && github.ref == 'refs/heads/main' }}
       run: |
         TAG_NAME=${{ inputs.tagName }}
         VERSION=${TAG_NAME##*_}
