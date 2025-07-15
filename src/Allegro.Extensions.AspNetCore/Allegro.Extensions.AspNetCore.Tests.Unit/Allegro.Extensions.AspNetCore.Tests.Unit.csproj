@@ -3,6 +3,7 @@
   <PropertyGroup>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>IDE0005</NoWarn> <!-- Either IDE0005 has to be disabled or GenerateDocumentationFile set to true or removed as per https://github.com/dotnet/aspnetcore/issues/47912#issuecomment-1678067241 -->
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.AspNetCore\Allegro.Extensions.AspNetCore.csproj" />
