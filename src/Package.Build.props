@@ -14,9 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)$(SolutionName)\README.md" Pack="true" PackagePath="\"/>
-    <None Include="$(MSBuildThisFileDirectory)$(SolutionName)\CHANGELOG.md" Pack="true" PackagePath="\"/>
+    <None Include="$([MSBuild]::GetPathOfFileAbove(README.md, $(MSBuildProjectDirectory)))" Pack="true" PackagePath="\"/>
+    <None Include="$([MSBuild]::GetPathOfFileAbove(CHANGELOG.md, $(MSBuildProjectDirectory)))" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)$(SolutionName)\version.xml" />
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(version.xml, $(MSBuildProjectDirectory)))" />
 </Project>
