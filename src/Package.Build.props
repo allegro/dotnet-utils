@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <TargetFramework>$(NetCoreVersions)</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Authors>Allegro</Authors>
     <Company>Allegro</Company>
     <Copyright>Copyright © Allegro Group</Copyright>
