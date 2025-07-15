@@ -1,7 +1,7 @@
 <Project>
   <Import Project="Sdk.props" Sdk="Allegro.DotnetSdk" />
   <PropertyGroup>
-    <TargetFramework>$(NetCoreVersions)</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

@@ -4,6 +4,6 @@
         "rollForward": "latestFeature"
     },
     "msbuild-sdks": {
-        "Allegro.DotnetSdk": "2.1.0"
+        "Allegro.DotnetSdk": "2.2.2"
     }
 }
