@@ -7,7 +7,7 @@ namespace Allegro.Extensions.AspNetCore.ErrorHandling;
 /// </summary>
 public record Error
 {
-    private readonly ICollection<ErrorData> _errors;
+    private readonly List<ErrorData> _errors;
 
     /// <summary>
     /// Log level of error

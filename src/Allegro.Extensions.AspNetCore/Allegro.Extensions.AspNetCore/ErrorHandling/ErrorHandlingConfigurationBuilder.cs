@@ -49,10 +49,7 @@ public class ErrorHandlingConfigurationBuilder
         Func<TException, Error> handler)
         where TException : Exception
     {
-        if (handler == null)
-        {
-            throw new ArgumentNullException(nameof(handler));
-        }
+        ArgumentNullException.ThrowIfNull(handler);
 
         if (!CustomErrorHandlerMap.TryAdd(typeof(TException), TypedHandlerWrapper(handler)))
         {
@@ -66,10 +63,7 @@ public class ErrorHandlingConfigurationBuilder
     private ErrorHandlingConfigurationBuilder AddAdditionalInstrumentation(
         Func<HttpContext, IDisposable> additionalInstrumentation)
     {
-        if (additionalInstrumentation == null)
-        {
-            throw new ArgumentNullException(nameof(additionalInstrumentation));
-        }
+        ArgumentNullException.ThrowIfNull(additionalInstrumentation);
 
         AdditionalInstrumentation.Add(additionalInstrumentation);
 

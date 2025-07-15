@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 
@@ -96,7 +97,7 @@ internal class ErrorHandlingMiddleware : IMiddleware
             case LogLevel.NoLog:
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(error.LogLevel), error.LogLevel, "Unknown log level");
+                throw new UnreachableException($"Unknown log level: {error.LogLevel}");
         }
 
         return (error.ResponseCode, error.BuildErrorResponse());
