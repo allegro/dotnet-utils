@@ -118,7 +118,7 @@ namespace Allegro.Extensions.AspNetCore.Tests.Unit
             var controllerFeature = CreateControllerFeature(GetAllControllers);
             var sut = new SkipControllerFeatureProvider(
                 CreateHostEnvironment(k8SEnvironment, "Production"),
-                new[] { "vte", "testing" });
+                ["vte", "testing"]);
 
             // act
             sut.PopulateFeature(
@@ -155,21 +155,21 @@ namespace Allegro.Extensions.AspNetCore.Tests.Unit
             return ControllersWithoutAttribute.Union(ControllersWithSkipOnProdAttribute);
         }
 
-        private class ControllerWithoutAttribute : ControllerBase
+        private sealed class ControllerWithoutAttribute : ControllerBase
         {
         }
 
-        private class OtherControllerWithoutAttribute : ControllerBase
-        {
-        }
-
-        [SkipOnProd]
-        private class ControllerWithSkipOnProdAttribute : ControllerBase
+        private sealed class OtherControllerWithoutAttribute : ControllerBase
         {
         }
 
         [SkipOnProd]
-        private class OtherControllerWithSkipOnProdAttribute : ControllerBase
+        private sealed class ControllerWithSkipOnProdAttribute : ControllerBase
+        {
+        }
+
+        [SkipOnProd]
+        private sealed class OtherControllerWithSkipOnProdAttribute : ControllerBase
         {
         }
     }

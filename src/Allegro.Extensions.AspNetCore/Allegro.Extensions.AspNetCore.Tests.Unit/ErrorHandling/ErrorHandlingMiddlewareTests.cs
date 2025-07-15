@@ -12,6 +12,8 @@ namespace Allegro.Extensions.AspNetCore.Tests.Unit.ErrorHandling;
 [SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Test purposes")]
 public class ErrorHandlingMiddlewareTests
 {
+    private static readonly JsonSerializerOptions WebJsonSerializerOptions = new(JsonSerializerDefaults.Web);
+
     [Fact]
     public async Task By_default_on_error_exception_log_error_should_be_executed()
     {
@@ -161,11 +163,11 @@ public class ErrorHandlingMiddlewareTests
     {
     }
 
-    private class DerivedCustomException : CustomException
+    private sealed class DerivedCustomException : CustomException
     {
     }
 
-    private class Fixture : IDisposable
+    private sealed class Fixture : IDisposable
     {
         public void Dispose()
         {
@@ -227,7 +229,7 @@ public class ErrorHandlingMiddlewareTests
             var errorResponse = GetErrorResponse();
 
             errorResponse.Errors.Should().BeEquivalentTo(error.Errors.Select(e =>
-                new ErrorResponse(e.Code, e.Message, e.UserMessage, e.Path, e.Details)));
+                new ErrorData(e.Code, e.Message, e.UserMessage, e.Path, e.Details)));
         }
 
         public void VerifyStandardResponseMessage()
@@ -242,7 +244,7 @@ public class ErrorHandlingMiddlewareTests
         public void VerifyCustomDataWrittenToResponse(object customResponse)
         {
             var responseBody = GetResponseBodyAsText();
-            var customResponseSerialized = JsonSerializer.Serialize(customResponse, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            var customResponseSerialized = JsonSerializer.Serialize(customResponse, WebJsonSerializerOptions);
             responseBody.Should().Be(customResponseSerialized);
         }
 
@@ -254,12 +256,10 @@ public class ErrorHandlingMiddlewareTests
             return bodyText;
         }
 
-        private ErrorResponsesHolder GetErrorResponse()
+        private ErrorResponse GetErrorResponse()
         {
             _responseBodyStream.Position = 0;
-            return JsonSerializer.Deserialize<ErrorResponsesHolder>(
-                _responseBodyStream,
-                new JsonSerializerOptions(JsonSerializerDefaults.Web))!;
+            return JsonSerializer.Deserialize<ErrorResponse>(_responseBodyStream, WebJsonSerializerOptions)!;
         }
     }
 }

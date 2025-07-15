@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 
@@ -83,7 +84,7 @@ internal class ErrorHandlingMiddleware : IMiddleware
         return customHandlerKey is null ? null : _customErrorHandlerMap[customHandlerKey];
     }
 
-    private (int ResponseCode, object ErrorResponsesHolder) HandleCustomException(Error error, Exception ex)
+    private (int ResponseCode, object ErrorResponse) HandleCustomException(Error error, Exception ex)
     {
         switch (error.LogLevel)
         {
@@ -96,20 +97,20 @@ internal class ErrorHandlingMiddleware : IMiddleware
             case LogLevel.NoLog:
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(error.LogLevel), error.LogLevel, "Unknown log level");
+                throw new UnreachableException($"Unknown log level: {error.LogLevel}");
         }
 
         return (error.ResponseCode, error.BuildErrorResponse());
     }
 
-    private (int ResponseCode, object ErrorResponsesHolder) HandleValidationException(ValidationException ex)
+    private (int ResponseCode, object ErrorResponse) HandleValidationException(ValidationException ex)
     {
         _logWarning((ex.Message, ex));
 
-        return (StatusCodes.Status400BadRequest, new ErrorResponsesHolder(
+        return (StatusCodes.Status400BadRequest, new ErrorResponse(
             Errors: new[]
             {
-                new ErrorResponse(
+                new ErrorData(
                     nameof(ValidationException),
                     BuildValidationResultErrorMessage(ex))
             }));
@@ -119,13 +120,13 @@ internal class ErrorHandlingMiddleware : IMiddleware
         ex.ValidationResult.ErrorMessage ??
         $"Validation error on fields: {string.Join(", ", ex.ValidationResult.MemberNames)}";
 
-    private (int ResponseCode, object ErrorResponsesHolder) HandleDefaultException(Exception ex)
+    private (int ResponseCode, object ErrorResponse) HandleDefaultException(Exception ex)
     {
         _logError((ex.Message, ex));
-        return (StatusCodes.Status500InternalServerError, new ErrorResponsesHolder(
+        return (StatusCodes.Status500InternalServerError, new ErrorResponse(
             Errors: new[]
             {
-                new ErrorResponse(
+                new ErrorData(
                     "UnhandledException",
                     "Unhandled Exception")
             }));

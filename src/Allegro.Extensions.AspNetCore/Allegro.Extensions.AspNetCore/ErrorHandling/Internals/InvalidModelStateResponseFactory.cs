@@ -24,13 +24,13 @@ namespace Allegro.Extensions.AspNetCore.ErrorHandling.Internals
 
         private static (int StatusCode, object Response) DefaultResponse(ActionContext context)
         {
-            var errorResponseHolder = new ErrorResponsesHolder(
+            var errorResponse = new ErrorResponse(
                 Errors: context.ModelState.Values.Select(
-                    modelStateEntry => new ErrorResponse(
+                    modelStateEntry => new ErrorData(
                         modelStateEntry.ValidationState.ToString(),
                         GetErrorMessageFrom(modelStateEntry)
                     )));
-            return (StatusCodes.Status400BadRequest, errorResponseHolder);
+            return (StatusCodes.Status400BadRequest, errorResponse);
         }
 
         private (int StatusCode, object Response) HandleCustomResponse(ActionContext context)

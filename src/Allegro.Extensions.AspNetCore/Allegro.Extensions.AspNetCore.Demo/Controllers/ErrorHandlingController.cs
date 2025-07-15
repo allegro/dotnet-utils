@@ -131,21 +131,21 @@ internal static class CustomAllegroExceptionHandlerBuilder
     }
 }
 
-internal class CustomAllegroWarningException : Exception
+internal sealed class CustomAllegroWarningException : Exception
 {
     public CustomAllegroWarningException(string message) : base(message)
     {
     }
 }
 
-internal class CustomAllegroErrorException : Exception
+internal sealed class CustomAllegroErrorException : Exception
 {
     public CustomAllegroErrorException(string message) : base(message)
     {
     }
 }
 
-internal class CustomAllegroErrorWithDataException : Exception
+internal sealed class CustomAllegroErrorWithDataException : Exception
 {
     public ErrorData AdditionalData { get; }
 
@@ -154,17 +154,17 @@ internal class CustomAllegroErrorWithDataException : Exception
         AdditionalData = errorData;
     }
 
-    public record ErrorData(string Data1, string Data2);
+    public sealed record ErrorData(string Data1, string Data2);
 }
 
-internal class CustomAllegroWithCustomResponseException : Exception
+internal sealed class CustomAllegroWithCustomResponseException : Exception
 {
     public CustomAllegroWithCustomResponseException(string message) : base(message)
     {
     }
 }
 
-internal class CustomInstrumentation : IDisposable
+internal sealed class CustomInstrumentation : IDisposable
 {
     public void Dispose()
     {
@@ -178,6 +178,6 @@ internal class ApiException : Exception
     public string? ExceptionMessage { get; init; }
 }
 
-internal class ApiException1 : ApiException { }
-internal class ApiException2 : ApiException { }
-internal class ApiException3 : ApiException { }
+internal sealed class ApiException1 : ApiException { }
+internal sealed class ApiException2 : ApiException { }
+internal sealed class ApiException3 : ApiException { }
