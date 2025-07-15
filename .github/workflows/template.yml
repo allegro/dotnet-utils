@@ -36,9 +36,9 @@ jobs:
     outputs:
       nupkgFilename: ${{ steps.nupkg.outputs.filename }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
           6.0.x
@@ -60,27 +60,28 @@ jobs:
         TAG_NAME=${{ inputs.tagName }}
         VERSION=${TAG_NAME##*_}
         NUPKG="${{ inputs.projectName }}.${VERSION}.nupkg"
-        echo "::set-output name=filename::$NUPKG"
+        echo "filename=$NUPKG" >> $GITHUB_OUTPUT
         if [ ! -f package/$NUPKG ]; then
           echo "File '$NUPKG' does not exist";
           exit 1;
         fi
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: inputs.publish
       with:
-        name: package
+        name: package-${{ inputs.solutionName }}
         path: src/${{ inputs.solutionName }}/package
   publish:
     runs-on: windows-latest
     if: inputs.publish
     needs: [build]
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: package
           path: unsigned
+          pattern: package-*
+          merge-multiple: true
       - name: NuGet Install
-        uses: NuGet/setup-nuget@v1.0.5
+        uses: NuGet/setup-nuget@v2.0.1
         with:
           nuget-version: latest
       - name: Setup Certificate
@@ -90,26 +91,26 @@ jobs:
       - name: Set variables
         id: variables
         run: |
-          echo "SM_HOST=${{ secrets.SM_HOST }}" >> "$GITHUB_ENV" 
-          echo "SM_API_KEY=${{ secrets.SM_API_KEY }}" >> "$GITHUB_ENV" 
-          echo "SM_CLIENT_CERT_PASSWORD=${{ secrets.SM_CLIENT_CERT_PASSWORD }}" >> "$GITHUB_ENV" 
-          echo "SM_CODE_SIGNING_CERT_SHA1_HASH=${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}" >> "$GITHUB_ENV"
+          echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          echo "SM_HOST=${{ secrets.SM_HOST }}" >> "$GITHUB_ENV"
+          echo "SM_API_KEY=${{ secrets.SM_API_KEY }}" >> "$GITHUB_ENV"
           echo "SM_CLIENT_CERT_FILE=D:\\cognite_code_signing_github_actions.p12" >> "$GITHUB_ENV"
+          echo "SM_CLIENT_CERT_PASSWORD=${{ secrets.SM_CLIENT_CERT_PASSWORD }}" >> "$GITHUB_ENV"
         shell: bash
-      - name: Configure Digicert Secure Software Manager
-        uses: digicert/ssm-code-signing@v0.0.2
+      - name: Install DigiCert Client tools
+        uses: digicert/ssm-code-signing@v1.0.1
         env:
           SM_API_KEY: ${{ env.SM_API_KEY }}
           SM_CLIENT_CERT_PASSWORD: ${{ env.SM_CLIENT_CERT_PASSWORD }}
           SM_CLIENT_CERT_FILE: ${{ env.SM_CLIENT_CERT_FILE }}
-      - name: Setup SSM KSP on windows latest 
-        run: | 
-          smksp_registrar.exe list 
-          smctl.exe keypair ls 
-          C:\Windows\System32\certutil.exe -csp "DigiCert Signing Manager KSP" -key -user 
-          smksp_cert_sync.exe 
+      - name: Setup SSM KSP on windows latest
+        run: |
+          smksp_registrar.exe list
+          smctl.exe keypair ls
+          C:\Windows\System32\certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
+          smksp_cert_sync.exe
           smctl.exe healthcheck
-        shell: cmd 
+        shell: cmd
       - name: Signing using Nuget
         run: |
           dir "%cd%\unsigned"
