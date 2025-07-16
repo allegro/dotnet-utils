@@ -98,14 +98,14 @@ public class SamplingFilterTests : FilterTests<DependencyForFilter, RequestForFi
     [InlineData(null, null, null, null, 150, true, null, "ResultCode eq '4'", true)]
     [InlineData(null, null, null, null, 150, true, null, "startswith(ResultCode, '4')", true)]
     public void Dependencies_Rules(
-        string cloudRoleName,
-        string type,
-        string target,
-        string name,
+        string? cloudRoleName,
+        string? type,
+        string? target,
+        string? name,
         int duration,
         bool success,
-        string resultCode,
-        string filter,
+        string? resultCode,
+        string? filter,
         bool shouldSample)
     {
         var dependency = new DependencyTelemetry(type, target, name, null);
@@ -116,7 +116,7 @@ public class SamplingFilterTests : FilterTests<DependencyForFilter, RequestForFi
 
         DependencyForFilter DependencyMap(DependencyTelemetry d) => new(d);
 
-        ApplyDependencyRules(dependency, filter, DependencyMap);
+        ApplyDependencyRules(dependency, filter!, DependencyMap);
 
         ((ISupportSampling)dependency).SamplingPercentage.Should().Be(shouldSample ? null : 100);
     }
@@ -208,13 +208,13 @@ public class SamplingFilterTests : FilterTests<DependencyForFilter, RequestForFi
     [InlineData(null, null, null, 150, true, null, "CloudRoleName eq 'SomeService'", true)]
     [InlineData(null, null, null, 150, true, null, "startswith(CloudRoleName, 'SomeService')", true)]
     public void Requests_Rules(
-        string cloudRoleName,
-        string name,
+        string? cloudRoleName,
+        string? name,
         string? url,
         int duration,
         bool success,
-        string responseCode,
-        string filter,
+        string? responseCode,
+        string? filter,
         bool shouldSample)
     {
         var requestTelemetry = new RequestTelemetry(
@@ -231,7 +231,7 @@ public class SamplingFilterTests : FilterTests<DependencyForFilter, RequestForFi
 
         RequestForFilter RequestMap(RequestTelemetry d) => new(d);
 
-        ApplyRequestRules(requestTelemetry, filter, RequestMap);
+        ApplyRequestRules(requestTelemetry, filter!, RequestMap);
 
         ((ISupportSampling)requestTelemetry).SamplingPercentage.Should().Be(shouldSample ? null : 100);
     }

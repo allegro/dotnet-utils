@@ -86,9 +86,11 @@ public static class ApplicationInsightsExtensions
 
     private static string GetConnectionString(string? connectionString, IConfiguration configuration, IHostEnvironment env)
     {
-        var sendConfig = configuration.GetSection(MainSection).Get<SendConfig>();
+        var sendConfig = configuration.GetSection(MainSection).Get<SendConfig>()
+            ?? throw new InvalidOperationException("Missing SendConfig configuration section in ApplicationInsights configuration!");
         return env.IsDevelopment() && sendConfig.DisableLocally ? "InstrumentationKey=FakeKey" :
-            connectionString ?? configuration.GetSection(MainSection)["ConnectionString"];
+            connectionString ?? (configuration.GetSection(MainSection)["ConnectionString"]
+                ?? throw new InvalidOperationException("Missing ConnectionString configuration in ApplicationInsights configuration!"));
     }
 
     /// <summary>
