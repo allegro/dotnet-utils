@@ -76,7 +76,7 @@ public class MoneyExtensionsTests
         }
     }
 
-    private class ClassWithMoney
+    private sealed class ClassWithMoney
     {
         public Money Money { get; }
 
