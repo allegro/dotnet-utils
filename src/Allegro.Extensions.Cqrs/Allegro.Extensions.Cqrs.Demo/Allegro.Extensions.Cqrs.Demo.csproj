@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.Cqrs.FluentValidations\Allegro.Extensions.Cqrs.FluentValidations.csproj" />
     <ProjectReference Include="..\Allegro.Extensions.Cqrs\Allegro.Extensions.Cqrs.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 </Project>

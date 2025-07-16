@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.Identifiers.Abstractions\Allegro.Extensions.Identifiers.Abstractions.csproj" />
     <ProjectReference Include="..\Allegro.Extensions.Identifiers.AspNetCore\Allegro.Extensions.Identifiers.AspNetCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 </Project>

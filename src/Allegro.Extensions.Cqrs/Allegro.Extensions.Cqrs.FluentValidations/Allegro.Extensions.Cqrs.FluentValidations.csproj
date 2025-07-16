@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-      <PackageId>Allegro.Extensions.Cqrs.FluentValidations</PackageId>
-      <PackageDescription>Contains FluentVlidations extension for Allegro.Extensions.Cqrs</PackageDescription>
-    </PropertyGroup>
-    <Import Project="..\..\Package.Build.props" />
-    <ItemGroup>
-      <PackageReference Include="FluentValidation" Version="11.3.0" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\Allegro.Extensions.Cqrs.Abstractions\Allegro.Extensions.Cqrs.Abstractions.csproj" />
-    </ItemGroup>
+  <PropertyGroup>
+    <PackageId>Allegro.Extensions.Cqrs.FluentValidations</PackageId>
+    <PackageDescription>Contains FluentVlidations extension for Allegro.Extensions.Cqrs</PackageDescription>
+  </PropertyGroup>
+  <Import Project="..\..\Package.Build.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\Allegro.Extensions.Cqrs.Abstractions\Allegro.Extensions.Cqrs.Abstractions.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.3.0" />
+  </ItemGroup>
 </Project>
