@@ -15,7 +15,7 @@
 * when creating a new package, make sure to:
   * maintain the repo structure (see existing packages)
   * add code analyzers
-  * create the package's README.md 
+  * create the package's README.md
   * initialize the package's CHANGELOG.md
   * add tests
   * consider presenting usage in Demo app (`/samples`)
@@ -23,5 +23,5 @@
 
 ## Coding style
 
-The coding style is guarded by the analyzers (such as stylecop) and .editorconfig. 
-Make sure to follow the defined standards. 
+The coding style is guarded by the analyzers (such as stylecop) and .editorconfig.
+Make sure to follow the defined standards.
