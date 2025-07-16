@@ -8,6 +8,6 @@
     <ProjectReference Include="..\Allegro.Extensions.Cqrs.Abstractions\Allegro.Extensions.Cqrs.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.3.0" />
+    <PackageReference Include="FluentValidation" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@
     <ProjectReference Include="..\Allegro.Extensions.DependencyCall\Allegro.Extensions.DependencyCall.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="prometheus-net" Version="7.0.0" />
+    <PackageReference Include="prometheus-net" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Allegro.Extensions.DependencyCall.Tests.Unit" />

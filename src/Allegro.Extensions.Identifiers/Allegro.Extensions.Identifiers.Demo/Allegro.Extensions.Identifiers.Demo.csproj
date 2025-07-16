@@ -5,6 +5,6 @@
     <ProjectReference Include="..\Allegro.Extensions.Identifiers.AspNetCore\Allegro.Extensions.Identifiers.AspNetCore.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 </Project>
