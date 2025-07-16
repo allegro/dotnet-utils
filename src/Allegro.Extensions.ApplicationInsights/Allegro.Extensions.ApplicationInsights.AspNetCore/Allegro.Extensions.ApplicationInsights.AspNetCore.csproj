@@ -25,4 +25,8 @@
         <IncludeAssets>runtime; compile; build; native; contentfiles; analyzers</IncludeAssets>
       </PackageReference>
     </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Allegro.Extensions.ApplicationInsights.AspNetCore.UnitTests" />
+    <InternalsVisibleTo Include="Allegro.Extensions.ApplicationInsights.Demo.UnitTests" />
+  </ItemGroup>
 </Project>
