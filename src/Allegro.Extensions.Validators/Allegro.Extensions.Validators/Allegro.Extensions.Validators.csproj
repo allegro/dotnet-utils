@@ -3,7 +3,6 @@
   <PropertyGroup>
     <PackageId>Allegro.Extensions.Validators</PackageId>
     <PackageDescription>Contains useful classes and extensions validators.</PackageDescription>
-    <NoWarn>${NoWarn},CS8618,SA1636</NoWarn>
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
   <ItemGroup> 

@@ -3,7 +3,6 @@
   <PropertyGroup>
     <PackageId>Allegro.Extensions.NullableReferenceTypes</PackageId>
     <PackageDescription>Contains useful classes and extensions for projects which use NRT.</PackageDescription>
-    <NoWarn>${NoWarn},CS8618</NoWarn>
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
 </Project>

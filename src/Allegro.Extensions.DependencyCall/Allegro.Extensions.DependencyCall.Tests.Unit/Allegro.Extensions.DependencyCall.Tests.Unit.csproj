@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <NoWarn>${NoWarn},CS8618,CS1591</NoWarn>
-  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.DependencyCall.Metrics.Prometheus\Allegro.Extensions.DependencyCall.Metrics.Prometheus.csproj" />
     <ProjectReference Include="..\Allegro.Extensions.DependencyCall\Allegro.Extensions.DependencyCall.csproj" />

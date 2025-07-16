@@ -1,8 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.Cqrs\Allegro.Extensions.Cqrs.csproj" />
   </ItemGroup>

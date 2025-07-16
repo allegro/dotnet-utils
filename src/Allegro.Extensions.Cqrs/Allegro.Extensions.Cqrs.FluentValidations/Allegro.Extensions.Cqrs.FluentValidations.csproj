@@ -2,7 +2,6 @@
     <PropertyGroup>
       <PackageId>Allegro.Extensions.Cqrs.FluentValidations</PackageId>
       <PackageDescription>Contains FluentVlidations extension for Allegro.Extensions.Cqrs</PackageDescription>
-      <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
     <Import Project="..\..\Package.Build.props" />
     <ItemGroup>

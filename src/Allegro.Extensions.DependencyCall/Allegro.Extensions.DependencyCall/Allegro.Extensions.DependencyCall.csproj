@@ -3,7 +3,6 @@
   <PropertyGroup>
     <PackageId>Allegro.Extensions.DependencyCall</PackageId>
     <PackageDescription>Contains DependencyCall tool</PackageDescription>
-    <NoWarn>${NoWarn},CS8618,SA1636</NoWarn>
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
 
