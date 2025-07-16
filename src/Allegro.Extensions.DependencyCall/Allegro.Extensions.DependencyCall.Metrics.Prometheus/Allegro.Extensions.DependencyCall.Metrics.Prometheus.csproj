@@ -2,17 +2,16 @@
   <PropertyGroup>
     <PackageId>Allegro.Extensions.DependencyCall.Metrics.Prometheus</PackageId>
     <PackageDescription>Contains prometheus based metrics for dependency call</PackageDescription>
-    <NoWarn>${NoWarn},CS8618,SA1636</NoWarn>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="prometheus-net" Version="7.0.0" />
-  </ItemGroup>
+  <Import Project="..\..\Package.Build.props" />
   <ItemGroup>
     <ProjectReference Include="..\Allegro.Extensions.DependencyCall.Abstractions\Allegro.Extensions.DependencyCall.Abstractions.csproj" />
     <ProjectReference Include="..\Allegro.Extensions.DependencyCall\Allegro.Extensions.DependencyCall.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="prometheus-net" />
+  </ItemGroup>
+  <ItemGroup>
     <InternalsVisibleTo Include="Allegro.Extensions.DependencyCall.Tests.Unit" />
   </ItemGroup>
-  <Import Project="..\..\Package.Build.props" />
 </Project>

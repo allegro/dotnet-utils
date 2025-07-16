@@ -22,7 +22,7 @@ public class ApplicationInsightsToPrometheusMetricsInitializerTests
     [InlineData("Anything else", false, false)]
     [InlineData("Process SomeTopic", false, false)]
     [InlineData("Process SomeTopic", true, true)]
-    public void ApplyRequestsIncludes(string name, bool includeBus, bool shouldInclude)
+    public void ApplyRequestsIncludes(string? name, bool includeBus, bool shouldInclude)
     {
         var count = 0;
         var requestTelemetry = new RequestTelemetry(
@@ -51,7 +51,7 @@ public class ApplicationInsightsToPrometheusMetricsInitializerTests
     [InlineData("http", new[] { "http" }, true)]
     [InlineData("cosmos", new[] { "http", "cosmos" }, true)]
     [InlineData("Some Type", new[] { "http", "cosmos" }, false)]
-    public void ApplyDependencyIncludes(string type, string[] typesToInclude, bool shouldInclude)
+    public void ApplyDependencyIncludes(string? type, string[] typesToInclude, bool shouldInclude)
     {
         var count = 0;
         var dependencyTelemetry = new DependencyTelemetry(

@@ -3,8 +3,6 @@ using Allegro.Extensions.ApplicationInsights.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-
 namespace Allegro.Extensions.ApplicationInsights.Demo.Controllers;
 
 public record WeatherForecast(DateTime Date, int TemperatureC, string Summary);
@@ -13,10 +11,7 @@ public record WeatherForecast(DateTime Date, int TemperatureC, string Summary);
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    private static readonly string[] Summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
 
     private readonly ILogger<WeatherForecastController> _logger;
     private readonly IHttpClientFactory _httpClientFactory;

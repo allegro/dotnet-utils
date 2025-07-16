@@ -1,28 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <Nullable>enable</Nullable>
-        <IsPackable>true</IsPackable>
-    </PropertyGroup>
-    <Import Project="..\..\Package.Build.props" />
-    <ItemGroup>
-      <PackageReference Include="FluentAssertions" Version="6.12.0" />
-      <PackageReference Include="Microsoft.ApplicationInsights" Version="2.21.0" />
-      <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.4" />
-      <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.21.0" />
-      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
-      <PackageReference Include="StringToExpression" Version="1.1.1" />
-      <PackageReference Update="Meziantou.Analyzer" Version="2.0.85">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
-      <PackageReference Update="SmartAnalyzers.CSharpExtensions.Annotations" Version="4.2.8">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; compile; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
-    </ItemGroup>
+  <Import Project="..\..\Package.Build.props" />
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.ApplicationInsights" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <PackageReference Include="StringToExpression" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Allegro.Extensions.ApplicationInsights.AspNetCore.UnitTests" />
+    <InternalsVisibleTo Include="Allegro.Extensions.ApplicationInsights.Demo.UnitTests" />
+  </ItemGroup>
 </Project>

@@ -3,13 +3,12 @@
   <PropertyGroup>
     <PackageId>Allegro.Extensions.Identifiers.AspNetCore</PackageId>
     <PackageDescription>Contains strongly typed identifiers extensions for swagger.</PackageDescription>
-    <NoWarn>CS1574</NoWarn><!-- Caused by Meziantou generator and some cref issues related to partial classes -->
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <ProjectReference Include="..\Allegro.Extensions.Identifiers.Abstractions\Allegro.Extensions.Identifiers.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Allegro.Extensions.Identifiers.Abstractions\Allegro.Extensions.Identifiers.Abstractions.csproj" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 </Project>

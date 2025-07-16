@@ -267,65 +267,65 @@ public class ObjectValidatorTests
         public static StaticConstructorMethodCircularDependencyObject Empty => new(0);
     }
 
-    private class NonNullableObject
+    private sealed class NonNullableObject
     {
         public int Number { get; init; }
 
-        public string String { get; init; }
+        public required string String { get; init; }
 
-        public string[] StringArray { get; init; }
+        public required string[] StringArray { get; init; }
 
         public DateTimeOffset Date { get; init; }
 
-        public NonNullableObjectChild NonNullable { get; init; }
+        public required NonNullableObjectChild NonNullable { get; init; }
 
-        public IEnumerable<NonNullableObjectChild> NonNullableIEnumerable { get; init; }
+        public required IEnumerable<NonNullableObjectChild> NonNullableIEnumerable { get; init; }
 
-        public ICollection<NonNullableObjectChild> NonNullableICollection { get; init; }
+        public required ICollection<NonNullableObjectChild> NonNullableICollection { get; init; }
 
-        public IList<NonNullableObjectChild> NonNullableIList { get; init; }
+        public required IList<NonNullableObjectChild> NonNullableIList { get; init; }
 
-        public List<NonNullableObjectChild> NonNullableList { get; init; }
+        public required List<NonNullableObjectChild> NonNullableList { get; init; }
 
-        public NonNullableObjectChild[] NonNullableArray { get; init; }
+        public required NonNullableObjectChild[] NonNullableArray { get; init; }
 
-        public IDictionary<NonNullableKey, NonNullableObjectChild> NonNullableIDictionary { get; init; }
+        public required IDictionary<NonNullableKey, NonNullableObjectChild> NonNullableIDictionary { get; init; }
 
-        public Dictionary<NonNullableKey, NonNullableObjectChild> NonNullableDictionary { get; init; }
+        public required Dictionary<NonNullableKey, NonNullableObjectChild> NonNullableDictionary { get; init; }
 
-        public Dictionary<NonNullableKey, IEnumerable<NonNullableObjectChild>> NonNullableDictionaryOfIEnumerable { get; init; }
+        public required Dictionary<NonNullableKey, IEnumerable<NonNullableObjectChild>> NonNullableDictionaryOfIEnumerable { get; init; }
     }
 
-    private record NonNullableKey
+    private sealed record NonNullableKey
     {
         public int Number { get; init; }
 
-        public string String { get; init; }
+        public required string String { get; init; }
     }
 
-    private class PrivatePropertiesObject
+    private sealed class PrivatePropertiesObject
     {
-#pragma warning restore IDE0051
-        public string PublicText { get; init; }
+        public required string PublicText { get; init; }
 
 #pragma warning disable IDE0051
         private int Number { get; init; }
 
         private int? NumberNullable { get; init; }
 
-        private string String { get; init; }
+        private string String { get; init; } = null!;
 
         private string? StringNullable { get; init; }
+#pragma warning restore IDE0051
     }
 
-    private class NonNullableObjectChild
+    private sealed class NonNullableObjectChild
     {
         public int Number { get; init; }
 
-        public string String { get; init; }
+        public required string String { get; init; }
     }
 
-    private class NullableObject
+    private sealed class NullableObject
     {
         public int? Number { get; init; }
 
@@ -352,14 +352,14 @@ public class ObjectValidatorTests
         public Dictionary<NonNullableKey, IEnumerable<NonNullableObjectChild>?>? NullableDictionaryOfIEnumerable { get; init; }
     }
 
-    private class NullableKey
+    private sealed class NullableKey
     {
         public int? Number { get; init; }
 
         public string? String { get; init; }
     }
 
-    private class NullableObjectChild
+    private sealed class NullableObjectChild
     {
         public int? Number { get; init; }
 

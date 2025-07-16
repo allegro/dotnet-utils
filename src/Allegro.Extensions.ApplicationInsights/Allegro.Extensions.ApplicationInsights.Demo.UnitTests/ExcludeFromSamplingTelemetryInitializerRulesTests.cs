@@ -7,7 +7,7 @@ using Moq;
 
 namespace Allegro.Extensions.ApplicationInsights.Demo.UnitTests;
 
-internal class
+internal sealed class
     CustomExcludeFromSamplingTelemetryInitializer : ExcludeFromSamplingTelemetryInitializer<CustomDependencyForFilter,
         RequestForFilter>
 {

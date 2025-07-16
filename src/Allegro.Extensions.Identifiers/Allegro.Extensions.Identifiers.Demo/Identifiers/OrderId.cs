@@ -1,6 +1,3 @@
-// Copyright (c) PlaceholderCompany. All rights reserved.
-#pragma warning disable 1591
-
 using Allegro.Extensions.Identifiers.Abstractions;
 using Meziantou.Framework.Annotations;
 

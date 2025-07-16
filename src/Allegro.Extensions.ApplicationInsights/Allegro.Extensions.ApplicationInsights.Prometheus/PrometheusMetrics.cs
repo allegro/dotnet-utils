@@ -21,11 +21,8 @@ internal class PrometheusMetrics
             "The duration of dependency call",
             new HistogramConfiguration
             {
-                LabelNames = new[]
-                {
-                    "service", "type", "target", "name", "operation_name", "success", "resultCode"
-                },
-                Buckets = new[] { 0.008, 0.016, 0.032, 0.064, 0.128, 0.512, 1, 4, 16 }
+                LabelNames = ["service", "type", "target", "name", "operation_name", "success", "resultCode"],
+                Buckets = [0.008, 0.016, 0.032, 0.064, 0.128, 0.512, 1, 4, 16]
             });
     }
 
@@ -36,8 +33,8 @@ internal class PrometheusMetrics
             "The duration of request",
             new HistogramConfiguration
             {
-                LabelNames = new[] { "service", "name", "success", "resultCode" },
-                Buckets = new[] { 0.008, 0.016, 0.032, 0.064, 0.128, 0.512, 1, 4, 16 }
+                LabelNames = ["service", "name", "success", "resultCode"],
+                Buckets = [0.008, 0.016, 0.032, 0.064, 0.128, 0.512, 1, 4, 16]
             });
     }
 }

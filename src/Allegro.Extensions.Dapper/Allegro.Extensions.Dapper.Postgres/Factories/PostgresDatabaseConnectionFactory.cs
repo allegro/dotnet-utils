@@ -8,7 +8,7 @@ namespace Allegro.Extensions.Dapper.Postgres.Factories;
 /// <summary>
 /// Database connection factory for Postgres database.
 /// </summary>
-internal class PostgresDatabaseConnectionFactory : IDatabaseConnectionFactory
+internal sealed class PostgresDatabaseConnectionFactory : IDatabaseConnectionFactory
 {
     private readonly DatabaseConfiguration _databaseConfiguration;
 

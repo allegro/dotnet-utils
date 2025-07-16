@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Allegro.Extensions.NullableReferenceTypes.Validators;
@@ -69,11 +71,11 @@ public static class ObjectValidator
         var result = false;
         if (type.IsArray)
         {
-            var elementType = type.GetElementType();
+            var elementType = type.GetElementType() ?? throw new UnreachableException("Array element type cannot be null.");
             var index = 0;
             foreach (var item in (Array)instance)
             {
-                Validate(elementType!, item, propertyPath + $"[{index}]");
+                Validate(elementType, item, propertyPath + $"[{index}]");
                 index++;
             }
 
@@ -87,8 +89,8 @@ public static class ObjectValidator
             var dictionary = (IDictionary)instance;
             foreach (DictionaryEntry item in dictionary)
             {
-                Validate(underlyingKeyType!, item.Key, propertyPath + $"[{item.Key}]");
-                Validate(underlyingValueType!, item.Value, propertyPath + $"[{item.Key}]");
+                Validate(underlyingKeyType, item.Key, propertyPath + $"[{item.Key}]");
+                Validate(underlyingValueType, item.Value, propertyPath + $"[{item.Key}]");
             }
 
             result = true;
@@ -99,7 +101,7 @@ public static class ObjectValidator
             var index = 0;
             foreach (var item in collection)
             {
-                Validate(underlyingType!, item, propertyPath + $"[{index}]");
+                Validate(underlyingType, item, propertyPath + $"[{index}]");
                 index++;
             }
 
@@ -109,12 +111,11 @@ public static class ObjectValidator
         return result;
     }
 
-    private static bool IsEnumerableType(Type type, out Type? underlyingType)
+    private static bool IsEnumerableType(Type type, [NotNullWhen(true)] out Type? underlyingType)
     {
-        underlyingType = null;
-
         if (!type.IsGenericType || !IsAssignableToGenericType(type, typeof(IEnumerable<>)))
         {
+            underlyingType = null;
             return false;
         }
 
@@ -123,13 +124,12 @@ public static class ObjectValidator
         return true;
     }
 
-    private static bool IsDictionaryType(Type type, out Type? underlyingKeyType, out Type? underlyingValueType)
+    private static bool IsDictionaryType(Type type, [NotNullWhen(true)] out Type? underlyingKeyType, [NotNullWhen(true)] out Type? underlyingValueType)
     {
-        underlyingKeyType = null;
-        underlyingValueType = null;
-
         if (!type.IsGenericType || !IsAssignableToGenericType(type, typeof(IDictionary<,>)))
         {
+            underlyingKeyType = null;
+            underlyingValueType = null;
             return false;
         }
 
@@ -171,20 +171,19 @@ public static class ObjectValidator
 
         var nullable = property.CustomAttributes
             .FirstOrDefault(x => x.AttributeType.FullName == "System.Runtime.CompilerServices.NullableAttribute");
-        if (nullable != null && nullable.ConstructorArguments.Count == 1)
+        if (nullable is { ConstructorArguments: [{ Value: { } } attributeArgument] })
         {
-            var attributeArgument = nullable.ConstructorArguments[0];
             if (attributeArgument.ArgumentType == typeof(byte[]))
             {
-                var args = (ReadOnlyCollection<CustomAttributeTypedArgument>)attributeArgument.Value!;
-                if (args.Count > 0 && args[0].ArgumentType == typeof(byte))
+                var args = (ReadOnlyCollection<CustomAttributeTypedArgument>)attributeArgument.Value;
+                if (args is [{ Value: { } } arg, ..] && arg.ArgumentType == typeof(byte))
                 {
-                    return (byte)args[0].Value! == 2;
+                    return (byte)arg.Value == 2;
                 }
             }
             else if (attributeArgument.ArgumentType == typeof(byte))
             {
-                return (byte)attributeArgument.Value! == 2;
+                return (byte)attributeArgument.Value == 2;
             }
         }
 
@@ -194,11 +193,9 @@ public static class ObjectValidator
                 .FirstOrDefault(
                     x =>
                         x.AttributeType.FullName == "System.Runtime.CompilerServices.NullableContextAttribute");
-            if (context != null &&
-                context.ConstructorArguments.Count == 1 &&
-                context.ConstructorArguments[0].ArgumentType == typeof(byte))
+            if (context is { ConstructorArguments: [{ Value: { } value } argument] } && argument.ArgumentType == typeof(byte))
             {
-                return (byte)context.ConstructorArguments[0].Value! == 2;
+                return (byte)value == 2;
             }
         }
 
