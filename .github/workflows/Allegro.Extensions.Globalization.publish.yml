@@ -1,6 +1,7 @@
 name: Publish Allegro.Extensions.Globalization
 
 on:
+  workflow_dispatch: {}
   push:
     tags:
       - 'Allegro.Extensions.Globalization_*'

@@ -1,6 +1,7 @@
 name: Publish Allegro.Extensions.Identifiers.Abstractions
 
 on:
+  workflow_dispatch: {}
   push:
     tags:
       - 'Allegro.Extensions.Identifiers.Abstractions_*'
