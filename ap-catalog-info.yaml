@@ -12,6 +12,6 @@ metadata:
   links: []
 spec:
   type: library
-  owner: aard
+  owner: arasaka
   lifecycle: production
   system: application-platform
