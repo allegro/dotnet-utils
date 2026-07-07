@@ -1,9 +1,8 @@
-#pragma warning disable CS1591
-
 namespace Allegro.Extensions.Financials.ValueObjects;
 
 public partial record Money
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     // Money & Money
     public static Money operator +(Money? m1, Money? m2)
         => Calculate(m1?.Amount, m1?.Currency, m2?.Amount, m2?.Currency, CalculateOperator.Add);
@@ -68,6 +67,7 @@ public partial record Money
 
     public static bool operator >=(Money? m1, decimal? d2)
         => Compare(m1?.Amount, m1?.Currency, d2, c2: null, CompareOperator.MoreOrEquals);
+#pragma warning restore CS1591
 
     private enum CalculateOperator
     {

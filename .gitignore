@@ -9,6 +9,7 @@ obj/
 bin/
 build/
 deploy/
+nuget/
 TestResults/
 *.bak
 *.user

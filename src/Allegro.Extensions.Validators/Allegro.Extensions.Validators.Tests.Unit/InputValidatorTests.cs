@@ -9,9 +9,9 @@ public class InputValidatorTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("  ")]
-    public void EnsureHasValue_WhenInvalidInput_ShouldThrowArgumentNullException(string test)
+    public void EnsureHasValue_WhenInvalidInput_ShouldThrowArgumentNullException(string? test)
     {
-        var act = () => InputValidator.EnsureHasValue(test);
+        var act = () => InputValidator.EnsureHasValue(test!);
         act.Should().Throw<ArgumentException>();
     }
 

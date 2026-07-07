@@ -18,7 +18,8 @@ public class FakeStartup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        var connectionString = _configuration["PostgresSDK:ConnectionString"];
+        var connectionString = _configuration["PostgresSDK:ConnectionString"]
+            ?? throw new InvalidOperationException("Connection string not found in configuration.");
 
         services
             .AddDapperClient()

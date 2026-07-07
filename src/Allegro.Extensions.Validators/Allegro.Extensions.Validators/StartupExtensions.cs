@@ -51,7 +51,7 @@ public static class StartupExtensions
     /// </summary>
     public static OptionsBuilder<TOptions> AddOptionsWithFluentValidation<TOptions, TValidator>(
         this IServiceCollection services,
-        string? configurationSection)
+        string configurationSection)
         where TOptions : class
         where TValidator : class, IValidator<TOptions>
     {

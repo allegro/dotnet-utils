@@ -27,8 +27,9 @@ public static class StartupExtensions
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
+        var callingAssembly = Assembly.GetCallingAssembly();
         services
-            .Scan(s => s.FromCallingAssembly()
+            .Scan(s => s.FromAssemblies(callingAssembly)
                 .AddClasses(
                     c => c.AssignableToAny(typeof(ICommandValidator<>), typeof(IQueryValidator<>)),
                     publicOnly)

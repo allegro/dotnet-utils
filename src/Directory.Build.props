@@ -3,14 +3,17 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <SolutionDir>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), version.xml))</SolutionDir>
+    <SolutionDir>$([MSBuild]::EnsureTrailingSlash($(SolutionDir)))</SolutionDir>
   </PropertyGroup>
 
   <PropertyGroup Condition=" !$(MSBuildProjectDirectory.Contains(`test`)) ">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <PropertyGroup Label="Build Output Override">
-    <BaseOutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(SolutionDir)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
-    <PackageOutputPath>$(SolutionDir)\nuget</PackageOutputPath>
+    <BaseOutputPath>$(SolutionDir)bin\$(MSBuildProjectName)</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <PackageOutputPath>$(SolutionDir)nuget</PackageOutputPath>
   </PropertyGroup>
 </Project>

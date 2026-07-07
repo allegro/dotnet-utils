@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -28,19 +29,19 @@ public static class EnumHelper
     }
 
     /// <summary>
-    /// Tires to parse enum value  to TEnum type
+    /// Tires to parse enum value to TEnum type
     /// </summary>
-    public static bool TryParse<TEnum>(string enumValue, out TEnum? result)
+    public static bool TryParse<TEnum>(string enumValue, [NotNullWhen(true)] out TEnum? result)
         where TEnum : struct, Enum
     {
         var map = GetValueMap<TEnum>();
-        if (!map.ContainsKey(enumValue))
+        if (!map.TryGetValue(enumValue, out var value))
         {
             result = null;
             return false;
         }
 
-        result = (TEnum)map[enumValue].EnumValue;
+        result = (TEnum)value.EnumValue;
         return true;
     }
 

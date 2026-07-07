@@ -3,14 +3,13 @@
   <PropertyGroup>
     <PackageId>Allegro.Extensions.Validators</PackageId>
     <PackageDescription>Contains useful classes and extensions validators.</PackageDescription>
-    <NoWarn>${NoWarn},CS8618,SA1636</NoWarn>
   </PropertyGroup>
   <Import Project="..\..\Package.Build.props" />
-  <ItemGroup> 
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
-    <PackageReference Include="FluentValidation" Version="11.3.0" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <PackageReference Include="FluentValidation" />
   </ItemGroup>
 </Project>

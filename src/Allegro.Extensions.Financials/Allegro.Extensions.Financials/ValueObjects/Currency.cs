@@ -1,5 +1,4 @@
 using System.Runtime.Serialization;
-#pragma warning disable CS1591
 
 namespace Allegro.Extensions.Financials.ValueObjects;
 
@@ -9,6 +8,8 @@ namespace Allegro.Extensions.Financials.ValueObjects;
 /// </summary>
 public enum Currency
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     [EnumMember(Value = "PLN")]
     PLN = 985,
+#pragma warning restore CS1591
 }
