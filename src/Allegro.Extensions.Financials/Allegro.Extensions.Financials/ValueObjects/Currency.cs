@@ -11,4 +11,16 @@ public enum Currency
 {
     [EnumMember(Value = "PLN")]
     PLN = 985,
+
+    [EnumMember(Value = "CZK")]
+    CZK = 203,
+
+    [EnumMember(Value = "EUR")]
+    EUR = 978,
+
+    [EnumMember(Value = "HUF")]
+    HUF = 348,
+
+    [EnumMember(Value = "USD")]
+    USD = 840,
 }
