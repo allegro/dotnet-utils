@@ -1,0 +1,16 @@
+{
+  "config": {
+    "key": "value20",
+    "arr": [
+      "test1",
+      "test2"
+    ],
+    "obj": {
+      "id": 1,
+      "key": "value"
+    } 
+  },
+  "metadata": {
+    "services": []
+  }
+}

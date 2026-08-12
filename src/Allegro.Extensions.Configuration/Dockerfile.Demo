@@ -1,0 +1,16 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /source
+
+# copy csproj and restore as distinct layers
+COPY global.json ./
+COPY ./src/*.props ./
+COPY ./src/*.targets ./
+COPY ./src/Allegro.Extensions.Configuration ./Allegro.Extensions.Configuration
+WORKDIR /source/Allegro.Extensions.Configuration
+RUN dotnet publish -p:SolutionName=Allegro.Extensions.Configuration -c Release -o /app Allegro.Extensions.Configuration.Demo/Allegro.Extensions.Configuration.Demo.csproj
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+COPY --from=build /app ./
+EXPOSE 80
+ENTRYPOINT ["dotnet", "Allegro.Extensions.Configuration.Demo.dll"]

@@ -1,0 +1,17 @@
+services:
+  fallback:
+    image: confeature/fallback
+    build:
+      context: ../../
+      dockerfile: src/Allegro.Extensions.Configuration/Dockerfile.FallbackService
+    ports:
+      - 8083:80
+  demo:
+    image: confeature/demo
+    build:
+      context: ../../
+      dockerfile: src/Allegro.Extensions.Configuration/Dockerfile.Demo
+    ports:
+      - 8082:80
+    environment:
+      - Confeature__FallbackUri=http://localhost:8083/

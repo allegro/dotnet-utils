@@ -1,0 +1,16 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Vabank.Confeature.Service": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:6001;http://localhost:6000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "GlobalConfiguration__ContextGroups__0__Name": "vabank-configuration",
+        "GlobalConfiguration__ContextGroups__0__Path": "/Users/szymon.adach/Repos/global-config"
+      }
+    }
+  }
+}
