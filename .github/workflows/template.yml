@@ -83,7 +83,7 @@ jobs:
       - name: NuGet Install
         uses: NuGet/setup-nuget@v2.0.1
         with:
-          nuget-version: 6.12.2
+          nuget-version: 6.11.2
       - name: Setup Certificate
         run: |
           echo "${{ secrets.SM_CLIENT_CERT_FILE_B64 }}" | base64 --decode > /d/cognite_code_signing_github_actions.p12
