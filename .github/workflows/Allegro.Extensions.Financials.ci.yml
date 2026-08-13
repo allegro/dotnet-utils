@@ -18,4 +18,3 @@ jobs:
     with:
       projectName: Allegro.Extensions.Financials
       solutionName: Allegro.Extensions.Financials
-      publish: true
