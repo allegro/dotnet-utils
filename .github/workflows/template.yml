@@ -115,8 +115,8 @@ jobs:
         run: |
           dir "%cd%\unsigned"
           mkdir "%cd%\signed"
-          nuget sign "%cd%\unsigned\*.nupkg" -Timestamper http://timestamp.digicert.com -outputdirectory "%cd%\signed" -CertificateFingerprint ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }} -HashAlgorithm SHA256 -Verbosity detailed -Overwrite
-          nuget verify -All "%cd%\signed\*.nupkg"
+          "%NUGET%" sign "%cd%\unsigned\*.nupkg" -Timestamper http://timestamp.digicert.com -outputdirectory "%cd%\signed" -CertificateFingerprint ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }} -HashAlgorithm SHA256 -Verbosity detailed -Overwrite
+          "%NUGET%" verify -All "%cd%\signed\*.nupkg"
         shell: cmd
       - name: Push package
         shell: cmd
