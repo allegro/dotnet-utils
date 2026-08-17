@@ -1,6 +1,7 @@
 name: Publish Allegro.Extensions.Dapper.Postgres
 
 on:
+  workflow_dispatch: {}
   push:
     tags:
       - 'Allegro.Extensions.Dapper.Postgres_*'

@@ -1,6 +1,7 @@
 name: Publish Allegro.Extensions.NullableReferenceTypes
 
 on:
+  workflow_dispatch: {}
   push:
     tags:
       - 'Allegro.Extensions.NullableReferenceTypes_*'

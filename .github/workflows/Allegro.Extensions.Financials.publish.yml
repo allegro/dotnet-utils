@@ -1,6 +1,6 @@
 name: Publish Allegro.Extensions.Financials
-
 on:
+  workflow_dispatch: {}
   push:
     tags:
       - 'Allegro.Extensions.Financials_*'

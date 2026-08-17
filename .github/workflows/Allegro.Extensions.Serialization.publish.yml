@@ -1,6 +1,7 @@
 name: Publish Allegro.Extensions.Serialization
 
 on:
+  workflow_dispatch: {}
   push:
     tags:
       - 'Allegro.Extensions.Serialization_*'
