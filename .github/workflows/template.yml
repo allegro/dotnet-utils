@@ -36,54 +36,52 @@ jobs:
     outputs:
       nupkgFilename: ${{ steps.nupkg.outputs.filename }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          6.0.x
-          8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: FormatCheck
-      run: dotnet format --verify-no-changes
-    - name: Build
-      run: dotnet build -c Release --no-restore
-    - name: Test
-      run: dotnet test -c Release --no-build --verbosity normal
-    - name: Pack
-      run: dotnet pack -v normal -c Release --no-build --include-symbols --include-source -o package
-    - name: Verify package name & version
-      id: nupkg
-      if: inputs.publish
-      run: |
-        TAG_NAME=${{ inputs.tagName }}
-        VERSION=${TAG_NAME##*_}
-        NUPKG="${{ inputs.projectName }}.${VERSION}.nupkg"
-        echo "filename=$NUPKG" >> $GITHUB_OUTPUT
-        if [ ! -f package/$NUPKG ]; then
-          echo "File '$NUPKG' does not exist";
-          exit 1;
-        fi
-    - uses: actions/upload-artifact@v4
-      if: inputs.publish
-      with:
-        name: package-${{ inputs.solutionName }}
-        path: src/${{ inputs.solutionName }}/package
+      - uses: actions/checkout@v6
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: FormatCheck
+        run: dotnet format --verify-no-changes
+      - name: Build
+        run: dotnet build -c Release --no-restore
+      - name: Test
+        run: dotnet test -c Release --no-build --verbosity normal
+      - name: Pack
+        run: dotnet pack -v normal -c Release --no-build --include-symbols --include-source -o package
+      - name: Verify package name & version
+        id: nupkg
+        if: inputs.publish
+        run: |
+          TAG_NAME=${{ inputs.tagName }}
+          VERSION=${TAG_NAME##*_}
+          NUPKG="${{ inputs.projectName }}.${VERSION}.nupkg"
+          echo "filename=$NUPKG" >> $GITHUB_OUTPUT
+          if [ ! -f package/$NUPKG ]; then
+            echo "File '$NUPKG' does not exist";
+            exit 1;
+          fi
+      - uses: actions/upload-artifact@v7
+        if: inputs.publish
+        with:
+          name: package-${{ inputs.solutionName }}
+          path: src/${{ inputs.solutionName }}/package
   publish:
     runs-on: windows-latest
     if: inputs.publish
     needs: [build]
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: unsigned
           pattern: package-*
           merge-multiple: true
       - name: NuGet Install
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v3
         with:
-          nuget-version: 6.11.2
+          nuget-version: "6.11"
       - name: Setup Certificate
         run: |
           echo "${{ secrets.SM_CLIENT_CERT_FILE_B64 }}" | base64 --decode > /d/cognite_code_signing_github_actions.p12
@@ -91,14 +89,14 @@ jobs:
       - name: Set variables
         id: variables
         run: |
-          echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
           echo "SM_HOST=${{ secrets.SM_HOST }}" >> "$GITHUB_ENV"
           echo "SM_API_KEY=${{ secrets.SM_API_KEY }}" >> "$GITHUB_ENV"
-          echo "SM_CLIENT_CERT_FILE=D:\\cognite_code_signing_github_actions.p12" >> "$GITHUB_ENV"
           echo "SM_CLIENT_CERT_PASSWORD=${{ secrets.SM_CLIENT_CERT_PASSWORD }}" >> "$GITHUB_ENV"
+          echo "SM_CODE_SIGNING_CERT_SHA1_HASH=${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}" >> "$GITHUB_ENV"
+          echo "SM_CLIENT_CERT_FILE=D:\\cognite_code_signing_github_actions.p12" >> "$GITHUB_ENV"
         shell: bash
-      - name: Install DigiCert Client tools
-        uses: digicert/ssm-code-signing@v1.0.1
+      - name: Configure Digicert Secure Software Manager
+        uses: digicert/ssm-code-signing@v1.2.1
         env:
           SM_API_KEY: ${{ env.SM_API_KEY }}
           SM_CLIENT_CERT_PASSWORD: ${{ env.SM_CLIENT_CERT_PASSWORD }}
@@ -118,7 +116,9 @@ jobs:
           "%NUGET%" sign "%cd%\unsigned\*.nupkg" -Timestamper http://timestamp.digicert.com -outputdirectory "%cd%\signed" -CertificateFingerprint ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }} -HashAlgorithm SHA256 -Verbosity detailed -Overwrite
           "%NUGET%" verify -All "%cd%\signed\*.nupkg"
         shell: cmd
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 8.0.x
       - name: Push package
-        shell: cmd
-        run: |
-          dotnet nuget push "%cd%\signed\*.nupkg" --api-key ${{ secrets.nugetApiKey }} --skip-duplicate --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push signed/${{ needs.build.outputs.nupkgFilename }} --api-key ${{ secrets.nugetApiKey }} --source https://api.nuget.org/v3/index.json
