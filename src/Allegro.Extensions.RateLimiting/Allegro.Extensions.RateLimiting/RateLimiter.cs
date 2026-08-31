@@ -264,6 +264,7 @@ namespace Allegro.Extensions.RateLimiting
         {
             _delaySemaphore.Dispose();
             _logUsageSemaphore.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

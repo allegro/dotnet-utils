@@ -41,16 +41,7 @@ public class ApplicationInsightsToPrometheusMetricsInitializerTests
     }
 
     [Theory]
-    [InlineData("HTTP", new string[] { }, false)]
-    [InlineData(null, new[] { "HTTP" }, false)]
-    [InlineData("", new[] { "HTTP" }, false)]
-    [InlineData("Some Type", new[] { "HTTP" }, false)]
-    [InlineData("HTTP", new[] { "HTTP" }, true)]
-    [InlineData("HTTP", new[] { "http" }, true)]
-    [InlineData("http", new[] { "HTTP" }, true)]
-    [InlineData("http", new[] { "http" }, true)]
-    [InlineData("cosmos", new[] { "http", "cosmos" }, true)]
-    [InlineData("Some Type", new[] { "http", "cosmos" }, false)]
+    [MemberData(nameof(DependencyIncludesData))]
     public void ApplyDependencyIncludes(string type, string[] typesToInclude, bool shouldInclude)
     {
         var count = 0;
@@ -73,30 +64,7 @@ public class ApplicationInsightsToPrometheusMetricsInitializerTests
     }
 
     [Theory]
-    [InlineData("HTTP", "GET Method", new[] { "http", "cosmos" }, true, true, "GET Method")]
-    [InlineData("HTTP", "Some Method", new[] { "http", "cosmos" }, true, true, "Some Method")]
-    [InlineData("HTTP", "Some Method", new string[] { }, true, false, null)]
-    [InlineData(
-        "HTTP",
-        "GET /agreements/v1/onboarding-short/asd1/asd2/Regular/asd3",
-        new[] { "http", "cosmos" },
-        true,
-        true,
-        "GET /agreements/v1/onboarding-short/asd1/asd2/Regular/asd3")]
-    [InlineData(
-        "HTTP",
-        "GET /agreements/v1/onboarding-short/1880495135662745600/1880495135612091392/Regular/1231",
-        new[] { "http", "cosmos" },
-        true,
-        true,
-        "GET /agreements/v1/onboarding-short/{param}/{param}/Regular/{param}")]
-    [InlineData(
-        "HTTP",
-        "GET /agreements/v1/onboarding-short/1880495135662745600/1880495135612091392/Regular/1231",
-        new[] { "http", "cosmos" },
-        false,
-        true,
-        "GET")]
+    [MemberData(nameof(DependencyHttpNameResolvedData))]
     public void DependencyHttpNameResolved(
         string type,
         string name,
@@ -137,6 +105,54 @@ public class ApplicationInsightsToPrometheusMetricsInitializerTests
             labels.Should().BeEmpty();
         }
     }
+
+    public static IEnumerable<object?[]> DependencyIncludesData => new[]
+    {
+        new object?[] { "HTTP", Array.Empty<string>(), false },
+        new object?[] { null, new[] { "HTTP" }, false },
+        new object?[] { "", new[] { "HTTP" }, false },
+        new object?[] { "Some Type", new[] { "HTTP" }, false },
+        new object?[] { "HTTP", new[] { "HTTP" }, true },
+        new object?[] { "HTTP", new[] { "http" }, true },
+        new object?[] { "http", new[] { "HTTP" }, true },
+        new object?[] { "http", new[] { "http" }, true },
+        new object?[] { "cosmos", new[] { "http", "cosmos" }, true },
+        new object?[] { "Some Type", new[] { "http", "cosmos" }, false }
+    };
+
+    public static IEnumerable<object?[]> DependencyHttpNameResolvedData => new[]
+    {
+        new object?[] { "HTTP", "GET Method", new[] { "http", "cosmos" }, true, true, "GET Method" },
+        new object?[] { "HTTP", "Some Method", new[] { "http", "cosmos" }, true, true, "Some Method" },
+        new object?[] { "HTTP", "Some Method", Array.Empty<string>(), true, false, null },
+        new object?[]
+        {
+            "HTTP",
+            "GET /agreements/v1/onboarding-short/asd1/asd2/Regular/asd3",
+            new[] { "http", "cosmos" },
+            true,
+            true,
+            "GET /agreements/v1/onboarding-short/asd1/asd2/Regular/asd3"
+        },
+        new object?[]
+        {
+            "HTTP",
+            "GET /agreements/v1/onboarding-short/1880495135662745600/1880495135612091392/Regular/1231",
+            new[] { "http", "cosmos" },
+            true,
+            true,
+            "GET /agreements/v1/onboarding-short/{param}/{param}/Regular/{param}"
+        },
+        new object?[]
+        {
+            "HTTP",
+            "GET /agreements/v1/onboarding-short/1880495135662745600/1880495135612091392/Regular/1231",
+            new[] { "http", "cosmos" },
+            false,
+            true,
+            "GET"
+        }
+    };
 
     [Fact]
     public void DependencyMetricsWasAddOnlyOnce()
