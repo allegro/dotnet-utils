@@ -8,7 +8,7 @@ namespace Allegro.Extensions.Dapper;
 /// Database client which initializes connection to a database,
 /// performs operation and makes sure that connection is closed.
 /// </summary>
-internal class DapperClient : IDapperClient
+internal sealed class DapperClient : IDapperClient
 {
     private readonly IDatabaseConnectionFactory _databaseConnectionFactory;
 

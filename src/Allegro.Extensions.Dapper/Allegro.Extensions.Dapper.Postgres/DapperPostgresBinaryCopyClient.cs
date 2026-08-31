@@ -8,7 +8,7 @@ using DbType = Allegro.Extensions.Dapper.Postgres.Abstractions.DbType;
 namespace Allegro.Extensions.Dapper.Postgres;
 
 /// <inheritdoc />
-internal class DapperPostgresBinaryCopyClient : IDapperPostgresBinaryCopyClient
+internal sealed class DapperPostgresBinaryCopyClient : IDapperPostgresBinaryCopyClient
 {
     private readonly PostgresDatabaseConnectionFactory _databaseConnectionFactory;
 
