@@ -267,7 +267,7 @@ public class ObjectValidatorTests
         public static StaticConstructorMethodCircularDependencyObject Empty => new(0);
     }
 
-    private class NonNullableObject
+    private sealed class NonNullableObject
     {
         public int Number { get; init; }
 
@@ -296,14 +296,14 @@ public class ObjectValidatorTests
         public Dictionary<NonNullableKey, IEnumerable<NonNullableObjectChild>> NonNullableDictionaryOfIEnumerable { get; init; }
     }
 
-    private record NonNullableKey
+    private sealed record NonNullableKey
     {
         public int Number { get; init; }
 
         public string String { get; init; }
     }
 
-    private class PrivatePropertiesObject
+    private sealed class PrivatePropertiesObject
     {
 #pragma warning restore IDE0051
         public string PublicText { get; init; }
@@ -318,14 +318,14 @@ public class ObjectValidatorTests
         private string? StringNullable { get; init; }
     }
 
-    private class NonNullableObjectChild
+    private sealed class NonNullableObjectChild
     {
         public int Number { get; init; }
 
         public string String { get; init; }
     }
 
-    private class NullableObject
+    private sealed class NullableObject
     {
         public int? Number { get; init; }
 
@@ -352,14 +352,14 @@ public class ObjectValidatorTests
         public Dictionary<NonNullableKey, IEnumerable<NonNullableObjectChild>?>? NullableDictionaryOfIEnumerable { get; init; }
     }
 
-    private class NullableKey
+    private sealed class NullableKey
     {
         public int? Number { get; init; }
 
         public string? String { get; init; }
     }
 
-    private class NullableObjectChild
+    private sealed class NullableObjectChild
     {
         public int? Number { get; init; }
 

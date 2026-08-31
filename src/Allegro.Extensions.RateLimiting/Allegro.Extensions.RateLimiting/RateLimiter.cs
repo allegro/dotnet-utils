@@ -12,7 +12,7 @@ namespace Allegro.Extensions.RateLimiting
     /// Also first execution of each unique operationName will be synchronous until its weight is calculated, to prevent
     /// any chance of exceeding the MaxRate.
     /// </remarks>
-    public class RateLimiter : IRateLimiterWithVariableRate
+    public class RateLimiter : IRateLimiterWithVariableRate, IDisposable
     {
         private readonly SemaphoreSlim _delaySemaphore = new(1, 1);
         private readonly SemaphoreSlim _logUsageSemaphore = new(1, 1);
@@ -255,6 +255,15 @@ namespace Allegro.Extensions.RateLimiting
             {
                 _logUsageSemaphore.Release();
             }
+        }
+
+        /// <summary>
+        /// Releases resources used by the rate limiter.
+        /// </summary>
+        public void Dispose()
+        {
+            _delaySemaphore.Dispose();
+            _logUsageSemaphore.Dispose();
         }
     }
 }

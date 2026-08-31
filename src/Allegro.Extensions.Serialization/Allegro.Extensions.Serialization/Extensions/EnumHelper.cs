@@ -34,13 +34,13 @@ public static class EnumHelper
         where TEnum : struct, Enum
     {
         var map = GetValueMap<TEnum>();
-        if (!map.ContainsKey(enumValue))
+        if (!map.TryGetValue(enumValue, out var enumData))
         {
             result = null;
             return false;
         }
 
-        result = (TEnum)map[enumValue].EnumValue;
+        result = (TEnum)enumData.EnumValue;
         return true;
     }
 

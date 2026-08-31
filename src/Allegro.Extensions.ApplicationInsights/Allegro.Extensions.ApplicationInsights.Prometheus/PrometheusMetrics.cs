@@ -4,6 +4,13 @@ namespace Allegro.Extensions.ApplicationInsights.Prometheus;
 
 internal class PrometheusMetrics
 {
+    private static readonly string[] DependencyLabelNames =
+    {
+        "service", "type", "target", "name", "operation_name", "success", "resultCode"
+    };
+
+    private static readonly string[] RequestLabelNames = { "service", "name", "success", "resultCode" };
+
     public Histogram ApplicationInsightsDependencyDuration { get; }
     public Histogram ApplicationInsightsRequestDuration { get; }
 
@@ -21,10 +28,7 @@ internal class PrometheusMetrics
             "The duration of dependency call",
             new HistogramConfiguration
             {
-                LabelNames = new[]
-                {
-                    "service", "type", "target", "name", "operation_name", "success", "resultCode"
-                },
+                LabelNames = DependencyLabelNames,
                 Buckets = new[] { 0.008, 0.016, 0.032, 0.064, 0.128, 0.512, 1, 4, 16 }
             });
     }
@@ -36,7 +40,7 @@ internal class PrometheusMetrics
             "The duration of request",
             new HistogramConfiguration
             {
-                LabelNames = new[] { "service", "name", "success", "resultCode" },
+                LabelNames = RequestLabelNames,
                 Buckets = new[] { 0.008, 0.016, 0.032, 0.064, 0.128, 0.512, 1, 4, 16 }
             });
     }
