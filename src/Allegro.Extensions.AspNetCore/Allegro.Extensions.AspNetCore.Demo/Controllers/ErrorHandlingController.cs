@@ -114,7 +114,7 @@ internal static class CustomAllegroExceptionHandlerBuilder
             .WithCustomHandler<CustomAllegroWithCustomResponseException>(
                 ex => Error
                     .Create(LogLevel.NoLog, (int)HttpStatusCode.Conflict)
-                    .WithCustomResponse(new { Data = "Custom resposne data" }))
+                    .WithCustomResponse(new { Data = "Custom response data" }))
             .WithCustomHandler<ApiException>(ex =>
                 Error.Create(LogLevel.Error, ex.ResponseCode)
                     .AddErrorData(ex.ExceptionCode ?? "not set", ex.ExceptionMessage ?? "not set", string.Empty))
