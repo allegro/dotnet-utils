@@ -16,7 +16,7 @@ public static class ErrorHandlingMiddlewareExtensions
     /// <summary>
     /// Adds fluent error handling support to application
     /// </summary>
-    /// <param name="services">Service collections</param>
+    /// <param name="services">Service collection</param>
     /// <param name="logError">Delegate how log errors - enables to use any logger technology without Microsoft ILogger/<T/></param>
     /// <param name="logWarning">Delegate how log warnings - enables to use any logger technology without Microsoft ILogger/<T/></param>
     /// <param name="customErrorHandlerRegistration">Custom handler configurations</param>
@@ -38,7 +38,7 @@ public static class ErrorHandlingMiddlewareExtensions
     /// <summary>
     /// Adds fluent error handling support to application
     /// </summary>
-    /// <param name="services">Service collections</param>
+    /// <param name="services">Service collection</param>
     /// <param name="logErrorFactory">Factory of delegate to log errors - enables to use any logger technology without Microsoft ILogger/<T/></param>
     /// <param name="logWarningFactory">Factory of delegate to log warnings - enables to use any logger technology without Microsoft ILogger/<T/></param>
     /// <param name="customErrorHandlerRegistration">Custom handler configurations</param>
@@ -72,10 +72,10 @@ public static class ErrorHandlingMiddlewareExtensions
     }
 
     /// <summary>
-    /// Add fluent model state validation handling support of requets
+    /// Add fluent model state validation handling support of requests
     /// </summary>
     /// <param name="mvcBuilder">Mvc builder</param>
-    /// <param name="customErrorHandlerRegistration">Custom validation confgiruation</param>
+    /// <param name="customErrorHandlerRegistration">Custom validation configuration</param>
     public static IMvcBuilder AddFluentModelStateValidationHandling(
         this IMvcBuilder mvcBuilder,
         Action<ErrorHandlingConfigurationBuilder>? customErrorHandlerRegistration = null)

@@ -107,7 +107,7 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
     /// <summary>
     /// Fallback logic on any error
     /// </summary>
-    /// <param name="request">Data send to dependency</param>
+    /// <param name="request">Data sent to dependency</param>
     /// <param name="exception">Thrown exception from dependency</param>
     /// <param name="cancellationToken">Cancellation token, as fallback might try to use other dependency.</param>
     /// <returns>Value object that informs about info how to handle error and what to return as a fallback response</returns>
@@ -119,12 +119,12 @@ public abstract class DependencyCall<TRequest, TResponse> : IDependencyCall<TReq
     private static readonly IAsyncPolicy<TResponse> NoOperation = Policy.NoOpAsync<TResponse>();
 
     /// <summary>
-    /// Allows to preset custom retry policy (based on Polly). The policy is build and cached at first usage so should be static. Not able to reconfigure in runtime.
+    /// Allows to preset custom retry policy (based on Polly). The policy is built and cached at first usage so should be static. Not able to reconfigure in runtime.
     /// </summary>
     protected virtual IAsyncPolicy<TResponse> CustomPolicy => NoOperation;
 
     /// <summary>
-    /// Allows to set own timeout for call. The policy is build at first usage so timeout is set only once. Not able to reconfigure in runtime.
+    /// Allows to set own timeout for call. The policy is built at first usage so timeout is set only once. Not able to reconfigure in runtime.
     /// </summary>
     protected virtual PolicyConfiguration PolicyConfiguration => PolicyConfiguration.Default;
 }
@@ -150,11 +150,11 @@ public record PolicyConfiguration
         CachePolicy = cachePolicy;
     }
 
-    /// <summary>Allows to set own timeout for call. The policy is build at first usage so timeout is set only once. Not able to reconfigure in runtime.</summary>
+    /// <summary>Allows to set own timeout for call. The policy is built at first usage so timeout is set only once. Not able to reconfigure in runtime.</summary>
     internal TimeSpan CancelAfter { get; private init; }
 
     /// <summary>
-    /// Default timeout strategy used by Polly.TimeouPolicy
+    /// Default timeout strategy used by Polly.TimeoutPolicy
     /// </summary>
     internal TimeoutStrategy TimeoutStrategy { get; private init; }
 

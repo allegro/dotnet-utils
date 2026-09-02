@@ -53,7 +53,7 @@ internal class ErrorHandlingMiddleware : IMiddleware
                 if (context.Response.HasStarted)
                 {
                     _logError(("Response has already started, not able to handle it.", ex));
-                    // in some cases we might not be able o wrote to response, so whe just log this fact and rethrow
+                    // in some cases we might not be able to write to response, so we just log this fact and rethrow
                     throw;
                 }
 
