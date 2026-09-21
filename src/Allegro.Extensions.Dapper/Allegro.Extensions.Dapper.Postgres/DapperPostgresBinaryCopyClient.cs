@@ -1,6 +1,6 @@
+using Allegro.Extensions.Dapper.Abstractions;
 using Allegro.Extensions.Dapper.Postgres.Abstractions;
 using Allegro.Extensions.Dapper.Postgres.Exceptions;
-using Allegro.Extensions.Dapper.Postgres.Factories;
 using Npgsql;
 using NpgsqlTypes;
 using DbType = Allegro.Extensions.Dapper.Postgres.Abstractions.DbType;
@@ -10,10 +10,10 @@ namespace Allegro.Extensions.Dapper.Postgres;
 /// <inheritdoc />
 internal sealed class DapperPostgresBinaryCopyClient : IDapperPostgresBinaryCopyClient
 {
-    private readonly PostgresDatabaseConnectionFactory _databaseConnectionFactory;
+    private readonly IDatabaseConnectionFactory _databaseConnectionFactory;
 
     public DapperPostgresBinaryCopyClient(
-        PostgresDatabaseConnectionFactory databaseConnectionFactory)
+        IDatabaseConnectionFactory databaseConnectionFactory)
     {
         _databaseConnectionFactory = databaseConnectionFactory;
     }
