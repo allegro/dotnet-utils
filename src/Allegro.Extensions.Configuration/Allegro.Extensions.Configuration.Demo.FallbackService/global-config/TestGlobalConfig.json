@@ -1,0 +1,11 @@
+{
+  "config": {
+    "Test": 5,
+    "Message": "Hello from global config"
+  },
+  "metadata": {
+    "services": [
+      "demo"
+    ]
+  }
+}
