@@ -120,5 +120,5 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
-      - name: Push package
-        run: dotnet nuget push signed/${{ needs.build.outputs.nupkgFilename }} --api-key ${{ secrets.nugetApiKey }} --source https://api.nuget.org/v3/index.json
+      - name: Push packages
+        run: dotnet nuget push "signed/*.nupkg" --api-key ${{ secrets.nugetApiKey }} --skip-duplicate --source https://api.nuget.org/v3/index.json
