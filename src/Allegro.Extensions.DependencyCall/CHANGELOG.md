@@ -9,7 +9,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
-* Restored publishing all DependencyCall packages, including Abstractions and Metrics.Prometheus, and skipping packages that are already published.
+* Restored publishing all signed packages produced by a solution and skipping packages that are already published.
 
 ## [1.2.0] - 2025-01-14
 
