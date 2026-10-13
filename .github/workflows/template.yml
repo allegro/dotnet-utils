@@ -121,4 +121,5 @@ jobs:
         with:
           dotnet-version: 8.0.x
       - name: Push packages
-        run: dotnet nuget push "signed/*.nupkg" --api-key ${{ secrets.nugetApiKey }} --skip-duplicate --source https://api.nuget.org/v3/index.json
+        shell: cmd
+        run: dotnet nuget push "%cd%\signed\*.nupkg" --api-key ${{ secrets.nugetApiKey }} --skip-duplicate --source https://api.nuget.org/v3/index.json
