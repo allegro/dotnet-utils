@@ -79,7 +79,7 @@ jobs:
           pattern: package-*
           merge-multiple: true
       - name: NuGet Install
-        uses: NuGet/setup-nuget@v3
+        uses: NuGet/setup-nuget@v4
         with:
           nuget-version: "6.11"
       - name: Setup Certificate
