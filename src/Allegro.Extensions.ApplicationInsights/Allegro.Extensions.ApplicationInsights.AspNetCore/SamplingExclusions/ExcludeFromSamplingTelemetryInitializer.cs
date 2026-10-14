@@ -19,7 +19,7 @@ internal static class LoggerExtensions
         LoggerMessage.Define<string, string, string>(
             LogLevel.Error,
             new EventId(2, nameof(CompilingRulesFailed)),
-            "Compiling rule \"{FilterKey}\" (\"{FilterValue}\") for {FilterType} failed! This rule will be not applied");
+            "Compiling rule \"{FilterKey}\" (\"{FilterValue}\") for {FilterType} failed! This rule will not be applied");
 
     public static void ApplyingRulesFailed(this ILogger logger, Exception exception)
     {

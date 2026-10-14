@@ -101,7 +101,7 @@ public partial record Money
         {
 #pragma warning disable CA2201
             // TODO: more explicit exception should be added
-            throw new Exception($"Invalid currency! {c1} is different than {{c2}}");
+            throw new Exception($"Invalid currency! {c1} is different than {c2}");
 #pragma warning restore CA2201
         }
 

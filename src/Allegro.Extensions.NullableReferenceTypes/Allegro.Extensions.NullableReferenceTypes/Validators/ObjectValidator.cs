@@ -7,12 +7,12 @@ namespace Allegro.Extensions.NullableReferenceTypes.Validators;
 // TODO: Code to check the circular dependency, cache objects paths
 
 /// <summary>
-/// Contains extensions and helper methods to ensure that object that not supports NRT is still valid in terms of it
+/// Contains extensions and helper methods to ensure that object that does not support NRT is still valid in terms of it
 /// </summary>
 public static class ObjectValidator
 {
     /// <summary>
-    /// Validates if instance of object is is not braking NRT rules for objects that not enables it.
+    /// Validates if instance of object is not breaking NRT rules for objects that do not enable it.
     /// </summary>
     /// <exception cref="NullReferenceException">Throws if instance is not valid from NRT rules</exception>
     public static T EnsureIsValidObject<T>(this T instance)

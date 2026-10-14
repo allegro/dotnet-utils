@@ -83,7 +83,7 @@ internal class MissingQueryHandlerException<T> : MissingQueryHandlerException
 internal class MultipleQueryHandlerException<T> : Exception
 {
     public MultipleQueryHandlerException(Query<T> query)
-        : base($"Multiple handler for query {query.GetType().FullName}")
+        : base($"Multiple handlers for query {query.GetType().FullName}")
     {
     }
 }

@@ -28,7 +28,7 @@ public static class EnumHelper
     }
 
     /// <summary>
-    /// Tires to parse enum value  to TEnum type
+    /// Tries to parse enum value  to TEnum type
     /// </summary>
     public static bool TryParse<TEnum>(string enumValue, out TEnum? result)
         where TEnum : struct, Enum
